@@ -112,7 +112,15 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           </aside>
         </div>
 
-        <RelatedList items={related} title="Related services" />
+        <RelatedList
+          items={related.map((p) => ({
+            id: p.id,
+            title: p.title,
+            description: p.seoDescription,
+            href: p.type === 'SERVICE' ? `/services/${p.slug}` : `/products/${p.slug}`,
+          }))}
+          title="Related services"
+        />
       </div>
     </>
   );

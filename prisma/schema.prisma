@@ -115,6 +115,7 @@ model Article {
   relatedArticleIds String[]
   relatedProductIds String[]
   author            String        @default("Surjora Team")
+  readTimeMinutes   Int?
   publishedAt       DateTime?
   status            Status        @default(DRAFT)
   views             Int           @default(0)

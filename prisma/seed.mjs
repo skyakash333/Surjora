@@ -31,6 +31,24 @@ async function upsertProduct(product) {
   });
 }
 
+async function upsertArticle(article) {
+  const { categoryId, ...data } = article;
+  await prisma.article.upsert({
+    where: { slug: article.slug },
+    update: {
+      ...data,
+      categoryId,
+      updatedAt: now,
+    },
+    create: {
+      ...data,
+      categoryId,
+      createdAt: now,
+      updatedAt: now,
+    },
+  });
+}
+
 const categories = [
   { slug: 'wechat-accounts', name: 'WeChat Accounts', kind: 'PRODUCT', description: 'WeChat accounts for personal and business use.' },
   { slug: 'qq-accounts', name: 'QQ Accounts', kind: 'PRODUCT', description: 'QQ accounts for messaging and China services.' },
@@ -49,6 +67,15 @@ const categories = [
   { slug: 'chinese-verification', name: 'Chinese Verification', kind: 'SERVICE', description: 'Verification services for Chinese platforms.' },
   { slug: 'account-assistance', name: 'Account Assistance', kind: 'SERVICE', description: 'Hands-on help with your Chinese accounts.' },
   { slug: 'custom-requests', name: 'Custom Requests', kind: 'SERVICE', description: 'Tailored help for anything not listed.' },
+];
+
+const contentCategories = [
+  { slug: 'guides', name: 'Guides', kind: 'CONTENT', description: 'Step-by-step guides for buying and using Chinese accounts and services.' },
+  { slug: 'faq', name: 'FAQs', kind: 'CONTENT', description: 'Answers to the most common questions about Chinese platforms and accounts.' },
+  { slug: 'tutorials', name: 'Tutorials', kind: 'CONTENT', description: 'Practical tutorials for setting up and using Chinese services.' },
+  { slug: 'comparisons', name: 'Comparisons', kind: 'CONTENT', description: 'Side-by-side comparisons of Chinese platforms, accounts and services.' },
+  { slug: 'news', name: 'News', kind: 'CONTENT', description: 'News and updates about Chinese platforms and digital services.' },
+  { slug: 'case-studies', name: 'Case Studies', kind: 'CONTENT', description: 'Real examples of people and businesses using Chinese digital services.' },
 ];
 
 const products = [
@@ -498,6 +525,189 @@ const products = [
   },
 ];
 
+const articles = [
+  {
+    slug: 'wechat-registration-china-guide',
+    title: 'WeChat Registration in China: A Step-by-Step Guide',
+    excerpt: 'Everything you need to know about registering a WeChat account in China, from phone number verification to account security.',
+    categorySlug: 'guides',
+    coverImageId: null,
+    readTimeMinutes: 7,
+    tags: ['wechat', 'registration', 'guide'],
+    publishedAt: '2026-07-10T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'WeChat is essential for life in China, but getting started can feel overwhelming. This guide walks through the entire registration process step by step.' } },
+      { type: 'heading', data: { level: 2, text: 'What you need before you start' } },
+      { type: 'list', data: { ordered: true, items: ['A phone number that can receive SMS', 'A stable internet connection', 'Your government-issued ID for verification'] } },
+      { type: 'paragraph', data: { text: 'Once your account is set up, bind a payment method and enable two-factor authentication to keep your account secure.' } },
+    ],
+    relatedProductSlugs: ['wechat-accounts', 'chinese-phone-numbers', 'wechat-qr-scan'],
+  },
+  {
+    slug: 'why-buy-verified-alipay-account',
+    title: 'Why a Verified Alipay Account Matters for Global Businesses',
+    excerpt: 'Verified Alipay accounts unlock payments, Alipay+ and merchant tools. Here is why verification changes everything.',
+    categorySlug: 'guides',
+    coverImageId: null,
+    readTimeMinutes: 6,
+    tags: ['alipay', 'payments', 'business'],
+    publishedAt: '2026-07-05T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'A verified Alipay account goes far beyond the basic wallet. For businesses, it is the key to receiving payments, refunds and merchant services inside China.' } },
+      { type: 'heading', data: { level: 2, text: 'The verification tiers' } },
+      { type: 'list', data: { ordered: false, items: ['Unverified: limited to small payments', 'Basic verification: larger transfers and wallet balance', 'Full verification: merchant features and Alipay+'] } },
+      { type: 'paragraph', data: { text: 'Most global users will want at least basic verification. Full verification is ideal for teams doing serious business volume.' } },
+    ],
+    relatedProductSlugs: ['alipay-accounts', 'chinese-verification'],
+  },
+  {
+    slug: 'douyin-vs-tiktok-differences',
+    title: 'Douyin vs TikTok: Key Differences You Should Know',
+    excerpt: 'They look similar, but Douyin and TikTok are different products. Learn what changes when you target the Chinese market.',
+    categorySlug: 'comparisons',
+    coverImageId: null,
+    readTimeMinutes: 8,
+    tags: ['douyin', 'tiktok', 'comparison'],
+    publishedAt: '2026-07-01T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'Douyin is the Chinese version of short video, but calling it "TikTok China" misses the point. The two platforms have different content, commerce and advertising ecosystems.' } },
+      { type: 'heading', data: { level: 2, text: 'Where they differ' } },
+      { type: 'list', data: { ordered: false, items: ['Monetization: Douyin commerce is far deeper', 'Ecosystem: Douyin integrates with the rest of ByteDance', 'Audience: Douyin skews domestic and Mandarin-first'] } },
+      { type: 'paragraph', data: { text: 'If your goal is the Chinese consumer, Douyin is where the money moves.' } },
+    ],
+    relatedProductSlugs: ['douyin-accounts'],
+  },
+  {
+    slug: 'what-is-wecom-wechat-work',
+    title: 'What Is WeCom (WeChat Work) and Who Is It For?',
+    excerpt: 'WeCom is WeChat for teams. Understand how it differs from personal WeChat and when your business actually needs it.',
+    categorySlug: 'faq',
+    coverImageId: null,
+    readTimeMinutes: 5,
+    tags: ['wecom', 'wechat work', 'business'],
+    publishedAt: '2026-06-25T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'WeCom (WeChat Work) is the enterprise version of WeChat, built for internal communication and connecting your business to the WeChat ecosystem.' } },
+      { type: 'heading', data: { level: 2, text: 'Common questions' } },
+      { type: 'list', data: { ordered: false, items: ['Can it talk to personal WeChat? Yes, through WeCom.', 'Is it a separate app? Yes, but it shares login tools.', 'Do I need it? Only if you manage a team or customer service in China.'] } },
+      { type: 'paragraph', data: { text: 'For most small teams, WeCom is a big upgrade over managing everything through personal WeChat.' } },
+    ],
+    relatedProductSlugs: ['wecom-accounts'],
+  },
+  {
+    slug: 'how-to-receive-sms-verification-china',
+    title: 'How to Receive SMS Verification Codes for Chinese Platforms',
+    excerpt: 'Many Chinese platforms require a Chinese phone number for verification. Here is how to get one that works.',
+    categorySlug: 'tutorials',
+    coverImageId: null,
+    readTimeMinutes: 6,
+    tags: ['sms', 'verification', 'phone number'],
+    publishedAt: '2026-06-20T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'Chinese platforms like WeChat, Taobao and Alipay frequently send verification codes to a Chinese phone number. International numbers often do not qualify.' } },
+      { type: 'heading', data: { level: 2, text: 'Getting a working number' } },
+      { type: 'list', data: { ordered: true, items: ['Use a Chinese phone number for sign-up', 'Keep the number active for future codes', 'Never share verification codes with anyone'] } },
+      { type: 'paragraph', data: { text: 'If you only need the account for occasional use, a dedicated verification number is the simplest path.' } },
+    ],
+    relatedProductSlugs: ['chinese-phone-numbers', 'chinese-verification'],
+  },
+  {
+    slug: 'getting-started-xiaohongshu-content',
+    title: 'Getting Started with Xiaohongshu Content Marketing',
+    excerpt: 'Xiaohongshu (RED) is China trend lab. Learn the basics of building a content presence on RED.',
+    categorySlug: 'tutorials',
+    coverImageId: null,
+    readTimeMinutes: 9,
+    tags: ['xiaohongshu', 'content', 'marketing'],
+    publishedAt: '2026-06-15T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'Xiaohongshu is where Chinese consumers discover brands. Its blend of search, notes and community makes it a powerful channel for organic growth.' } },
+      { type: 'heading', data: { level: 2, text: 'Your first 30 days' } },
+      { type: 'list', data: { ordered: false, items: ['Publish consistently, even before you are perfect', 'Research trending keywords in your niche', 'Engage with the community, not just your own posts'] } },
+      { type: 'paragraph', data: { text: 'RED rewards authenticity. Jump in and iterate.' } },
+    ],
+    relatedProductSlugs: ['xiaohongshu-accounts'],
+  },
+  {
+    slug: 'case-study-1688-wholesale-sourcing',
+    title: 'Case Study: Sourcing Wholesale Goods on 1688',
+    excerpt: 'How a small retailer used a 1688 account to source products directly from Chinese manufacturers at wholesale prices.',
+    categorySlug: 'case-studies',
+    coverImageId: null,
+    readTimeMinutes: 7,
+    tags: ['1688', 'sourcing', 'case study'],
+    publishedAt: '2026-06-10T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'A retailer in Southeast Asia wanted to drop the middleman and buy directly from factories. A verified 1688 account made that possible.' } },
+      { type: 'heading', data: { level: 2, text: 'The results' } },
+      { type: 'list', data: { ordered: false, items: ['Ordering directly from manufacturers', 'Lower per-unit costs across the catalog', 'Access to a much wider product range'] } },
+      { type: 'paragraph', data: { text: 'The key was spending the first two weeks vetting suppliers, then scaling the best-performing categories.' } },
+    ],
+    relatedProductSlugs: ['1688-accounts', 'account-assistance'],
+  },
+  {
+    slug: 'china-platform-news-2026-midyear',
+    title: 'Chinese Platform News: Mid-Year 2026 Roundup',
+    excerpt: 'The biggest platform updates across WeChat, Alipay, Douyin and Taobao so far in 2026.',
+    categorySlug: 'news',
+    coverImageId: null,
+    readTimeMinutes: 5,
+    tags: ['news', 'roundup', '2026'],
+    publishedAt: '2026-06-05T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'Chinese platforms continue to evolve quickly. Here are the updates worth tracking this year.' } },
+      { type: 'heading', data: { level: 2, text: 'What changed' } },
+      { type: 'list', data: { ordered: false, items: ['WeChat deepened WeCom and payment integration', 'Alipay expanded cross-border merchant tools', 'Douyin pushed further into local services'] } },
+      { type: 'paragraph', data: { text: 'We will keep this roundup updated as the ecosystem moves.' } },
+    ],
+    relatedProductSlugs: ['wechat-accounts', 'alipay-accounts', 'douyin-accounts'],
+  },
+  {
+    slug: 'bilibili-vs-other-video-platforms',
+    title: 'Bilibili vs Mainstream Video Platforms: Where Do Creators Go?',
+    excerpt: 'Bilibili is a niche with a loyal community. See how it compares to Douyin and other video destinations in China.',
+    categorySlug: 'comparisons',
+    coverImageId: null,
+    readTimeMinutes: 6,
+    tags: ['bilibili', 'video', 'comparison'],
+    publishedAt: '2026-05-30T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'Bilibili has a reputation for long-form, community-driven content that is very different from Douyin short-form.' } },
+      { type: 'heading', data: { level: 2, text: 'Bilibili vs Douyin' } },
+      { type: 'list', data: { ordered: false, items: ['Bilibili: longer videos, deeper community', 'Douyin: short clips, massive reach', 'Both: strong advertising and creator tools'] } },
+      { type: 'paragraph', data: { text: 'Creators often run both, using each for a different job.' } },
+    ],
+    relatedProductSlugs: ['bilibili-accounts', 'douyin-accounts'],
+  },
+  {
+    slug: 'how-to-keep-wechat-account-secure',
+    title: 'How to Keep Your WeChat Account Secure',
+    excerpt: 'Account takeover is a real risk. These are the security steps every WeChat user should take today.',
+    categorySlug: 'faq',
+    coverImageId: null,
+    readTimeMinutes: 5,
+    tags: ['wechat', 'security', 'tips'],
+    publishedAt: '2026-05-20T00:00:00Z',
+    status: 'PUBLISHED',
+    body: [
+      { type: 'paragraph', data: { text: 'Your WeChat account is tied to payments, contacts and your digital identity. Protecting it matters.' } },
+      { type: 'heading', data: { level: 2, text: 'Security checklist' } },
+      { type: 'list', data: { ordered: true, items: ['Enable two-factor authentication', 'Never share verification codes', 'Review active logins regularly', 'Use a strong, unique password'] } },
+      { type: 'paragraph', data: { text: 'If you ever lose access, our account assistance service can help you recover it.' } },
+    ],
+    relatedProductSlugs: ['wechat-accounts', 'account-assistance'],
+  },
+];
+
 async function main() {
   const categoryBySlug = {};
   for (const c of categories) {
@@ -513,7 +723,23 @@ async function main() {
     await upsertProduct({ ...p, categoryId });
   }
 
-  console.log(`Seeded ${categories.length} categories and ${products.length} products/services.`);
+  const productBySlug = {};
+  const productRows = await prisma.product.findMany({ select: { id: true, slug: true } });
+  for (const row of productRows) {
+    productBySlug[row.slug] = row.id;
+  }
+
+  for (const a of articles) {
+    const categoryId = categoryBySlug[a.categorySlug];
+    if (!categoryId) {
+      throw new Error(`Missing category for article ${a.slug}`);
+    }
+    const relatedProductIds = (a.relatedProductSlugs || []).map((s) => productBySlug[s]).filter(Boolean);
+    const { categorySlug, relatedProductSlugs, ...rest } = a;
+    await upsertArticle({ ...rest, categoryId, relatedProductIds });
+  }
+
+  console.log(`Seeded ${categories.length} categories, ${products.length} products/services and ${articles.length} articles.`);
 }
 
 main()

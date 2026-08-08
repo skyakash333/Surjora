@@ -1,5 +1,34 @@
 import type { ContentBlock, ProductFaq, ProductFeature } from '@/lib/content-blocks';
 
+export type KnowledgeCategory = {
+  id: string;
+  slug: string;
+  name: string;
+  kind: string;
+  description: string | null;
+};
+
+export type ArticleWithCategory = {
+  id: string;
+  slug: string;
+  title: string;
+  seoTitle: string | null;
+  seoDescription: string | null;
+  excerpt: string | null;
+  body: unknown;
+  relatedArticleIds: string[];
+  relatedProductIds: string[];
+  author: string;
+  readTimeMinutes: number | null;
+  publishedAt: Date | null;
+  status: string;
+  views: number;
+  category: {
+    slug: string;
+    name: string;
+  } | null;
+};
+
 export type ProductWithCategory = {
   id: string;
   slug: string;
