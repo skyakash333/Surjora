@@ -25,7 +25,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
-  if (typeof body === 'object' && body !== null && 'website' in body && (body as { website?: string }).website) {
+  if (
+    typeof body === 'object' &&
+    body !== null &&
+    'website' in body &&
+    (body as { website?: string }).website
+  ) {
     return NextResponse.json({ ok: true });
   }
 

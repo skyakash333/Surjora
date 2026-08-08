@@ -31,8 +31,8 @@ export default function ContactPage() {
         <Breadcrumbs items={[{ label: 'Contact' }]} />
         <h1 className="text-4xl font-bold tracking-tight text-ink-900">Contact us</h1>
         <p className="mt-4 max-w-2xl text-lg text-ink-600">
-          Tell us which account or service you need and we will get back to you with a quote.
-          Prefer instant chat? Use Telegram or WhatsApp.
+          Tell us which account or service you need and we will get back to you with a quote. Prefer
+          instant chat? Use Telegram or WhatsApp.
         </p>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-5">

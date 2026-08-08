@@ -61,8 +61,8 @@ export default function SupportPage() {
         <Breadcrumbs items={[{ label: 'Support' }]} />
         <h1 className="text-4xl font-bold tracking-tight text-ink-900">Support</h1>
         <p className="mt-4 max-w-2xl text-lg text-ink-600">
-          Answers to common questions about our accounts and services. Can&apos;t find what you need?
-          Contact us directly.
+          Answers to common questions about our accounts and services. Can&apos;t find what you
+          need? Contact us directly.
         </p>
 
         <div className="mt-10 max-w-3xl">
@@ -72,7 +72,10 @@ export default function SupportPage() {
               <details key={faq.question} className="group py-4">
                 <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-ink-900">
                   {faq.question}
-                  <span aria-hidden="true" className="text-brand-600 transition-transform group-open:rotate-45">
+                  <span
+                    aria-hidden="true"
+                    className="text-brand-600 transition-transform group-open:rotate-45"
+                  >
                     +
                   </span>
                 </summary>

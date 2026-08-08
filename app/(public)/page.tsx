@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { buildMetadata } from '@/lib/seo';
 import { accountTypes, serviceTypes, siteConfig } from '@/lib/constants';
+import { slugify } from '@/lib/slug';
 import { JsonLd } from '@/components/seo/json-ld';
 import { ButtonLink } from '@/components/ui/button';
 
@@ -36,8 +37,8 @@ export default function HomePage() {
             Verified Chinese Accounts &amp; Digital Services
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-ink-600">
-            WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more — delivered digitally with
-            real support. Get a quote in minutes.
+            WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more — delivered digitally
+            with real support. Get a quote in minutes.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <ButtonLink href="/contact" size="lg">
@@ -51,13 +52,15 @@ export default function HomePage() {
       </section>
 
       <section className="container py-16">
-        <h2 className="text-2xl font-bold tracking-tight text-ink-900">Chinese accounts we provide</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-ink-900">
+          Chinese accounts we provide
+        </h2>
         <p className="mt-2 text-ink-600">All delivered digitally — no shipping, no hardware.</p>
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {accountTypes.map((item) => (
             <li key={item}>
               <Link
-                href="/contact"
+                href={`/products/${slugify(item)}`}
                 className="flex h-full items-center justify-between rounded-lg border border-ink-200 bg-white px-5 py-4 text-sm font-medium text-ink-800 transition hover:border-brand-400 hover:shadow-sm"
               >
                 {item}
@@ -78,11 +81,16 @@ export default function HomePage() {
           </p>
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {serviceTypes.map((item) => (
-              <li
-                key={item}
-                className="rounded-lg border border-ink-200 bg-ink-50 px-5 py-6 text-sm font-medium text-ink-800"
-              >
-                {item}
+              <li key={item}>
+                <Link
+                  href={`/services/${slugify(item)}`}
+                  className="flex h-full items-center justify-between rounded-lg border border-ink-200 bg-ink-50 px-5 py-6 text-sm font-medium text-ink-800 transition hover:border-brand-400"
+                >
+                  {item}
+                  <span aria-hidden="true" className="text-brand-600">
+                    →
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
@@ -93,9 +101,21 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold tracking-tight text-ink-900">How it works</h2>
         <ol className="mt-8 grid gap-6 sm:grid-cols-3">
           {[
-            { step: '1', title: 'Tell us what you need', text: 'Pick an account or service and message us on Telegram, WhatsApp or the contact form.' },
-            { step: '2', title: 'Get a quote', text: 'We reply with pricing and details — usually within a few hours.' },
-            { step: '3', title: 'Receive your account', text: 'Everything is delivered digitally with setup guidance and support.' },
+            {
+              step: '1',
+              title: 'Tell us what you need',
+              text: 'Pick an account or service and message us on Telegram, WhatsApp or the contact form.',
+            },
+            {
+              step: '2',
+              title: 'Get a quote',
+              text: 'We reply with pricing and details — usually within a few hours.',
+            },
+            {
+              step: '3',
+              title: 'Receive your account',
+              text: 'Everything is delivered digitally with setup guidance and support.',
+            },
           ].map((item) => (
             <li key={item.step} className="rounded-lg border border-ink-200 bg-white p-6">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-700">

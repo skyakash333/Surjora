@@ -1,0 +1,526 @@
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+const now = new Date();
+
+async function upsertCategory(slug, name, kind, description) {
+  return prisma.category.upsert({
+    where: { slug },
+    update: { name, kind, description },
+    create: { slug, name, kind, description },
+  });
+}
+
+async function upsertProduct(product) {
+  const { categoryId, ...data } = product;
+  await prisma.product.upsert({
+    where: { slug: product.slug },
+    update: {
+      ...data,
+      categoryId,
+      createdAt: now,
+      updatedAt: now,
+    },
+    create: {
+      ...data,
+      categoryId,
+      createdAt: now,
+      updatedAt: now,
+    },
+  });
+}
+
+const categories = [
+  { slug: 'wechat-accounts', name: 'WeChat Accounts', kind: 'PRODUCT', description: 'WeChat accounts for personal and business use.' },
+  { slug: 'qq-accounts', name: 'QQ Accounts', kind: 'PRODUCT', description: 'QQ accounts for messaging and China services.' },
+  { slug: 'alipay-accounts', name: 'Alipay Accounts', kind: 'PRODUCT', description: 'Alipay accounts for payments in China.' },
+  { slug: 'wecom-accounts', name: 'WeCom Accounts', kind: 'PRODUCT', description: 'WeCom (WeChat Work) accounts for teams and businesses.' },
+  { slug: 'xiaohongshu-accounts', name: 'Xiaohongshu Accounts', kind: 'PRODUCT', description: 'Xiaohongshu (RED) accounts for content and social.' },
+  { slug: 'douyin-accounts', name: 'Douyin Accounts', kind: 'PRODUCT', description: 'Douyin (TikTok China) accounts for short video.' },
+  { slug: 'taobao-accounts', name: 'Taobao Accounts', kind: 'PRODUCT', description: 'Taobao accounts for shopping in China.' },
+  { slug: '1688-accounts', name: '1688 Accounts', kind: 'PRODUCT', description: '1688 accounts for wholesale and sourcing.' },
+  { slug: 'jd-accounts', name: 'JD Accounts', kind: 'PRODUCT', description: 'JD.com accounts for online shopping.' },
+  { slug: 'baidu-accounts', name: 'Baidu Accounts', kind: 'PRODUCT', description: 'Baidu accounts for search and cloud services.' },
+  { slug: 'bilibili-accounts', name: 'Bilibili Accounts', kind: 'PRODUCT', description: 'Bilibili accounts for video and streaming.' },
+  { slug: 'chinese-phone-numbers', name: 'Chinese Phone Numbers', kind: 'PRODUCT', description: 'Chinese phone numbers for verification and services.' },
+  { slug: 'chinese-email-accounts', name: 'Chinese Email Accounts', kind: 'PRODUCT', description: 'Chinese email accounts for sign-ups and verification.' },
+  { slug: 'wechat-qr-scan', name: 'WeChat QR Scan', kind: 'SERVICE', description: 'WeChat QR scan and account linking service.' },
+  { slug: 'chinese-verification', name: 'Chinese Verification', kind: 'SERVICE', description: 'Verification services for Chinese platforms.' },
+  { slug: 'account-assistance', name: 'Account Assistance', kind: 'SERVICE', description: 'Hands-on help with your Chinese accounts.' },
+  { slug: 'custom-requests', name: 'Custom Requests', kind: 'SERVICE', description: 'Tailored help for anything not listed.' },
+];
+
+const products = [
+  {
+    slug: 'wechat-accounts',
+    type: 'PRODUCT',
+    title: 'WeChat Accounts',
+    seoTitle: 'Buy Verified WeChat Accounts | Surjora',
+    seoDescription: 'Verified WeChat accounts for personal and business use. Fast delivery, real support. Request a quote today.',
+    h1: 'WeChat Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'WeChat is essential for anyone doing business or staying connected in China. We provide verified WeChat accounts ready to use for messaging, groups, payments and business tools.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Registered WeChat account ready to log in', 'Setup guidance for your device', 'After-sale support and security tips'] } },
+      { type: 'callout', data: { title: 'Digital delivery', text: 'Everything is delivered digitally — no shipping, no hardware, no waiting on couriers.' } },
+    ],
+    features: [
+      { title: 'Ready to use', text: 'Accounts come set up and ready to log in on your device.' },
+      { title: 'Fast delivery', text: 'Most WeChat accounts are delivered shortly after confirmation.' },
+      { title: 'Real support', text: 'We stay available after delivery to help with setup and security.' },
+    ],
+    faqs: [
+      { question: 'How do I receive a WeChat account?', answer: 'We send login details through a secure channel along with setup instructions for your device.' },
+      { question: 'Can I use the account on my phone?', answer: 'Yes. We provide guidance for the official WeChat app on iOS and Android.' },
+      { question: 'Is it safe?', answer: 'We protect your information and advise on how to keep your account secure.' },
+    ],
+    priceFrom: 25,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'qq-accounts',
+    type: 'PRODUCT',
+    title: 'QQ Accounts',
+    seoTitle: 'Buy QQ Accounts | Surjora',
+    seoDescription: 'Verified QQ accounts for messaging, groups and access to Chinese services. Digital delivery with support.',
+    h1: 'QQ Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'QQ remains one of the most widely used messaging platforms in China. A verified QQ account gives you access to QQ groups, QQ Mail and dozens of Chinese services that accept QQ login.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified QQ account', 'Login details and setup help', 'Access to QQ Mail and linked services'] } },
+    ],
+    features: [
+      { title: 'Widely supported', text: 'Use QQ login across many Chinese platforms and services.' },
+      { title: 'Includes QQ Mail', text: 'Comes with access to QQ Mail for verification and communication.' },
+      { title: 'Reliable access', text: 'Verified accounts with stable login credentials.' },
+    ],
+    faqs: [
+      { question: 'What can I do with a QQ account?', answer: 'Messaging, groups, QQ Mail, and signing in to many Chinese services that support QQ.' },
+      { question: 'Is QQ still used in China?', answer: 'Yes, QQ remains a major platform with hundreds of millions of active users.' },
+    ],
+    priceFrom: 10,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'alipay-accounts',
+    type: 'PRODUCT',
+    title: 'Alipay Accounts',
+    seoTitle: 'Buy Alipay Accounts | Surjora',
+    seoDescription: 'Alipay accounts for payments, transfers and access to the Chinese financial ecosystem. Digital delivery.',
+    h1: 'Alipay Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'Alipay is the backbone of payments in China. A verified Alipay account lets you send and receive money, pay for goods, and unlock services that depend on the Alipay ecosystem.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified Alipay account', 'Setup and usage guidance', 'Advice on linking payment methods'] } },
+    ],
+    features: [
+      { title: 'Payment ready', text: 'Accounts prepared for transfers and payments in the Alipay ecosystem.' },
+      { title: 'Ecosystem access', text: 'Unlock apps and services that rely on Alipay login or payment.' },
+      { title: 'Guidance included', text: 'Clear steps for first use and ongoing security.' },
+    ],
+    faqs: [
+      { question: 'Can I link my own payment method?', answer: 'We explain the options available and help you decide what works for your situation.' },
+      { question: 'Is Alipay required in China?', answer: 'Alipay is one of the most used payment platforms in China and unlocks many daily services.' },
+    ],
+    priceFrom: 20,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'wecom-accounts',
+    type: 'PRODUCT',
+    title: 'WeCom Accounts',
+    seoTitle: 'Buy WeCom Accounts | Surjora',
+    seoDescription: 'WeCom (WeChat Work) accounts for teams, businesses and customer communication in China.',
+    h1: 'WeCom Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'WeCom, also known as WeChat Work, is Tencent\u2019s business messaging platform. It lets teams communicate, manage customers and connect with WeChat users directly from one workspace.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified WeCom account', 'Team workspace setup', 'Connection to WeChat users'] } },
+    ],
+    features: [
+      { title: 'Business ready', text: 'Built for teams, customer service and business workflows.' },
+      { title: 'WeChat integration', text: 'Reach WeChat users directly through WeCom.' },
+      { title: 'Support included', text: 'Help with setup, verification and best practices.' },
+    ],
+    faqs: [
+      { question: 'How is WeCom different from WeChat?', answer: 'WeCom is Tencent\u2019s business platform. It focuses on team communication and customer management.' },
+      { question: 'Do I need WeChat to use WeCom?', answer: 'WeCom integrates with WeChat, and we help you connect them if needed.' },
+    ],
+    priceFrom: 40,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'xiaohongshu-accounts',
+    type: 'PRODUCT',
+    title: 'Xiaohongshu Accounts',
+    seoTitle: 'Buy Xiaohongshu (RED) Accounts | Surjora',
+    seoDescription: 'Xiaohongshu accounts for content creators and brands reaching Chinese consumers.',
+    h1: 'Xiaohongshu Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'Xiaohongshu (also called RED) is a leading lifestyle platform where users share reviews, photos and videos. A verified account is the first step to reaching Chinese consumers with content and community.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified Xiaohongshu account', 'Profile setup guidance', 'Content and growth tips'] } },
+    ],
+    features: [
+      { title: 'Content ready', text: 'Start posting product reviews, photos and videos right away.' },
+      { title: 'Brand reach', text: 'Reach an audience that actively researches products before buying.' },
+      { title: 'Growth advice', text: 'Practical tips for building presence on the platform.' },
+    ],
+    faqs: [
+      { question: 'Who uses Xiaohongshu?', answer: 'Predominantly younger Chinese consumers who research products and lifestyle topics.' },
+      { question: 'Can I post from outside China?', answer: 'We provide guidance on accessing and using the platform from abroad.' },
+    ],
+    priceFrom: 30,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'douyin-accounts',
+    type: 'PRODUCT',
+    title: 'Douyin Accounts',
+    seoTitle: 'Buy Douyin Accounts | Surjora',
+    seoDescription: 'Douyin (TikTok China) accounts for short video, livestreaming and e-commerce.',
+    h1: 'Douyin Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'Douyin is the Chinese version of TikTok and one of the most influential short-video platforms in the world. A verified account lets you create, stream and sell to a massive Chinese audience.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified Douyin account', 'Creator setup guidance', 'Tips for short video and livestream'] } },
+    ],
+    features: [
+      { title: 'Creator ready', text: 'Post short videos and start building an audience immediately.' },
+      { title: 'Livestream support', text: 'Setup help for livestreaming and selling on Douyin.' },
+      { title: 'China focused', text: 'Access the domestic Chinese short-video ecosystem.' },
+    ],
+    faqs: [
+      { question: 'Is Douyin the same as TikTok?', answer: 'Douyin is the Chinese version operated for the domestic market, with different features and audience.' },
+      { question: 'Can I run ads on Douyin?', answer: 'Yes, and we can advise on getting started with Douyin advertising.' },
+    ],
+    priceFrom: 35,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'taobao-accounts',
+    type: 'PRODUCT',
+    title: 'Taobao Accounts',
+    seoTitle: 'Buy Taobao Accounts | Surjora',
+    seoDescription: 'Taobao accounts for shopping and browsing China\u2019s largest consumer marketplace.',
+    h1: 'Taobao Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'Taobao is Alibaba\u2019s massive consumer marketplace. A verified Taobao account lets you browse, compare and purchase from millions of Chinese sellers.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified Taobao account', 'Shopping and payment guidance', 'Tips for dealing with sellers'] } },
+    ],
+    features: [
+      { title: 'Marketplace access', text: 'Browse and buy from millions of Taobao sellers.' },
+      { title: 'Local advantage', text: 'Access prices and products available to domestic Chinese buyers.' },
+      { title: 'Guidance included', text: 'Help navigating the platform and communicating with sellers.' },
+    ],
+    faqs: [
+      { question: 'Can I pay on Taobao?', answer: 'We explain the payment options available for your situation.' },
+      { question: 'Does Taobao ship internationally?', answer: 'Many sellers offer international shipping or forwarders. We can advise on options.' },
+    ],
+    priceFrom: 15,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: '1688-accounts',
+    type: 'PRODUCT',
+    title: '1688 Accounts',
+    seoTitle: 'Buy 1688 Accounts | Surjora',
+    seoDescription: '1688 accounts for wholesale sourcing directly from Chinese manufacturers and suppliers.',
+    h1: '1688 Accounts',
+    description: [
+      { type: 'paragraph', data: { text: '1688 is Alibaba\u2019s wholesale marketplace where you deal directly with manufacturers and suppliers. A verified account is the key to sourcing products at wholesale prices.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified 1688 account', 'Sourcing guidance', 'Advice on working with suppliers'] } },
+    ],
+    features: [
+      { title: 'Wholesale access', text: 'Connect directly with Chinese manufacturers and suppliers.' },
+      { title: 'Better prices', text: 'Access wholesale pricing not available on retail platforms.' },
+      { title: 'Sourcing support', text: 'Practical advice for negotiating and ordering from suppliers.' },
+    ],
+    faqs: [
+      { question: 'What is 1688?', answer: '1688 is Alibaba\u2019s wholesale platform connecting buyers with Chinese manufacturers.' },
+      { question: 'Can I order samples?', answer: 'Yes, most suppliers provide samples. We can help you get started.' },
+    ],
+    priceFrom: 15,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'jd-accounts',
+    type: 'PRODUCT',
+    title: 'JD Accounts',
+    seoTitle: 'Buy JD.com Accounts | Surjora',
+    seoDescription: 'JD.com accounts for shopping from one of China\u2019s largest online retailers.',
+    h1: 'JD Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'JD.com is one of China\u2019s largest online retailers, known for genuine products and fast fulfillment. A verified JD account unlocks shopping and services across the JD ecosystem.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified JD account', 'Shopping guidance', 'Access to JD services'] } },
+    ],
+    features: [
+      { title: 'Trusted retailer', text: 'Shop on one of China\u2019s most trusted e-commerce platforms.' },
+      { title: 'Genuine products', text: 'JD is known for authentic, quality-controlled products.' },
+      { title: 'Full access', text: 'Use JD services like PLUS membership and logistics.' },
+    ],
+    faqs: [
+      { question: 'Is JD different from Taobao?', answer: 'JD is a self-operated retailer focused on genuine products and fast delivery, while Taobao is a marketplace.' },
+      { question: 'Can I use JD from abroad?', answer: 'We provide guidance on access and fulfillment options.' },
+    ],
+    priceFrom: 15,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'baidu-accounts',
+    type: 'PRODUCT',
+    title: 'Baidu Accounts',
+    seoTitle: 'Buy Baidu Accounts | Surjora',
+    seoDescription: 'Baidu accounts for search, cloud storage and the Chinese internet ecosystem.',
+    h1: 'Baidu Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'Baidu is China\u2019s leading search engine. A verified Baidu account unlocks search personalization, Baidu Cloud storage and access to many services in the Baidu ecosystem.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified Baidu account', 'Access to Baidu Cloud', 'Search and service setup'] } },
+    ],
+    features: [
+      { title: 'Search access', text: 'Use China\u2019s leading search engine with a personal account.' },
+      { title: 'Cloud storage', text: 'Access Baidu Cloud (Baidu Pan) for file storage.' },
+      { title: 'Ecosystem entry', text: 'Unlock many services that require a Baidu account.' },
+    ],
+    faqs: [
+      { question: 'Why do I need a Baidu account?', answer: 'Many Chinese websites and tools require a Baidu account for full access.' },
+      { question: 'What is Baidu Cloud?', answer: 'A popular cloud storage service integrated with Baidu accounts.' },
+    ],
+    priceFrom: 8,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'bilibili-accounts',
+    type: 'PRODUCT',
+    title: 'Bilibili Accounts',
+    seoTitle: 'Buy Bilibili Accounts | Surjora',
+    seoDescription: 'Bilibili accounts for video, streaming and the young Chinese internet culture.',
+    h1: 'Bilibili Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'Bilibili is China\u2019s leading video and streaming platform for younger audiences, known for anime, gaming and creator content. A verified account lets you watch, comment and create.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verified Bilibili account', 'Creator setup guidance', 'Access to full features'] } },
+    ],
+    features: [
+      { title: 'Full access', text: 'Watch, comment and upload content on Bilibili.' },
+      { title: 'Creator ready', text: 'Setup support for starting your own channel.' },
+      { title: 'Youth audience', text: 'Reach one of China\u2019s most engaged younger demographics.' },
+    ],
+    faqs: [
+      { question: 'Who uses Bilibili?', answer: 'Primarily young Chinese users interested in anime, gaming and creator content.' },
+      { question: 'Can I monetize my Bilibili channel?', answer: 'Yes, Bilibili offers creator monetization. We can advise on eligibility.' },
+    ],
+    priceFrom: 12,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'chinese-phone-numbers',
+    type: 'PRODUCT',
+    title: 'Chinese Phone Numbers',
+    seoTitle: 'Chinese Phone Numbers for Verification | Surjora',
+    seoDescription: 'Chinese phone numbers for account verification and receiving SMS from Chinese platforms.',
+    h1: 'Chinese Phone Numbers',
+    description: [
+      { type: 'paragraph', data: { text: 'Many Chinese platforms require a Chinese phone number for registration and verification. We provide Chinese numbers that can receive SMS verification codes for supported services.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Chinese phone number for verification', 'SMS receiving for supported services', 'Guidance on usage'] } },
+    ],
+    features: [
+      { title: 'Verification ready', text: 'Receive SMS codes for supported Chinese services.' },
+      { title: 'Simple setup', text: 'Clear instructions on how to use your number.' },
+      { title: 'Flexible', text: 'Available for a range of registration scenarios.' },
+    ],
+    faqs: [
+      { question: 'Can I receive SMS on the number?', answer: 'Yes, for supported services we provide guidance on receiving verification codes.' },
+      { question: 'Is this a permanent number?', answer: 'Options depend on your needs. Contact us with your use case.' },
+    ],
+    priceFrom: 5,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'chinese-email-accounts',
+    type: 'PRODUCT',
+    title: 'Chinese Email Accounts',
+    seoTitle: 'Chinese Email Accounts | Surjora',
+    seoDescription: 'Chinese email accounts for sign-ups and verification on Chinese platforms.',
+    h1: 'Chinese Email Accounts',
+    description: [
+      { type: 'paragraph', data: { text: 'Some Chinese platforms prefer or require a domestic email address. We provide Chinese email accounts (such as QQ Mail) ready for sign-ups and verification.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Chinese email account', 'Access credentials', 'Usage guidance'] } },
+    ],
+    features: [
+      { title: 'Platform friendly', text: 'Works with Chinese services that prefer domestic email.' },
+      { title: 'Ready to use', text: 'Login details provided with setup help.' },
+      { title: 'Versatile', text: 'Use for sign-ups, verification and communication.' },
+    ],
+    faqs: [
+      { question: 'What email provider is used?', answer: 'Typically QQ Mail or similar Chinese providers.' },
+      { question: 'Can I access it from abroad?', answer: 'Yes, with the guidance we provide.' },
+    ],
+    priceFrom: 5,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'wechat-qr-scan',
+    type: 'SERVICE',
+    title: 'WeChat QR Scan',
+    seoTitle: 'WeChat QR Scan Service | Surjora',
+    seoDescription: 'WeChat QR scan and account linking service. Get help scanning QR codes and linking accounts.',
+    h1: 'WeChat QR Scan',
+    description: [
+      { type: 'paragraph', data: { text: 'Certain WeChat features and devices require a QR scan with an active account. Our WeChat QR scan service helps you complete these steps when you need a compatible account to scan with.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['QR scan completed for you', 'Guidance through the process', 'Support for linked devices'] } },
+    ],
+    features: [
+      { title: 'Handled for you', text: 'We complete the QR scan step on your behalf.' },
+      { title: 'Clear guidance', text: 'Step-by-step help through the whole process.' },
+      { title: 'Device support', text: 'Help connecting WeChat to supported devices.' },
+    ],
+    faqs: [
+      { question: 'What do I need to provide?', answer: 'Usually just details of what you are trying to do. We guide you from there.' },
+      { question: 'Is this safe?', answer: 'We keep your information private and explain every step before proceeding.' },
+    ],
+    priceFrom: 10,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'chinese-verification',
+    type: 'SERVICE',
+    title: 'Chinese Verification',
+    seoTitle: 'Chinese Verification Service | Surjora',
+    seoDescription: 'Verification services for Chinese platforms. Get verified accounts and services checked.',
+    h1: 'Chinese Verification',
+    description: [
+      { type: 'paragraph', data: { text: 'Many Chinese platforms require identity or phone verification to unlock full features. Our verification service helps you complete these requirements for supported platforms.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Verification completed for supported platforms', 'Guidance on requirements', 'Ongoing support'] } },
+    ],
+    features: [
+      { title: 'Supported platforms', text: 'Help verifying on a range of Chinese platforms.' },
+      { title: 'Step by step', text: 'We walk you through exactly what is needed.' },
+      { title: 'Reliable', text: 'Clear communication throughout the process.' },
+    ],
+    faqs: [
+      { question: 'What does verification involve?', answer: 'It depends on the platform. Contact us with your goal and we explain the options.' },
+      { question: 'Do I need to share personal documents?', answer: 'Only what the platform itself requires. We handle everything transparently.' },
+    ],
+    priceFrom: 10,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'account-assistance',
+    type: 'SERVICE',
+    title: 'Account Assistance',
+    seoTitle: 'Account Assistance Service | Surjora',
+    seoDescription: 'Hands-on help with Chinese accounts — setup, recovery, security and best practices.',
+    h1: 'Account Assistance',
+    description: [
+      { type: 'paragraph', data: { text: 'Already have an account but need help? Our account assistance service covers setup, recovery, security and best practices for your Chinese platforms.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Hands-on help with your accounts', 'Setup and recovery guidance', 'Security best practices'] } },
+    ],
+    features: [
+      { title: 'Practical help', text: 'Real assistance with the account issues you face.' },
+      { title: 'Setup and recovery', text: 'Help getting accounts working or recovered.' },
+      { title: 'Security advice', text: 'Protect your accounts with proven practices.' },
+    ],
+    faqs: [
+      { question: 'What can you help with?', answer: 'Setup, recovery, security, linking services, and general usage questions.' },
+      { question: 'How do we start?', answer: 'Tell us your situation through the contact form and we take it from there.' },
+    ],
+    priceFrom: 10,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+  {
+    slug: 'custom-requests',
+    type: 'SERVICE',
+    title: 'Custom Requests',
+    seoTitle: 'Custom Requests | Surjora',
+    seoDescription: 'Need something specific? Tell us your goal and we will help with tailored digital services.',
+    h1: 'Custom Requests',
+    description: [
+      { type: 'paragraph', data: { text: 'Not sure which product or service fits? Tell us what you are trying to achieve and we will help you get there. Custom requests are our specialty.' } },
+      { type: 'heading', data: { level: 2, text: 'What you get' } },
+      { type: 'list', data: { ordered: false, items: ['Personalized guidance', 'Tailored digital solutions', 'Clear next steps'] } },
+    ],
+    features: [
+      { title: 'Anything tailored', text: 'Solutions built around your specific goal.' },
+      { title: 'Expert advice', text: 'We help you figure out the best path forward.' },
+      { title: 'No commitment', text: 'Start with a conversation to see how we can help.' },
+    ],
+    faqs: [
+      { question: 'What kind of requests do you handle?', answer: 'Any digital need related to Chinese platforms, accounts and services.' },
+      { question: 'How do I make a request?', answer: 'Use the contact form or reach us on Telegram and WhatsApp.' },
+    ],
+    priceFrom: null,
+    status: 'PUBLISHED',
+    relatedProductIds: [],
+    relatedArticleIds: [],
+  },
+];
+
+async function main() {
+  const categoryBySlug = {};
+  for (const c of categories) {
+    const cat = await upsertCategory(c.slug, c.name, c.kind, c.description);
+    categoryBySlug[c.slug] = cat.id;
+  }
+
+  for (const p of products) {
+    const categoryId = categoryBySlug[p.slug];
+    if (!categoryId) {
+      throw new Error(`Missing category for product ${p.slug}`);
+    }
+    await upsertProduct({ ...p, categoryId });
+  }
+
+  console.log(`Seeded ${categories.length} categories and ${products.length} products/services.`);
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

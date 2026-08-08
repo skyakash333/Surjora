@@ -24,7 +24,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 export function Button({ variant = 'primary', size = 'md', className, ...props }: ButtonProps) {
   return (
     <button
-      className={cn(buttonClasses.base, buttonClasses.variants[variant], buttonClasses.sizes[size], className)}
+      className={cn(
+        buttonClasses.base,
+        buttonClasses.variants[variant],
+        buttonClasses.sizes[size],
+        className,
+      )}
       {...props}
     />
   );
@@ -38,11 +43,22 @@ type ButtonLinkProps = {
   children: React.ReactNode;
 };
 
-export function ButtonLink({ href, variant = 'primary', size = 'md', className, children }: ButtonLinkProps) {
+export function ButtonLink({
+  href,
+  variant = 'primary',
+  size = 'md',
+  className,
+  children,
+}: ButtonLinkProps) {
   return (
     <Link
       href={href}
-      className={cn(buttonClasses.base, buttonClasses.variants[variant], buttonClasses.sizes[size], className)}
+      className={cn(
+        buttonClasses.base,
+        buttonClasses.variants[variant],
+        buttonClasses.sizes[size],
+        className,
+      )}
     >
       {children}
     </Link>

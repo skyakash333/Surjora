@@ -10,17 +10,17 @@ SEO-first marketing site. Fast, mobile-first, Vercel-ready.
 
 ## Stack
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript (strict) |
-| Styling | Tailwind CSS 3 + shadcn/ui-ready primitives |
-| Database | PostgreSQL (Prisma ORM) |
-| Auth | NextAuth v4 (credentials, single admin) |
-| Validation | Zod |
-| Forms | React Hook Form + @hookform/resolvers |
-| Email | Resend (contact form) |
-| Deployment | Vercel |
+| Layer      | Choice                                      |
+| ---------- | ------------------------------------------- |
+| Framework  | Next.js 14 (App Router)                     |
+| Language   | TypeScript (strict)                         |
+| Styling    | Tailwind CSS 3 + shadcn/ui-ready primitives |
+| Database   | PostgreSQL (Prisma ORM)                     |
+| Auth       | NextAuth v4 (credentials, single admin)     |
+| Validation | Zod                                         |
+| Forms      | React Hook Form + @hookform/resolvers       |
+| Email      | Resend (contact form)                       |
+| Deployment | Vercel                                      |
 
 ## Requirements
 
@@ -50,20 +50,20 @@ Open http://localhost:3000.
 
 ## Scripts
 
-| Command | Purpose |
-|---|---|
-| `pnpm dev` | Development server |
-| `pnpm build` | Production build |
-| `pnpm start` | Run production build |
-| `pnpm lint` | ESLint |
-| `pnpm format` | Prettier (write) |
-| `pnpm format:check` | Prettier (check) |
-| `pnpm typecheck` | TypeScript check (`tsc --noEmit`) |
-| `pnpm prisma:generate` | Generate Prisma client |
-| `pnpm prisma:format` | Format the Prisma schema |
-| `pnpm prisma:migrate:dev` | Create/apply dev migrations |
-| `pnpm prisma:migrate:deploy` | Apply migrations (production) |
-| `pnpm prisma:studio` | Open Prisma Studio |
+| Command                      | Purpose                           |
+| ---------------------------- | --------------------------------- |
+| `pnpm dev`                   | Development server                |
+| `pnpm build`                 | Production build                  |
+| `pnpm start`                 | Run production build              |
+| `pnpm lint`                  | ESLint                            |
+| `pnpm format`                | Prettier (write)                  |
+| `pnpm format:check`          | Prettier (check)                  |
+| `pnpm typecheck`             | TypeScript check (`tsc --noEmit`) |
+| `pnpm prisma:generate`       | Generate Prisma client            |
+| `pnpm prisma:format`         | Format the Prisma schema          |
+| `pnpm prisma:migrate:dev`    | Create/apply dev migrations       |
+| `pnpm prisma:migrate:deploy` | Apply migrations (production)     |
+| `pnpm prisma:studio`         | Open Prisma Studio                |
 
 ## Environment variables
 
