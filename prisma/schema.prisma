@@ -1,0 +1,197 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum OrderStatus {
+  NEW
+  CONTACTED
+  WON
+  LOST
+  SPAM
+}
+
+enum ArticleFormat {
+  BLOCKS
+  MDX
+}
+
+enum CategoryKind {
+  PRODUCT
+  SERVICE
+  CONTENT
+}
+
+enum ProductType {
+  PRODUCT
+  SERVICE
+}
+
+// ---------------------------------------------------------------------------
+// Category  (unified tree for products / services / content)
+// ---------------------------------------------------------------------------
+
+model Category {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  name        String
+  kind        CategoryKind
+  description String?
+  seoTitle    String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Restrict)
+  parentId String?
+  children Category[] @relation("CategoryTree")
+
+  products Product[]
+  articles Article[]
+
+  @@index([kind])
+  @@index([parentId])
+}
+
+// ---------------------------------------------------------------------------
+// Product  (covers both products and services — discriminated by `type`)
+// ---------------------------------------------------------------------------
+
+model Product {
+  id                String      @id @default(cuid())
+  slug              String      @unique
+  type              ProductType @default(PRODUCT)
+  categoryId        String
+  category          Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  title             String
+  seoTitle          String?
+  seoDescription    String?
+  h1                String?
+  description       Json // rich blocks: { type, data }[]
+  features          Json // array of { icon?, title, text }
+  faqs              Json // array of { question, answer }
+  priceFrom         Float? // display only — no payment processing
+  status            Status      @default(DRAFT)
+  relatedProductIds String[] // manual cross-sell
+  relatedArticleIds String[]
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@index([type])
+  @@index([categoryId])
+  @@index([status])
+}
+
+// ---------------------------------------------------------------------------
+// Article  (Knowledge Hub — guides, faq, tutorials, comparisons, news, cases)
+// ---------------------------------------------------------------------------
+
+model Article {
+  id                String        @id @default(cuid())
+  slug              String        @unique
+  categoryId        String
+  category          Category      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  title             String
+  seoTitle          String?
+  seoDescription    String?
+  excerpt           String?
+  coverImageId      String? // ref to Media.id (loose ref — not enforced FK)
+  body              Json // rich blocks OR mdx source (see contentFormat)
+  contentFormat     ArticleFormat @default(BLOCKS)
+  faqs              Json? // optional FAQ for FAQPage schema
+  relatedArticleIds String[]
+  relatedProductIds String[]
+  author            String        @default("Surjora Team")
+  publishedAt       DateTime?
+  status            Status        @default(DRAFT)
+  views             Int           @default(0)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([publishedAt])
+}
+
+// ---------------------------------------------------------------------------
+// Order  (custom requests + buy-intent captures — NOT a real checkout)
+// ---------------------------------------------------------------------------
+
+model Order {
+  id               String      @id @default(cuid())
+  reference        String      @unique // e.g. SRJ-240101-AB12
+  customerEmail    String?
+  customerTelegram String?
+  customerWhatsapp String?
+  productId        String? // loose ref to Product.id
+  serviceId        String?
+  requestType      String // "buy" | "custom" | "quote"
+  message          String
+  status           OrderStatus @default(NEW)
+  createdAt        DateTime    @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Media  (assets uploaded via Cloudinary / Vercel Blob)
+// ---------------------------------------------------------------------------
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  provider  String // "cloudinary" | "vercel-blob"
+  alt       String // required for accessibility
+  width     Int?
+  height    Int?
+  createdAt DateTime @default(now())
+
+  @@index([provider])
+}
+
+// ---------------------------------------------------------------------------
+// Testimonial  (curated only — no public submission, capped at ~12)
+// ---------------------------------------------------------------------------
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  quote     String
+  author    String
+  role      String?
+  rating    Int      @default(5)
+  sortOrder Int      @default(0)
+  visible   Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([visible, sortOrder])
+}
+
+// ---------------------------------------------------------------------------
+// Settings  (singleton — one row, id = "singleton")
+// ---------------------------------------------------------------------------
+
+model Settings {
+  id                 String   @id @default("singleton")
+  siteName           String   @default("Surjora")
+  contactEmail       String?
+  telegramUrl        String?
+  whatsappUrl        String?
+  paymentPlaceholder String? // future Stripe / manual invoice placeholder
+  defaultSeo         Json? // { title, description, ogImage }
+  customersServed    Int      @default(0) // display counter on trust block
+  updatedAt          DateTime @updatedAt
+}
