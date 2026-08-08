@@ -710,7 +710,7 @@ const articles = [
 
 async function main() {
   const categoryBySlug = {};
-  for (const c of categories) {
+  for (const c of [...categories, ...contentCategories]) {
     const cat = await upsertCategory(c.slug, c.name, c.kind, c.description);
     categoryBySlug[c.slug] = cat.id;
   }

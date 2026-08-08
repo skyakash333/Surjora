@@ -24,9 +24,13 @@ async function getData(slug: string) {
   return getProductBySlug(slug);
 }
 
+function isProduct(product: NonNullable<Awaited<ReturnType<typeof getData>>>): boolean {
+  return product.type === 'PRODUCT';
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const product = await getData(params.slug);
-  if (!product) return {};
+  if (!product || !isProduct(product)) return {};
   return {
     title: product.seoTitle ?? `${product.title} | ${siteConfig.name}`,
     description: product.seoDescription ?? undefined,
@@ -35,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const product = await getData(params.slug);
-  if (!product) notFound();
+  if (!product || !isProduct(product)) notFound();
 
   const url = `${siteConfig.url}/products/${product.slug}`;
   const description = product.seoDescription ?? product.title;

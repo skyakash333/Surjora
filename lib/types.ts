@@ -16,6 +16,7 @@ export type ArticleWithCategory = {
   seoDescription: string | null;
   excerpt: string | null;
   body: unknown;
+  tags: string[];
   relatedArticleIds: string[];
   relatedProductIds: string[];
   author: string;

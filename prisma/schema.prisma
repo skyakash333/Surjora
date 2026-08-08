@@ -111,6 +111,7 @@ model Article {
   coverImageId      String? // ref to Media.id (loose ref — not enforced FK)
   body              Json // rich blocks OR mdx source (see contentFormat)
   contentFormat     ArticleFormat @default(BLOCKS)
+  tags              String[]
   faqs              Json? // optional FAQ for FAQPage schema
   relatedArticleIds String[]
   relatedProductIds String[]

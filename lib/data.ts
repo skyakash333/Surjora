@@ -60,7 +60,16 @@ export async function getProductBySlug(slug: string): Promise<ProductWithCategor
 export async function getPublishedProductSlugs(): Promise<string[]> {
   if (!isDbConfigured) return [];
   const rows = await prisma.product.findMany({
-    where: { status: 'PUBLISHED' },
+    where: { status: 'PUBLISHED', type: 'PRODUCT' },
+    select: { slug: true },
+  });
+  return rows.map((r) => r.slug);
+}
+
+export async function getPublishedServiceSlugs(): Promise<string[]> {
+  if (!isDbConfigured) return [];
+  const rows = await prisma.product.findMany({
+    where: { status: 'PUBLISHED', type: 'SERVICE' },
     select: { slug: true },
   });
   return rows.map((r) => r.slug);
@@ -90,6 +99,7 @@ const articleSelect = {
   seoDescription: true,
   excerpt: true,
   body: true,
+  tags: true,
   relatedArticleIds: true,
   relatedProductIds: true,
   author: true,

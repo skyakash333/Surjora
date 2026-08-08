@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getProductBySlug, getPublishedProductSlugs, getRelatedProducts } from '@/lib/data';
+import { getProductBySlug, getPublishedServiceSlugs, getRelatedProducts } from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
 import { ContentBlocks } from '@/components/content/content-blocks';
 import { FaqAccordion } from '@/components/content/faq-accordion';
@@ -16,7 +16,7 @@ type PageProps = {
 };
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const slugs = await getPublishedProductSlugs();
+  const slugs = await getPublishedServiceSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -24,9 +24,13 @@ async function getData(slug: string) {
   return getProductBySlug(slug);
 }
 
+function isService(service: NonNullable<Awaited<ReturnType<typeof getData>>>): boolean {
+  return service.type === 'SERVICE';
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const service = await getData(params.slug);
-  if (!service) return {};
+  if (!service || !isService(service)) return {};
   return {
     title: service.seoTitle ?? `${service.title} | ${siteConfig.name}`,
     description: service.seoDescription ?? undefined,
@@ -35,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ServiceDetailPage({ params }: PageProps) {
   const service = await getData(params.slug);
-  if (!service) notFound();
+  if (!service || !isService(service)) notFound();
 
   const url = `${siteConfig.url}/services/${service.slug}`;
   const description = service.seoDescription ?? service.title;

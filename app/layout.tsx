@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from 'next';
+import { PlausibleScript } from '@/components/analytics/plausible';
 import './globals.css';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://surjora.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Surjora — Digital Chinese Accounts & Services',
     template: '%s | Surjora',
@@ -72,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        <PlausibleScript />
         {children}
       </body>
     </html>
