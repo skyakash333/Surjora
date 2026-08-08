@@ -13,9 +13,9 @@ export default async function AdminDashboardPage() {
   ]);
 
   const stats = [
-    { label: 'Products', value: products.length, href: '/products' },
-    { label: 'Services', value: services.length, href: '/services' },
-    { label: 'Articles', value: articles.length, href: '/knowledge' },
+    { label: 'Products', value: products.length, href: '/admin/catalog' },
+    { label: 'Services', value: services.length, href: '/admin/catalog' },
+    { label: 'Articles', value: articles.length, href: '/admin/articles' },
   ];
 
   return (

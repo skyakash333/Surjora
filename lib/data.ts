@@ -227,3 +227,52 @@ export async function getAllCatalogItems(): Promise<ProductWithCategory[]> {
   });
   return rows.map(normalize).filter((p): p is ProductWithCategory => p !== null);
 }
+
+export async function getAllCatalogItemsForAdmin() {
+  if (!isDbConfigured) return [];
+  return prisma.product.findMany({
+    select: {
+      id: true,
+      slug: true,
+      type: true,
+      title: true,
+      status: true,
+      priceFrom: true,
+      updatedAt: true,
+      category: { select: { slug: true, name: true } },
+    },
+    orderBy: { updatedAt: 'desc' },
+  });
+}
+
+export async function getCatalogItemForEditing(slug: string) {
+  if (!isDbConfigured) return null;
+  return prisma.product.findUnique({
+    where: { slug },
+    select: {
+      slug: true,
+      type: true,
+      title: true,
+      seoTitle: true,
+      seoDescription: true,
+      h1: true,
+      categoryId: true,
+      priceFrom: true,
+      status: true,
+      description: true,
+      features: true,
+      faqs: true,
+      relatedProductIds: true,
+      relatedArticleIds: true,
+    },
+  });
+}
+
+export async function getProductCategories() {
+  if (!isDbConfigured) return [];
+  return prisma.category.findMany({
+    where: { kind: { in: ['PRODUCT', 'SERVICE'] } },
+    select: { id: true, name: true, slug: true },
+    orderBy: { name: 'asc' },
+  });
+}
