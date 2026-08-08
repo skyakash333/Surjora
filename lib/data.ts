@@ -107,6 +107,7 @@ const articleSelect = {
   publishedAt: true,
   status: true,
   views: true,
+  updatedAt: true,
   category: {
     select: { slug: true, name: true },
   },
@@ -137,6 +138,15 @@ export async function getPublishedArticles(): Promise<ArticleWithCategory[]> {
   return rows.map(normalizeArticle).filter((a): a is ArticleWithCategory => a !== null);
 }
 
+export async function getAllArticles(): Promise<ArticleWithCategory[]> {
+  if (!isDbConfigured) return [];
+  const rows = await prisma.article.findMany({
+    select: articleSelect,
+    orderBy: { updatedAt: 'desc' },
+  });
+  return rows.map(normalizeArticle).filter((a): a is ArticleWithCategory => a !== null);
+}
+
 export async function getArticlesByCategory(
   categorySlug: string,
 ): Promise<ArticleWithCategory[]> {
@@ -158,6 +168,28 @@ export async function getArticleBySlug(
     select: articleSelect,
   });
   return normalizeArticle(row);
+}
+
+export async function getArticleForEditing(slug: string) {
+  if (!isDbConfigured) return null;
+  return prisma.article.findUnique({
+    where: { slug },
+    select: {
+      slug: true,
+      title: true,
+      seoTitle: true,
+      seoDescription: true,
+      excerpt: true,
+      categoryId: true,
+      author: true,
+      readTimeMinutes: true,
+      publishedAt: true,
+      tags: true,
+      relatedProductIds: true,
+      status: true,
+      body: true,
+    },
+  });
 }
 
 export async function getArticleSlugs(): Promise<string[]> {
@@ -184,4 +216,14 @@ export async function getRelatedArticles(
     orderBy: { publishedAt: 'desc' },
   });
   return rows.map(normalizeArticle).filter((a): a is ArticleWithCategory => a !== null);
+}
+
+export async function getAllCatalogItems(): Promise<ProductWithCategory[]> {
+  if (!isDbConfigured) return [];
+  const rows = await prisma.product.findMany({
+    where: { status: 'PUBLISHED' },
+    select: productSelect,
+    orderBy: { title: 'asc' },
+  });
+  return rows.map(normalize).filter((p): p is ProductWithCategory => p !== null);
 }

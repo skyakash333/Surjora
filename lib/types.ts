@@ -24,6 +24,7 @@ export type ArticleWithCategory = {
   publishedAt: Date | null;
   status: string;
   views: number;
+  updatedAt: Date;
   category: {
     slug: string;
     name: string;
