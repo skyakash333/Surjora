@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { contactSchema } from '@/schema/contact';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 3;
@@ -46,6 +47,16 @@ export async function POST(request: Request) {
 
   if (isRateLimited(ip)) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+  }
+
+  const turnstileToken =
+    typeof body === 'object' && body !== null
+      ? (body as { turnstileToken?: string }).turnstileToken
+      : undefined;
+
+  const turnstileOk = await verifyTurnstileToken(turnstileToken, ip);
+  if (!turnstileOk) {
+    return NextResponse.json({ error: 'Verification failed' }, { status: 400 });
   }
 
   const { name, email, message } = parsed.data;

@@ -7,6 +7,7 @@ export const orderSchema = z.object({
   productId: z.string().max(100).optional().nullable(),
   requestType: z.enum(['buy', 'custom', 'quote']),
   message: z.string().trim().min(10, 'Please enter a message of at least 10 characters').max(2000),
+  turnstileToken: z.string().optional(),
 });
 
 export type OrderInput = z.infer<typeof orderSchema>;

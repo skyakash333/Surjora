@@ -3,6 +3,8 @@ import { Resend } from 'resend';
 import { prisma } from '@/lib/prisma';
 import { orderSchema } from '@/schema/order';
 import { siteConfig } from '@/lib/constants';
+import { sendTelegramMessage, sendWhatsappMessage } from '@/lib/channels';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 3;
@@ -53,6 +55,11 @@ export async function POST(request: Request) {
   }
 
   const input = parsed.data;
+  const turnstileOk = await verifyTurnstileToken(input.turnstileToken, ip);
+  if (!turnstileOk) {
+    return NextResponse.json({ error: 'Verification failed' }, { status: 400 });
+  }
+
   const reference = generateReference();
 
   const order = await prisma.order.create({
@@ -68,6 +75,18 @@ export async function POST(request: Request) {
     },
   });
 
+  const details = [
+    `Reference: ${reference}`,
+    `Type: ${input.requestType}`,
+    `Email: ${input.customerEmail}`,
+    `Telegram: ${input.customerTelegram ?? '-'}`,
+    `WhatsApp: ${input.customerWhatsapp ?? '-'}`,
+    '',
+    input.message,
+    '',
+    `${siteConfig.url}/admin/orders`,
+  ].join('\n');
+
   const apiKey = process.env.RESEND_API_KEY;
   if (apiKey) {
     try {
@@ -77,12 +96,15 @@ export async function POST(request: Request) {
         to: [process.env.CONTACT_TO_EMAIL ?? 'contact@surjora.com'],
         reply_to: input.customerEmail,
         subject: `Surjora quote request ${reference}`,
-        text: `Reference: ${reference}\nType: ${input.requestType}\nEmail: ${input.customerEmail}\nTelegram: ${input.customerTelegram ?? '-'}\nWhatsApp: ${input.customerWhatsapp ?? '-'}\n\n${input.message}\n\nView: ${siteConfig.url}/admin/orders`,
+        text: details,
       });
     } catch (error) {
       console.error('Resend error:', error);
     }
   }
+
+  await sendTelegramMessage(`New Surjora order ${reference}\n\n${details}`);
+  await sendWhatsappMessage(`New Surjora order ${reference}\n\n${details}`);
 
   return NextResponse.json({ ok: true, reference }, { status: 201 });
 }

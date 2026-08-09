@@ -8,9 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Turnstile } from '@/components/forms/turnstile';
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const {
     register,
@@ -27,7 +29,7 @@ export function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, turnstileToken }),
       });
       if (res.ok) {
         setStatus('success');
@@ -85,6 +87,8 @@ export function ContactForm() {
           />
           {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>}
         </div>
+
+        <Turnstile onChange={setTurnstileToken} />
 
         {status === 'error' && (
           <p className="text-sm text-red-600">

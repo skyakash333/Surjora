@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { orderSchema, type OrderInput } from '@/schema/order';
 import { Button } from '@/components/ui/button';
+import { Turnstile } from '@/components/forms/turnstile';
 
 type QuoteFormProps = {
   productId?: string | null;
@@ -16,6 +17,7 @@ export function QuoteForm({ productId, requestType = 'buy', cta = 'Request a quo
   const [success, setSuccess] = useState(false);
   const [reference, setReference] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const form = useForm<OrderInput>({
     resolver: zodResolver(orderSchema),
@@ -42,7 +44,7 @@ export function QuoteForm({ productId, requestType = 'buy', cta = 'Request a quo
     const response = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values),
+      body: JSON.stringify({ ...values, turnstileToken }),
     });
 
     if (!response.ok) {
@@ -107,6 +109,8 @@ export function QuoteForm({ productId, requestType = 'buy', cta = 'Request a quo
         <textarea id="message" rows={4} {...register('message')} className={inputClass} />
         {errors.message && <p className="mt-1 text-xs text-red-600">{errors.message.message}</p>}
       </div>
+
+      <Turnstile onChange={setTurnstileToken} />
 
       {error && (
         <p role="alert" className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
