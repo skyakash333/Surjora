@@ -1,21 +1,23 @@
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getPublishedArticles, getPublishedProducts, getPublishedServices } from '@/lib/data';
+import { getOrders, getPublishedArticles, getPublishedProducts, getPublishedServices } from '@/lib/data';
 import { ButtonLink } from '@/components/ui/button';
 
 export default async function AdminDashboardPage() {
   const session = await getServerSession(authOptions);
-  const [products, services, articles] = await Promise.all([
+  const [products, services, articles, orders] = await Promise.all([
     getPublishedProducts(),
     getPublishedServices(),
     getPublishedArticles(),
+    getOrders(),
   ]);
 
   const stats = [
     { label: 'Products', value: products.length, href: '/admin/catalog' },
     { label: 'Services', value: services.length, href: '/admin/catalog' },
     { label: 'Articles', value: articles.length, href: '/admin/articles' },
+    { label: 'Orders', value: orders.length, href: '/admin/orders' },
   ];
 
   return (
@@ -32,7 +34,7 @@ export default async function AdminDashboardPage() {
         </ButtonLink>
       </div>
 
-      <dl className="mt-8 grid gap-5 sm:grid-cols-3">
+      <dl className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Link
             key={stat.label}

@@ -276,3 +276,20 @@ export async function getProductCategories() {
     orderBy: { name: 'asc' },
   });
 }
+
+export async function getOrders() {
+  if (!isDbConfigured) return [];
+  return prisma.order.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+  });
+}
+
+export async function getOrdersByStatus(status: string) {
+  if (!isDbConfigured) return [];
+  return prisma.order.findMany({
+    where: { status: status as never },
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+  });
+}

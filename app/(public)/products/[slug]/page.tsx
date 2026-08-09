@@ -7,7 +7,7 @@ import { FaqAccordion } from '@/components/content/faq-accordion';
 import { RelatedList } from '@/components/product/related-list';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { BreadcrumbSchema, FaqSchema, ProductSchema } from '@/components/seo/schemas';
-import { ButtonLink } from '@/components/ui/button';
+import { QuoteForm } from '@/components/forms/quote-form';
 
 export const revalidate = 3600;
 
@@ -93,9 +93,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   All orders handled personally. No payment required upfront.
                 </p>
                 <div className="mt-5">
-                  <ButtonLink href="/contact" size="lg" className="w-full">
-                    Request a quote
-                  </ButtonLink>
+                  <QuoteForm productId={product.id} requestType="buy" />
                 </div>
                 <p className="mt-3 text-xs text-ink-500">
                   Prefer instant chat? Message us on Telegram or WhatsApp via the contact page.
