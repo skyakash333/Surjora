@@ -42,6 +42,7 @@ export const catalogSchema = z.object({
   seoTitle: z.string().trim().max(160).optional().or(z.literal('')),
   seoDescription: z.string().trim().max(300).optional().or(z.literal('')),
   h1: z.string().trim().max(160).optional().or(z.literal('')),
+  coverImageId: z.string().max(100).optional().or(z.literal('')),
   categoryId: z.string().min(1, 'Choose a category'),
   priceFrom: z.coerce.number().min(0).max(100000).optional().nullable(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),

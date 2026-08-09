@@ -15,8 +15,10 @@ export type ArticleWithCategory = {
   seoTitle: string | null;
   seoDescription: string | null;
   excerpt: string | null;
+  coverImageId: string | null;
   body: unknown;
   tags: string[];
+  faqs: unknown;
   relatedArticleIds: string[];
   relatedProductIds: string[];
   author: string;
@@ -39,6 +41,7 @@ export type ProductWithCategory = {
   seoTitle: string | null;
   seoDescription: string | null;
   h1: string | null;
+  coverImageId: string | null;
   description: ContentBlock[] | null;
   features: ProductFeature[] | null;
   faqs: ProductFaq[] | null;

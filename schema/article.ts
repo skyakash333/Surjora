@@ -31,10 +31,15 @@ export const articleSchema = z.object({
   seoDescription: z.string().trim().max(300).optional().or(z.literal('')),
   excerpt: z.string().trim().max(500).optional().or(z.literal('')),
   categoryId: z.string().min(1, 'Choose a category'),
+  coverImageId: z.string().max(100).optional().or(z.literal('')),
   author: z.string().trim().max(100).optional().or(z.literal('')),
   readTimeMinutes: z.coerce.number().int().min(0).max(240).optional(),
   publishedAt: z.string().datetime().optional().or(z.literal('')),
   tags: z.array(z.string().trim().min(1).max(40)).max(10).optional(),
+  faqs: z
+    .array(z.object({ question: z.string().trim().min(1).max(200), answer: z.string().trim().min(1).max(2000) }))
+    .max(20)
+    .optional(),
   relatedProductIds: z.array(z.string()).max(10).optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
   body: z.array(contentBlockSchema).min(1, 'Add at least one content block'),

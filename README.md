@@ -6,7 +6,7 @@ SEO-first marketing site. Fast, mobile-first, Vercel-ready.
 
 ## Status
 
-**Phase 0 — Architecture & Foundation (in progress).** Core scaffolding is in place; the full roadmap (products, Knowledge Hub, admin, SEO system, conversion flows) is documented in the architecture plan and built phase by phase.
+**Phases 0–8 complete (all roadmap phases implemented).** The site includes products, services, Knowledge Hub, admin (articles, catalog, orders, settings), an SEO system (metadata, JSON-LD, sitemap), conversion flows (contact, quote, Telegram/WhatsApp), media uploads, and view tracking. See the architecture plan for the full roadmap.
 
 ## Stack
 
@@ -20,6 +20,8 @@ SEO-first marketing site. Fast, mobile-first, Vercel-ready.
 | Validation | Zod                                         |
 | Forms      | React Hook Form + @hookform/resolvers       |
 | Email      | Resend (contact form)                       |
+| Media      | Cloudinary (with external-URL fallback)     |
+| Tests      | Vitest                                      |
 | Deployment | Vercel                                      |
 
 ## Requirements
@@ -59,6 +61,7 @@ Open http://localhost:3000.
 | `pnpm format`                | Prettier (write)                  |
 | `pnpm format:check`          | Prettier (check)                  |
 | `pnpm typecheck`             | TypeScript check (`tsc --noEmit`) |
+| `pnpm test`                  | Run Vitest smoke/unit tests        |
 | `pnpm prisma:generate`       | Generate Prisma client            |
 | `pnpm prisma:format`         | Format the Prisma schema          |
 | `pnpm prisma:migrate:dev`    | Create/apply dev migrations       |
@@ -72,12 +75,13 @@ See [.env.example](.env.example) — it documents every variable with usage note
 ## Project structure
 
 ```
-app/          # Next.js App Router routes (public pages, later admin + api)
+app/          # Next.js App Router routes (public pages + admin + api)
 components/   # UI, layout, seo, content, product, forms, admin components
-lib/          # prisma client, auth, seo metadata, slug, revalidate, channels, analytics
+lib/          # prisma client, auth, seo metadata, slug, channels, media
 prisma/       # Prisma schema + migrations
-public/       # Static assets
+public/       # Static assets (og.svg, etc.)
 schema/       # Zod schemas (validation, shared client/server)
+tests/        # Vitest smoke/unit tests
 types/        # Global type augmentations (next-auth session)
 ```
 

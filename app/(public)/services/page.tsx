@@ -1,5 +1,6 @@
 import { getPublishedServices } from '@/lib/data';
 import { buildMetadata } from '@/lib/seo';
+import { siteConfig } from '@/lib/constants';
 import { ProductCard } from '@/components/product/product-card';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
@@ -20,10 +21,10 @@ export default async function ServicesPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { label: 'Home', href: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com'}/` },
+          { label: 'Home', href: `${siteConfig.url}/` },
           {
             label: 'Services',
-            href: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com'}/services`,
+            href: `${siteConfig.url}/services`,
           },
         ]}
       />
@@ -36,10 +37,14 @@ export default async function ServicesPage() {
         </p>
 
         {services.length === 0 ? (
-          <p className="mt-10 rounded-lg border border-ink-200 bg-white p-8 text-ink-600">
-            Service pages are being prepared. Contact us directly and we&apos;ll help you get what
-            you need.
-          </p>
+          <div className="mt-10 rounded-lg border border-ink-200 bg-white p-8">
+            <p className="text-ink-600">
+              No services are listed right now. Message us and we&apos;ll help you get what you need.
+            </p>
+            <a href="/contact" className="mt-4 inline-block font-medium text-brand-600 hover:text-brand-700">
+              Contact us →
+            </a>
+          </div>
         ) : (
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (

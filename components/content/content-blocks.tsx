@@ -34,7 +34,11 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
               </div>
             );
           default:
-            return null;
+            return (
+              <p key={index} className="rounded-lg border border-dashed border-ink-300 p-4 text-sm text-ink-500">
+                Unsupported content block
+              </p>
+            );
         }
       })}
     </div>

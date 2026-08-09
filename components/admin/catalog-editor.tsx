@@ -20,6 +20,7 @@ type CatalogEditorProps = {
     seoTitle: string | null;
     seoDescription: string | null;
     h1: string | null;
+    coverImageId: string | null;
     categoryId: string;
     priceFrom: number | null;
     status: string;
@@ -49,6 +50,7 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
       seoTitle: item?.seoTitle ?? '',
       seoDescription: item?.seoDescription ?? '',
       h1: item?.h1 ?? '',
+      coverImageId: item?.coverImageId ?? '',
       categoryId: item?.categoryId ?? categories[0]?.id ?? '',
       priceFrom: item?.priceFrom ?? undefined,
       status: (item?.status as CatalogInput['status']) ?? 'DRAFT',
@@ -186,6 +188,14 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
           H1 heading
         </label>
         <input id="h1" {...register('h1')} className={inputClass} />
+      </div>
+
+      <div>
+        <label htmlFor="coverImageId" className="mb-1 block text-sm font-medium text-ink-700">
+          Cover image URL
+        </label>
+        <input id="coverImageId" type="url" placeholder="https://..." {...register('coverImageId')} className={inputClass} />
+        <p className="mt-1 text-xs text-ink-500">External image URL used as the product/service cover.</p>
       </div>
 
       <div>

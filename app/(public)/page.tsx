@@ -23,7 +23,7 @@ const organizationJsonLd = {
     contactType: 'sales',
     email: siteConfig.email,
   },
-  sameAs: [siteConfig.telegram, siteConfig.whatsapp],
+  sameAs: [siteConfig.telegram, siteConfig.whatsapp].filter(Boolean),
 };
 
 export default function HomePage() {
@@ -138,22 +138,26 @@ export default function HomePage() {
             <ButtonLink href="/contact" size="lg">
               Contact us
             </ButtonLink>
-            <a
-              href={siteConfig.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-lg bg-sky-500 px-6 py-3 font-medium text-white transition hover:bg-sky-600"
-            >
-              Telegram
-            </a>
-            <a
-              href={siteConfig.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-6 py-3 font-medium text-white transition hover:bg-emerald-700"
-            >
-              WhatsApp
-            </a>
+            {siteConfig.telegram && (
+              <a
+                href={siteConfig.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-lg bg-sky-500 px-6 py-3 font-medium text-white transition hover:bg-sky-600"
+              >
+                Telegram
+              </a>
+            )}
+            {siteConfig.whatsapp && (
+              <a
+                href={siteConfig.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-6 py-3 font-medium text-white transition hover:bg-emerald-700"
+              >
+                WhatsApp
+              </a>
+            )}
           </div>
         </div>
       </section>

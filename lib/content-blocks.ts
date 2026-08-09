@@ -14,11 +14,3 @@ export type ProductFaq = {
   question: string;
   answer: string;
 };
-
-export function isContentBlock(value: unknown): value is ContentBlock {
-  if (typeof value !== 'object' || value === null) return false;
-  const block = value as { type?: unknown; data?: unknown };
-  if (typeof block.type !== 'string') return false;
-  if (typeof block.data !== 'object' || block.data === null) return false;
-  return ['paragraph', 'heading', 'list', 'callout'].includes(block.type);
-}

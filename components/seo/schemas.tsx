@@ -95,3 +95,44 @@ export function ServiceSchema({ name, description, url }: ServiceSchemaProps) {
     />
   );
 }
+
+type ArticleSchemaProps = {
+  headline: string;
+  description?: string | null;
+  url: string;
+  image?: string;
+  author: string;
+  datePublished?: string | null;
+  dateModified?: string | null;
+};
+
+export function ArticleSchema({
+  headline,
+  description,
+  url,
+  image,
+  author,
+  datePublished,
+  dateModified,
+}: ArticleSchemaProps) {
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline,
+        description: description ?? undefined,
+        url,
+        image: image ?? undefined,
+        author: { '@type': 'Person', name: author },
+        publisher: {
+          '@type': 'Organization',
+          name: 'Surjora',
+        },
+        mainEntityOfPage: url,
+        ...(datePublished ? { datePublished } : {}),
+        ...(dateModified ? { dateModified } : {}),
+      }}
+    />
+  );
+}

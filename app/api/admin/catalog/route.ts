@@ -57,6 +57,7 @@ export async function POST(request: Request) {
     seoTitle: input.seoTitle || null,
     seoDescription: input.seoDescription || null,
     h1: input.h1 || null,
+    coverImageId: input.coverImageId || null,
     categoryId: input.categoryId,
     priceFrom: input.priceFrom ?? null,
     status: input.status,

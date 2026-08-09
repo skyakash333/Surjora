@@ -50,6 +50,7 @@ export default async function EditCatalogItemPage({ params }: { params: { slug: 
             seoTitle: item.seoTitle,
             seoDescription: item.seoDescription,
             h1: item.h1,
+            coverImageId: item.coverImageId,
             categoryId: item.categoryId,
             priceFrom: item.priceFrom,
             status: item.status,

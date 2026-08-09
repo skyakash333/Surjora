@@ -1,11 +1,19 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getArticleBySlug, getPublishedArticles, getRelatedArticles } from '@/lib/data';
+import {
+  getArticleBySlug,
+  getPublishedArticles,
+  getRelatedArticles,
+  getRelatedProducts,
+} from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
 import { ContentBlocks } from '@/components/content/content-blocks';
+import { FaqAccordion } from '@/components/content/faq-accordion';
 import { RelatedList } from '@/components/product/related-list';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
-import { BreadcrumbSchema } from '@/components/seo/schemas';
+import { ArticleSchema, BreadcrumbSchema, FaqSchema } from '@/components/seo/schemas';
+import { CoverImage } from '@/components/media/cover-image';
+import { ViewCounter } from '@/components/analytics/view-counter';
 import type { ContentBlock } from '@/lib/content-blocks';
 
 export const revalidate = 3600;
@@ -36,10 +44,14 @@ export default async function ArticlePage({ params }: PageProps) {
   if (!article) notFound();
 
   const categorySlug = article.category?.slug ?? 'articles';
+  if (params.category !== categorySlug) notFound();
+
   const categoryName = article.category?.name ?? 'Articles';
   const url = `${siteConfig.url}/knowledge/${categorySlug}/${article.slug}`;
   const blocks = Array.isArray(article.body) ? (article.body as ContentBlock[]) : [];
-  const related = await getRelatedArticles(article.relatedArticleIds, article.slug);
+  const faqs = Array.isArray(article.faqs) ? (article.faqs as Array<{ question: string; answer: string }>) : [];
+  const relatedArticles = await getRelatedArticles(article.relatedArticleIds, article.slug);
+  const relatedProducts = await getRelatedProducts(article.relatedProductIds, article.slug);
 
   return (
     <>
@@ -51,6 +63,15 @@ export default async function ArticlePage({ params }: PageProps) {
           { label: article.title, href: url },
         ]}
       />
+      <ArticleSchema
+        headline={article.title}
+        description={article.excerpt}
+        url={url}
+        author={article.author}
+        datePublished={article.publishedAt?.toISOString()}
+        dateModified={article.updatedAt?.toISOString()}
+      />
+      <FaqSchema faqs={faqs} />
       <div className="container py-12">
         <Breadcrumbs
           items={[
@@ -60,6 +81,7 @@ export default async function ArticlePage({ params }: PageProps) {
           ]}
         />
         <article className="mx-auto max-w-3xl">
+          <ViewCounter slug={article.slug} />
           <span className="text-xs font-semibold uppercase tracking-wide text-brand-600">
             {categoryName}
           </span>
@@ -68,22 +90,42 @@ export default async function ArticlePage({ params }: PageProps) {
             By {article.author}
             {article.publishedAt && ` · ${article.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`}
             {article.readTimeMinutes && ` · ${article.readTimeMinutes} min read`}
+            {article.views > 0 && ` · ${article.views} views`}
           </p>
           {article.excerpt && <p className="mt-6 text-lg text-ink-600">{article.excerpt}</p>}
+          {article.coverImageId && (
+            <div className="mt-8">
+              <CoverImage mediaId={article.coverImageId} alt={article.title} className="aspect-video w-full rounded-xl object-cover" />
+            </div>
+          )}
           <div className="mt-8">
             <ContentBlocks blocks={blocks} />
           </div>
+          {faqs.length > 0 && <FaqAccordion faqs={faqs} />}
         </article>
-        {related.length > 0 && (
+        {relatedArticles.length > 0 && (
           <div className="mt-14">
             <RelatedList
-              items={related.map((a) => ({
+              items={relatedArticles.map((a) => ({
                 id: a.id,
                 title: a.title,
                 description: a.excerpt,
                 href: `/knowledge/${a.category?.slug ?? 'articles'}/${a.slug}`,
               }))}
               title="Related reading"
+            />
+          </div>
+        )}
+        {relatedProducts.length > 0 && (
+          <div className="mt-14">
+            <RelatedList
+              items={relatedProducts.map((p) => ({
+                id: p.id,
+                title: p.title,
+                description: p.seoDescription,
+                href: p.type === 'SERVICE' ? `/services/${p.slug}` : `/products/${p.slug}`,
+              }))}
+              title="Related products & services"
             />
           </div>
         )}

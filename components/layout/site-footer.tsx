@@ -56,12 +56,16 @@ export function SiteFooter() {
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-xs text-ink-500">
-            <a href={siteConfig.telegram} target="_blank" rel="noopener noreferrer">
-              Telegram
-            </a>
-            <a href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer">
-              WhatsApp
-            </a>
+            {siteConfig.telegram && (
+              <a href={siteConfig.telegram} target="_blank" rel="noopener noreferrer">
+                Telegram
+              </a>
+            )}
+            {siteConfig.whatsapp && (
+              <a href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer">
+                WhatsApp
+              </a>
+            )}
           </div>
         </div>
       </div>

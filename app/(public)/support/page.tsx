@@ -91,22 +91,26 @@ export default function SupportPage() {
             Message us on Telegram or WhatsApp for the fastest response.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <a
-              href={siteConfig.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-sky-600"
-            >
-              Telegram
-            </a>
-            <a
-              href={siteConfig.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700"
-            >
-              WhatsApp
-            </a>
+            {siteConfig.telegram && (
+              <a
+                href={siteConfig.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-sky-600"
+              >
+                Telegram
+              </a>
+            )}
+            {siteConfig.whatsapp && (
+              <a
+                href={siteConfig.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700"
+              >
+                WhatsApp
+              </a>
+            )}
           </div>
         </div>
       </div>

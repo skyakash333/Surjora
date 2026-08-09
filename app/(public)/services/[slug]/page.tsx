@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getProductBySlug, getPublishedServiceSlugs, getRelatedProducts } from '@/lib/data';
+import {
+  getProductBySlug,
+  getPublishedServiceSlugs,
+  getRelatedArticles,
+  getRelatedProducts,
+} from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
 import { ContentBlocks } from '@/components/content/content-blocks';
 import { FaqAccordion } from '@/components/content/faq-accordion';
@@ -8,6 +13,7 @@ import { RelatedList } from '@/components/product/related-list';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { BreadcrumbSchema, FaqSchema, ServiceSchema } from '@/components/seo/schemas';
 import { QuoteForm } from '@/components/forms/quote-form';
+import { CoverImage } from '@/components/media/cover-image';
 
 export const revalidate = 3600;
 
@@ -45,6 +51,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const description = service.seoDescription ?? service.title;
   const faqs = service.faqs ?? [];
   const related = await getRelatedProducts(service.relatedProductIds, service.slug);
+  const relatedArticles = await getRelatedArticles(service.relatedArticleIds, '');
 
   return (
     <>
@@ -65,6 +72,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             <h1 className="text-4xl font-bold tracking-tight text-ink-900">
               {service.h1 ?? service.title}
             </h1>
+            {service.coverImageId && (
+              <div className="mt-6">
+                <CoverImage mediaId={service.coverImageId} alt={service.title} className="aspect-video w-full rounded-xl object-cover" />
+              </div>
+            )}
             {service.description && (
               <div className="mt-6">
                 <ContentBlocks blocks={service.description} />
@@ -123,6 +135,18 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           }))}
           title="Related services"
         />
+
+        {relatedArticles.length > 0 && (
+          <RelatedList
+            items={relatedArticles.map((a) => ({
+              id: a.id,
+              title: a.title,
+              description: a.excerpt,
+              href: `/knowledge/${a.category?.slug ?? 'articles'}/${a.slug}`,
+            }))}
+            title="Related reading"
+          />
+        )}
       </div>
     </>
   );

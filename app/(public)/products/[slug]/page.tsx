@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getProductBySlug, getPublishedProductSlugs, getRelatedProducts } from '@/lib/data';
+import {
+  getProductBySlug,
+  getPublishedProductSlugs,
+  getRelatedArticles,
+  getRelatedProducts,
+} from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
 import { ContentBlocks } from '@/components/content/content-blocks';
 import { FaqAccordion } from '@/components/content/faq-accordion';
@@ -8,7 +13,7 @@ import { RelatedList } from '@/components/product/related-list';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { BreadcrumbSchema, FaqSchema, ProductSchema } from '@/components/seo/schemas';
 import { QuoteForm } from '@/components/forms/quote-form';
-
+import { CoverImage } from '@/components/media/cover-image';
 export const revalidate = 3600;
 
 type PageProps = {
@@ -45,6 +50,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const description = product.seoDescription ?? product.title;
   const faqs = product.faqs ?? [];
   const related = await getRelatedProducts(product.relatedProductIds, product.slug);
+  const relatedArticles = await getRelatedArticles(product.relatedArticleIds, '');
 
   return (
     <>
@@ -70,6 +76,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <h1 className="text-4xl font-bold tracking-tight text-ink-900">
               {product.h1 ?? product.title}
             </h1>
+            {product.coverImageId && (
+              <div className="mt-6">
+                <CoverImage mediaId={product.coverImageId} alt={product.title} className="aspect-video w-full rounded-xl object-cover" />
+              </div>
+            )}
             {product.description && (
               <div className="mt-6">
                 <ContentBlocks blocks={product.description} />
@@ -128,6 +139,18 @@ export default async function ProductDetailPage({ params }: PageProps) {
           }))}
           title="Related accounts"
         />
+
+        {relatedArticles.length > 0 && (
+          <RelatedList
+            items={relatedArticles.map((a) => ({
+              id: a.id,
+              title: a.title,
+              description: a.excerpt,
+              href: `/knowledge/${a.category?.slug ?? 'articles'}/${a.slug}`,
+            }))}
+            title="Related reading"
+          />
+        )}
       </div>
     </>
   );

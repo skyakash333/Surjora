@@ -48,9 +48,14 @@ export default async function KnowledgePage() {
         )}
 
         {articles.length === 0 ? (
-          <p className="mt-10 rounded-lg border border-ink-200 bg-white p-8 text-ink-600">
-            Articles are being prepared. Check back soon or contact us with your questions.
-          </p>
+          <div className="mt-10 rounded-lg border border-ink-200 bg-white p-8">
+            <p className="text-ink-600">
+              No articles are published yet. Check back soon or contact us with your questions.
+            </p>
+            <a href="/contact" className="mt-4 inline-block font-medium text-brand-600 hover:text-brand-700">
+              Contact us →
+            </a>
+          </div>
         ) : (
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (

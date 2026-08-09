@@ -52,24 +52,28 @@ export default function ContactPage() {
                   Fastest reply
                 </h2>
                 <div className="mt-4 space-y-3">
-                  <a
-                    href={siteConfig.telegram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-lg bg-sky-500 px-4 py-3 text-sm font-medium text-white transition hover:bg-sky-600"
-                  >
-                    Telegram
-                    <span aria-hidden="true">→</span>
-                  </a>
-                  <a
-                    href={siteConfig.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-emerald-700"
-                  >
-                    WhatsApp
-                    <span aria-hidden="true">→</span>
-                  </a>
+                  {siteConfig.telegram && (
+                    <a
+                      href={siteConfig.telegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between rounded-lg bg-sky-500 px-4 py-3 text-sm font-medium text-white transition hover:bg-sky-600"
+                    >
+                      Telegram
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  )}
+                  {siteConfig.whatsapp && (
+                    <a
+                      href={siteConfig.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-emerald-700"
+                    >
+                      WhatsApp
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  )}
                 </div>
               </div>
 

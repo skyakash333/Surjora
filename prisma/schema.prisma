@@ -27,7 +27,6 @@ enum OrderStatus {
 
 enum ArticleFormat {
   BLOCKS
-  MDX
 }
 
 enum CategoryKind {
@@ -80,6 +79,7 @@ model Product {
   seoTitle          String?
   seoDescription    String?
   h1                String?
+  coverImageId      String? // ref to Media.id (loose ref — not enforced FK)
   description       Json // rich blocks: { type, data }[]
   features          Json // array of { icon?, title, text }
   faqs              Json // array of { question, answer }
@@ -139,7 +139,6 @@ model Order {
   customerTelegram String?
   customerWhatsapp String?
   productId        String? // loose ref to Product.id
-  serviceId        String?
   requestType      String // "buy" | "custom" | "quote"
   message          String
   status           OrderStatus @default(NEW)

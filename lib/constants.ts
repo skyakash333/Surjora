@@ -2,8 +2,8 @@ export const siteConfig = {
   name: 'Surjora',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com',
   email: process.env.CONTACT_TO_EMAIL ?? 'contact@surjora.com',
-  telegram: 'https://t.me/surjora',
-  whatsapp: 'https://wa.me/15550000000',
+  telegram: process.env.NEXT_PUBLIC_TELEGRAM_URL ?? '',
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_URL ?? '',
   description:
     'Verified digital Chinese accounts and services. WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more. Request a quote via Telegram or WhatsApp.',
 } as const;

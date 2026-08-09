@@ -80,6 +80,7 @@ export async function POST(request: Request) {
   ].join('\n');
 
   const apiKey = process.env.RESEND_API_KEY;
+  const emailSent = Boolean(apiKey);
   if (apiKey) {
     try {
       const resend = new Resend(apiKey);
@@ -95,8 +96,14 @@ export async function POST(request: Request) {
     }
   }
 
-  await sendTelegramMessage(`New Surjora order ${reference}\n\n${details}`);
-  await sendWhatsappMessage(`New Surjora order ${reference}\n\n${details}`);
+  const telegramSent = await sendTelegramMessage(`New Surjora order ${reference}\n\n${details}`);
+  const whatsappSent = await sendWhatsappMessage(`New Surjora order ${reference}\n\n${details}`);
+
+  // If no notification channel is configured, keep the submission visible in logs
+  // so it is never silently dropped.
+  if (!emailSent && !telegramSent && !whatsappSent) {
+    console.log(`[orders] No notification channel configured. Order ${reference}:\n\n${details}`);
+  }
 
   return NextResponse.json({ ok: true, reference }, { status: 201 });
 }

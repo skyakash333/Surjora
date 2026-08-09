@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { mainNav, siteConfig } from '@/lib/constants';
 import { ButtonLink } from '@/components/ui/button';
+import { MobileMenu } from '@/components/layout/mobile-menu';
 
 export function SiteHeader() {
   return (
@@ -26,6 +27,7 @@ export function SiteHeader() {
           <ButtonLink href="/contact" size="sm">
             Contact
           </ButtonLink>
+          <MobileMenu />
         </div>
       </div>
     </header>

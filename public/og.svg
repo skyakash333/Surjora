@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c2d12"/>
+      <stop offset="1" stop-color="#c2410c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="220" fill="#ea580c" opacity="0.35"/>
+  <circle cx="160" cy="520" r="260" fill="#fb923c" opacity="0.25"/>
+  <text x="90" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="84" font-weight="800" fill="#ffffff">Surjora</text>
+  <text x="90" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="34" fill="#fed7aa">Verified digital Chinese accounts &amp; services</text>
+  <text x="90" y="430" font-family="system-ui, -apple-system, sans-serif" font-size="26" fill="#fdba74">WeChat · QQ · Alipay · WeCom · Xiaohongshu · Douyin · Taobao</text>
+</svg>

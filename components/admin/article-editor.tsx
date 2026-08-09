@@ -19,11 +19,13 @@ type ArticleEditorProps = {
     seoTitle: string | null;
     seoDescription: string | null;
     excerpt: string | null;
+    coverImageId: string | null;
     categoryId: string;
     author: string | null;
     readTimeMinutes: number | null;
     publishedAt: string | null;
     tags: string[];
+    faqs: Array<{ question: string; answer: string }> | null;
     relatedProductIds: string[];
     status: string;
     body: Array<{ type: string; data: Record<string, unknown> }>;
@@ -47,11 +49,13 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
       seoTitle: article?.seoTitle ?? '',
       seoDescription: article?.seoDescription ?? '',
       excerpt: article?.excerpt ?? '',
+      coverImageId: article?.coverImageId ?? '',
       categoryId: article?.categoryId ?? categories[0]?.id ?? '',
       author: article?.author ?? '',
       readTimeMinutes: article?.readTimeMinutes ?? undefined,
       publishedAt: article?.publishedAt ?? '',
       tags: article?.tags ?? [],
+      faqs: (article?.faqs ?? [{ question: '', answer: '' }]) as ArticleInput['faqs'],
       relatedProductIds: article?.relatedProductIds ?? [],
       status: (article?.status as ArticleInput['status']) ?? 'DRAFT',
       body: (article?.body ?? []) as ArticleInput['body'],
@@ -69,6 +73,11 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'body',
+  });
+
+  const faqFields = useFieldArray({
+    control,
+    name: 'faqs',
   });
 
   const bodyValue = watch('body');
@@ -228,6 +237,14 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
           Excerpt
         </label>
         <textarea id="excerpt" {...register('excerpt')} rows={2} className={inputClass} />
+      </div>
+
+      <div>
+        <label htmlFor="coverImageId" className="mb-1 block text-sm font-medium text-ink-700">
+          Cover image URL
+        </label>
+        <input id="coverImageId" type="url" placeholder="https://..." {...register('coverImageId')} className={inputClass} />
+        <p className="mt-1 text-xs text-ink-500">External image URL used as the article cover.</p>
       </div>
 
       <div>
@@ -404,6 +421,61 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
           {fields.length === 0 && (
             <p className="rounded-lg border border-dashed border-ink-300 p-6 text-center text-sm text-ink-500">
               No content blocks yet. Add one to start writing.
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium text-ink-700">FAQs</label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => faqFields.append({ question: '', answer: '' })}
+          >
+            + Add FAQ
+          </Button>
+        </div>
+        <p className="mt-1 text-xs text-ink-500">
+          Optional questions rendered with FAQPage schema for search engines.
+        </p>
+
+        <div className="mt-4 space-y-4">
+          {faqFields.fields.map((field, index) => (
+            <div key={field.id} className="rounded-lg border border-ink-200 bg-white p-4">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <span className="text-sm font-medium text-ink-600">FAQ {index + 1}</span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-600"
+                  onClick={() => faqFields.remove(index)}
+                >
+                  Remove
+                </Button>
+              </div>
+              <div className="space-y-3">
+                <input
+                  {...register(`faqs.${index}.question`)}
+                  placeholder="Question"
+                  className={inputClass}
+                />
+                <textarea
+                  {...register(`faqs.${index}.answer`)}
+                  placeholder="Answer"
+                  rows={2}
+                  className={inputClass}
+                />
+              </div>
+            </div>
+          ))}
+
+          {faqFields.fields.length === 0 && (
+            <p className="rounded-lg border border-dashed border-ink-300 p-6 text-center text-sm text-ink-500">
+              No FAQs yet. Add one to enable FAQPage schema.
             </p>
           )}
         </div>

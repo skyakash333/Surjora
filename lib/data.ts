@@ -11,6 +11,7 @@ const productSelect = {
   seoTitle: true,
   seoDescription: true,
   h1: true,
+  coverImageId: true,
   description: true,
   features: true,
   faqs: true,
@@ -98,8 +99,10 @@ const articleSelect = {
   seoTitle: true,
   seoDescription: true,
   excerpt: true,
+  coverImageId: true,
   body: true,
   tags: true,
+  faqs: true,
   relatedArticleIds: true,
   relatedProductIds: true,
   author: true,
@@ -180,25 +183,18 @@ export async function getArticleForEditing(slug: string) {
       seoTitle: true,
       seoDescription: true,
       excerpt: true,
+      coverImageId: true,
       categoryId: true,
       author: true,
       readTimeMinutes: true,
       publishedAt: true,
       tags: true,
+      faqs: true,
       relatedProductIds: true,
       status: true,
       body: true,
     },
   });
-}
-
-export async function getArticleSlugs(): Promise<string[]> {
-  if (!isDbConfigured) return [];
-  const rows = await prisma.article.findMany({
-    where: { status: 'PUBLISHED' },
-    select: { slug: true },
-  });
-  return rows.map((r) => r.slug);
 }
 
 export async function getRelatedArticles(
@@ -256,6 +252,7 @@ export async function getCatalogItemForEditing(slug: string) {
       seoTitle: true,
       seoDescription: true,
       h1: true,
+      coverImageId: true,
       categoryId: true,
       priceFrom: true,
       status: true,
@@ -280,15 +277,6 @@ export async function getProductCategories() {
 export async function getOrders() {
   if (!isDbConfigured) return [];
   return prisma.order.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 100,
-  });
-}
-
-export async function getOrdersByStatus(status: string) {
-  if (!isDbConfigured) return [];
-  return prisma.order.findMany({
-    where: { status: status as never },
     orderBy: { createdAt: 'desc' },
     take: 100,
   });

@@ -38,12 +38,21 @@ export const metadata: Metadata = {
     title: 'Surjora — Digital Chinese Accounts & Services',
     description:
       'Verified digital Chinese accounts and services. Request a quote via Telegram or WhatsApp.',
+    images: [
+      {
+        url: '/og.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Surjora — Digital Chinese Accounts & Services',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Surjora — Digital Chinese Accounts & Services',
     description:
       'Verified digital Chinese accounts and services. Request a quote via Telegram or WhatsApp.',
+    images: ['/og.svg'],
   },
   robots: {
     index: true,
