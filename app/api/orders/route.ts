@@ -5,21 +5,9 @@ import { orderSchema } from '@/schema/order';
 import { siteConfig } from '@/lib/constants';
 import { sendTelegramMessage, sendWhatsappMessage } from '@/lib/channels';
 import { verifyTurnstileToken } from '@/lib/turnstile';
+import { getClientIp, rateLimit } from '@/lib/rate-limit';
 
-const WINDOW_MS = 60_000;
-const MAX_REQUESTS = 3;
-const recent = new Map<string, number[]>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const timestamps = (recent.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  if (timestamps.length >= MAX_REQUESTS) {
-    return true;
-  }
-  timestamps.push(now);
-  recent.set(ip, timestamps);
-  return false;
-}
+const ORDER_LIMIT = { windowMs: 60_000, max: 3 };
 
 function generateReference(): string {
   const now = new Date();
@@ -45,13 +33,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   }
 
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
-    request.headers.get('x-real-ip') ??
-    'unknown';
+  const ip = getClientIp(request);
 
-  if (isRateLimited(ip)) {
-    return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+  const limit = await rateLimit(`order:${ip}`, ORDER_LIMIT);
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(Math.ceil(limit.retryAfterMs / 1000)) },
+      },
+    );
   }
 
   const input = parsed.data;
