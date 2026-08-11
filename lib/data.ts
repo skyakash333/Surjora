@@ -95,6 +95,43 @@ export async function getPublishedServiceSlugs(): Promise<string[]> {
   return rows.map((r) => r.slug);
 }
 
+/** A product/service category with the fields needed for a category landing page. */
+export type ProductCategory = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  kind: string;
+};
+
+export async function getProductCategoryBySlug(slug: string): Promise<ProductCategory | null> {
+  if (!isDbConfigured) return null;
+  const row = await prisma.category.findFirst({
+    where: { slug, kind: { in: ['PRODUCT', 'SERVICE'] } },
+    select: { id: true, slug: true, name: true, description: true, kind: true },
+  });
+  return row;
+}
+
+export async function getProductsByCategorySlug(slug: string): Promise<ProductWithCategory[]> {
+  if (!isDbConfigured) return [];
+  const rows = await prisma.product.findMany({
+    where: { status: 'PUBLISHED', category: { slug } },
+    select: productSelect,
+    orderBy: [{ featured: 'desc' }, { createdAt: 'asc' }],
+  });
+  return rows.map(normalize).filter((p): p is ProductWithCategory => p !== null);
+}
+
+export async function getProductCategorySlugs(): Promise<string[]> {
+  if (!isDbConfigured) return [];
+  const rows = await prisma.category.findMany({
+    where: { kind: 'PRODUCT' },
+    select: { slug: true },
+  });
+  return rows.map((r) => r.slug);
+}
+
 export async function getRelatedProducts(
   ids: string[],
   excludeSlug: string,

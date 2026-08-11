@@ -81,7 +81,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       <div className="container py-12">
         <Breadcrumbs items={[{ label: 'Products', href: '/products' }, { label: product.title }]} />
 
-        <CatalogDetail item={product} quoteCta="Request this account" />
+        <CatalogDetail item={product} quoteCta="Place your order" />
 
         <RelatedList
           items={related.map((p) => ({

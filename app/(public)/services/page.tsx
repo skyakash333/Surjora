@@ -56,6 +56,7 @@ export default async function ServicesPage() {
                 priceFrom={service.priceFrom}
                 type={service.type}
                 featured={service.featured}
+                coverImageId={service.coverImageId}
                 href={`/services/${service.slug}`}
               />
             ))}

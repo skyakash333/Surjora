@@ -34,7 +34,7 @@ export default async function ProductsPage() {
           as="h1"
           eyebrow="Accounts"
           title="Chinese Accounts"
-          description="Verified digital accounts for China's most important platforms — all delivered digitally, with no shipping or hardware."
+          description="Verified accounts for China's most important platforms — ready to use, with setup guidance and responsive support."
         />
 
         {products.length === 0 ? (
@@ -57,6 +57,7 @@ export default async function ProductsPage() {
                 type={product.type}
                 featured={product.featured}
                 categoryName={product.category?.name ?? null}
+                coverImageId={product.coverImageId}
                 href={`/products/${product.slug}`}
               />
             ))}

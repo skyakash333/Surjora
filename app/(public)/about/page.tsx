@@ -16,7 +16,7 @@ export const metadata = buildMetadata({
 const values = [
   {
     title: 'What we do',
-    text: 'Everything we provide is digital. There are no physical products or shipping — you receive your account and credentials electronically, with setup guidance and after-sale support.',
+    text: 'We provide accounts and services for the platforms people rely on in China. You receive your account and credentials electronically, with setup guidance and after-sale support.',
   },
   {
     title: 'How we work',
@@ -49,7 +49,7 @@ export default function AboutPage() {
           as="h1"
           eyebrow="About"
           title="Digital Chinese accounts, handled personally"
-          description="Surjora helps individuals and businesses around the world get verified accounts and digital services for WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more — all delivered digitally."
+          description="Surjora helps individuals and businesses around the world get verified accounts and services for WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more."
         />
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2">

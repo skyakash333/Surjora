@@ -58,7 +58,7 @@ export function SiteFooter() {
 
         <FooterColumn title="Accounts">
           {accountTypes.slice(0, 8).map((item) => (
-            <FooterLink key={item} href={`/products/${slugify(item)}`}>
+            <FooterLink key={item} href={`/products/category/${slugify(item)}`}>
               {item}
             </FooterLink>
           ))}
@@ -95,7 +95,7 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
-          <p>Digital delivery only — no physical shipping.</p>
+          <p>Accounts &amp; services for China&apos;s most-used platforms.</p>
         </div>
       </div>
     </footer>

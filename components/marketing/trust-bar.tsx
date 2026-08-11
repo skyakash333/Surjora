@@ -3,8 +3,8 @@ import { BoltIcon, ShieldIcon, HeadsetIcon, GlobeIcon } from '@/components/ui/ic
 const points = [
   {
     icon: GlobeIcon,
-    title: 'Digital delivery',
-    text: 'Everything is delivered electronically — no shipping, hardware or waiting on couriers.',
+    title: 'Every major platform',
+    text: "Access to China's most-used platforms — WeChat, Alipay, Douyin, Taobao and more — from one place.",
   },
   {
     icon: BoltIcon,
@@ -25,7 +25,7 @@ const points = [
 
 /**
  * Four-up value proposition strip. States facts about how the service operates
- * (digital delivery, turnaround, privacy, support) — no invented metrics or claims.
+ * (platform coverage, turnaround, privacy, support) — no invented metrics or claims.
  */
 export function TrustBar() {
   return (

@@ -4,7 +4,9 @@ import { FaqAccordion } from '@/components/content/faq-accordion';
 import { QuoteForm } from '@/components/forms/quote-form';
 import { CoverImage } from '@/components/media/cover-image';
 import { Badge } from '@/components/ui/badge';
-import { CheckIcon } from '@/components/ui/icons';
+import { buttonClasses } from '@/components/ui/button';
+import { ArrowRightIcon, CheckIcon } from '@/components/ui/icons';
+import { cn } from '@/lib/cn';
 import { siteConfig } from '@/lib/constants';
 
 type CatalogDetailProps = {
@@ -33,6 +35,20 @@ export function CatalogDetail({ item, quoteCta }: CatalogDetailProps) {
         {item.shortDescription && (
           <p className="mt-4 text-lg leading-relaxed text-ink-600">{item.shortDescription}</p>
         )}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <a
+            href="#order"
+            className={cn(buttonClasses.base, buttonClasses.variants.primary, buttonClasses.sizes.lg)}
+          >
+            {isService ? 'Request this service' : 'Order now'}
+            <ArrowRightIcon className="rotate-90" />
+          </a>
+          {item.priceFrom && (
+            <span className="text-sm text-ink-500">
+              From <span className="font-semibold text-ink-900">${item.priceFrom}</span> · no upfront payment
+            </span>
+          )}
+        </div>
         {item.coverImageId && (
           <div className="mt-8">
             <CoverImage
@@ -52,7 +68,7 @@ export function CatalogDetail({ item, quoteCta }: CatalogDetailProps) {
 
       <aside className="lg:col-span-2">
         <div className="space-y-4 lg:sticky lg:top-24">
-          <div className="surface p-6">
+          <div id="order" className="surface scroll-mt-24 p-6">
             {item.priceFrom ? (
               <p className="text-sm text-ink-500">
                 Starting at{' '}
