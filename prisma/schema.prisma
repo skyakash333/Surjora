@@ -78,12 +78,14 @@ model Product {
   title             String
   seoTitle          String?
   seoDescription    String?
+  shortDescription  String? // one-line summary for cards / listings / meta fallback
   h1                String?
   coverImageId      String? // ref to Media.id (loose ref — not enforced FK)
   description       Json // rich blocks: { type, data }[]
   features          Json // array of { icon?, title, text }
   faqs              Json // array of { question, answer }
   priceFrom         Float? // display only — no payment processing
+  featured          Boolean     @default(false) // surface on homepage / featured rows
   status            Status      @default(DRAFT)
   relatedProductIds String[] // manual cross-sell
   relatedArticleIds String[]
@@ -93,6 +95,7 @@ model Product {
   @@index([type])
   @@index([categoryId])
   @@index([status])
+  @@index([featured])
 }
 
 // ---------------------------------------------------------------------------
@@ -176,6 +179,7 @@ model Testimonial {
   rating    Int      @default(5)
   sortOrder Int      @default(0)
   visible   Boolean  @default(true)
+  isDemo    Boolean  @default(false) // sample/placeholder content — never presented as a genuine review
   createdAt DateTime @default(now())
 
   @@index([visible, sortOrder])

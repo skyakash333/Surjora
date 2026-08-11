@@ -1,9 +1,12 @@
 import { getKnowledgeCategories, getPublishedArticles } from '@/lib/data';
 import { buildMetadata } from '@/lib/seo';
+import { siteConfig } from '@/lib/constants';
 import { ArticleCard } from '@/components/content/article-card';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { EmptyState } from '@/components/ui/empty-state';
+import { CtaSection } from '@/components/marketing/cta-section';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
-import { siteConfig } from '@/lib/constants';
 
 export const revalidate = 3600;
 
@@ -15,8 +18,10 @@ export const metadata = buildMetadata({
 });
 
 export default async function KnowledgePage() {
-  const categories = await getKnowledgeCategories();
-  const articles = await getPublishedArticles();
+  const [categories, articles] = await Promise.all([
+    getKnowledgeCategories(),
+    getPublishedArticles(),
+  ]);
 
   return (
     <>
@@ -28,13 +33,15 @@ export default async function KnowledgePage() {
       />
       <div className="container py-12">
         <Breadcrumbs items={[{ label: 'Knowledge' }]} />
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900">Knowledge Hub</h1>
-        <p className="mt-4 max-w-2xl text-lg text-ink-600">
-          Guides, tutorials and comparisons for buying and using Chinese accounts and services.
-        </p>
+        <SectionHeading
+          as="h1"
+          eyebrow="Knowledge Hub"
+          title="Guides, tutorials and comparisons"
+          description="Everything you need to know about buying and using Chinese accounts and services — written for people outside China."
+        />
 
         {categories.length > 0 && (
-          <nav className="mt-8 flex flex-wrap gap-3">
+          <nav className="mt-8 flex flex-wrap gap-2.5" aria-label="Article categories">
             {categories.map((category) => (
               <a
                 key={category.slug}
@@ -48,13 +55,12 @@ export default async function KnowledgePage() {
         )}
 
         {articles.length === 0 ? (
-          <div className="mt-10 rounded-lg border border-ink-200 bg-white p-8">
-            <p className="text-ink-600">
-              No articles are published yet. Check back soon or contact us with your questions.
-            </p>
-            <a href="/contact" className="mt-4 inline-block font-medium text-brand-600 hover:text-brand-700">
-              Contact us →
-            </a>
+          <div className="mt-10">
+            <EmptyState
+              title="No articles published yet"
+              description="We're writing the first guides now. Check back soon, or contact us directly with your questions."
+              action={{ label: 'Contact us', href: '/contact' }}
+            />
           </div>
         ) : (
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -73,6 +79,11 @@ export default async function KnowledgePage() {
           </ul>
         )}
       </div>
+
+      <CtaSection
+        title="Can't find what you're looking for?"
+        description="Ask us anything about Chinese platforms, accounts or verification — we reply within hours."
+      />
     </>
   );
 }

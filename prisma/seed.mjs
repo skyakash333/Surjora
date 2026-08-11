@@ -49,6 +49,47 @@ async function upsertArticle(article) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Demo testimonials.
+//
+// IMPORTANT: these are SAMPLE entries, not genuine customer reviews. Each is
+// flagged `isDemo: true` so the storefront can label them as illustrative
+// placeholder content. Replace them with real, attributable testimonials (and
+// set isDemo: false) before presenting them as social proof.
+// ---------------------------------------------------------------------------
+const demoTestimonials = [
+  {
+    quote:
+      'Sample testimonial — replace with a real customer quote. Placeholder text showing how a short recommendation about delivery speed and support would appear here.',
+    author: 'Sample Client',
+    role: 'Cross-border seller',
+    rating: 5,
+    sortOrder: 1,
+    visible: true,
+    isDemo: true,
+  },
+  {
+    quote:
+      'Sample testimonial — replace with a real customer quote. Placeholder text illustrating feedback about the verification service and clear communication.',
+    author: 'Demo Reviewer',
+    role: 'Agency operator',
+    rating: 5,
+    sortOrder: 2,
+    visible: true,
+    isDemo: true,
+  },
+  {
+    quote:
+      'Sample testimonial — replace with a real customer quote. Placeholder text demonstrating how a note about account setup guidance would read.',
+    author: 'Example Customer',
+    role: 'Content creator',
+    rating: 5,
+    sortOrder: 3,
+    visible: true,
+    isDemo: true,
+  },
+];
+
 const categories = [
   { slug: 'wechat-accounts', name: 'WeChat Accounts', kind: 'PRODUCT', description: 'WeChat accounts for personal and business use.' },
   { slug: 'qq-accounts', name: 'QQ Accounts', kind: 'PRODUCT', description: 'QQ accounts for messaging and China services.' },
@@ -86,6 +127,8 @@ const products = [
     seoTitle: 'Buy Verified WeChat Accounts | Surjora',
     seoDescription: 'Verified WeChat accounts for personal and business use. Fast delivery, real support. Request a quote today.',
     h1: 'WeChat Accounts',
+    shortDescription: 'Verified WeChat accounts ready for messaging, groups, payments and business tools.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'WeChat is essential for anyone doing business or staying connected in China. We provide verified WeChat accounts ready to use for messaging, groups, payments and business tools.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -114,6 +157,7 @@ const products = [
     seoTitle: 'Buy QQ Accounts | Surjora',
     seoDescription: 'Verified QQ accounts for messaging, groups and access to Chinese services. Digital delivery with support.',
     h1: 'QQ Accounts',
+    shortDescription: 'Verified QQ accounts with QQ Mail and access to services that accept QQ login.',
     description: [
       { type: 'paragraph', data: { text: 'QQ remains one of the most widely used messaging platforms in China. A verified QQ account gives you access to QQ groups, QQ Mail and dozens of Chinese services that accept QQ login.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -140,6 +184,8 @@ const products = [
     seoTitle: 'Buy Alipay Accounts | Surjora',
     seoDescription: 'Alipay accounts for payments, transfers and access to the Chinese financial ecosystem. Digital delivery.',
     h1: 'Alipay Accounts',
+    shortDescription: 'Verified Alipay accounts for payments, transfers and the Chinese financial ecosystem.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Alipay is the backbone of payments in China. A verified Alipay account lets you send and receive money, pay for goods, and unlock services that depend on the Alipay ecosystem.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -166,6 +212,7 @@ const products = [
     seoTitle: 'Buy WeCom Accounts | Surjora',
     seoDescription: 'WeCom (WeChat Work) accounts for teams, businesses and customer communication in China.',
     h1: 'WeCom Accounts',
+    shortDescription: 'WeCom (WeChat Work) accounts for team messaging, customer management and WeChat reach.',
     description: [
       { type: 'paragraph', data: { text: 'WeCom, also known as WeChat Work, is Tencent\u2019s business messaging platform. It lets teams communicate, manage customers and connect with WeChat users directly from one workspace.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -192,6 +239,8 @@ const products = [
     seoTitle: 'Buy Xiaohongshu (RED) Accounts | Surjora',
     seoDescription: 'Xiaohongshu accounts for content creators and brands reaching Chinese consumers.',
     h1: 'Xiaohongshu Accounts',
+    shortDescription: 'Xiaohongshu (RED) accounts for content creators and brands reaching Chinese consumers.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Xiaohongshu (also called RED) is a leading lifestyle platform where users share reviews, photos and videos. A verified account is the first step to reaching Chinese consumers with content and community.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -218,6 +267,8 @@ const products = [
     seoTitle: 'Buy Douyin Accounts | Surjora',
     seoDescription: 'Douyin (TikTok China) accounts for short video, livestreaming and e-commerce.',
     h1: 'Douyin Accounts',
+    shortDescription: 'Douyin (TikTok China) accounts for short video, livestreaming and social commerce.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Douyin is the Chinese version of TikTok and one of the most influential short-video platforms in the world. A verified account lets you create, stream and sell to a massive Chinese audience.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -244,6 +295,7 @@ const products = [
     seoTitle: 'Buy Taobao Accounts | Surjora',
     seoDescription: 'Taobao accounts for shopping and browsing China\u2019s largest consumer marketplace.',
     h1: 'Taobao Accounts',
+    shortDescription: 'Verified Taobao accounts to browse and buy across China’s largest consumer marketplace.',
     description: [
       { type: 'paragraph', data: { text: 'Taobao is Alibaba\u2019s massive consumer marketplace. A verified Taobao account lets you browse, compare and purchase from millions of Chinese sellers.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -270,6 +322,8 @@ const products = [
     seoTitle: 'Buy 1688 Accounts | Surjora',
     seoDescription: '1688 accounts for wholesale sourcing directly from Chinese manufacturers and suppliers.',
     h1: '1688 Accounts',
+    shortDescription: 'Verified 1688 accounts for wholesale sourcing directly from Chinese manufacturers.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: '1688 is Alibaba\u2019s wholesale marketplace where you deal directly with manufacturers and suppliers. A verified account is the key to sourcing products at wholesale prices.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -296,6 +350,7 @@ const products = [
     seoTitle: 'Buy JD.com Accounts | Surjora',
     seoDescription: 'JD.com accounts for shopping from one of China\u2019s largest online retailers.',
     h1: 'JD Accounts',
+    shortDescription: 'Verified JD.com accounts for genuine products and fast fulfillment across the JD ecosystem.',
     description: [
       { type: 'paragraph', data: { text: 'JD.com is one of China\u2019s largest online retailers, known for genuine products and fast fulfillment. A verified JD account unlocks shopping and services across the JD ecosystem.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -322,6 +377,7 @@ const products = [
     seoTitle: 'Buy Baidu Accounts | Surjora',
     seoDescription: 'Baidu accounts for search, cloud storage and the Chinese internet ecosystem.',
     h1: 'Baidu Accounts',
+    shortDescription: 'Verified Baidu accounts for search, Baidu Cloud storage and the wider Baidu ecosystem.',
     description: [
       { type: 'paragraph', data: { text: 'Baidu is China\u2019s leading search engine. A verified Baidu account unlocks search personalization, Baidu Cloud storage and access to many services in the Baidu ecosystem.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -348,6 +404,7 @@ const products = [
     seoTitle: 'Buy Bilibili Accounts | Surjora',
     seoDescription: 'Bilibili accounts for video, streaming and the young Chinese internet culture.',
     h1: 'Bilibili Accounts',
+    shortDescription: 'Verified Bilibili accounts to watch, comment and create for China’s young video community.',
     description: [
       { type: 'paragraph', data: { text: 'Bilibili is China\u2019s leading video and streaming platform for younger audiences, known for anime, gaming and creator content. A verified account lets you watch, comment and create.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -374,6 +431,8 @@ const products = [
     seoTitle: 'Chinese Phone Numbers for Verification | Surjora',
     seoDescription: 'Chinese phone numbers for account verification and receiving SMS from Chinese platforms.',
     h1: 'Chinese Phone Numbers',
+    shortDescription: 'Chinese phone numbers to receive SMS verification codes for supported Chinese platforms.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Many Chinese platforms require a Chinese phone number for registration and verification. We provide Chinese numbers that can receive SMS verification codes for supported services.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -400,6 +459,7 @@ const products = [
     seoTitle: 'Chinese Email Accounts | Surjora',
     seoDescription: 'Chinese email accounts for sign-ups and verification on Chinese platforms.',
     h1: 'Chinese Email Accounts',
+    shortDescription: 'Chinese email accounts (such as QQ Mail) ready for sign-ups and platform verification.',
     description: [
       { type: 'paragraph', data: { text: 'Some Chinese platforms prefer or require a domestic email address. We provide Chinese email accounts (such as QQ Mail) ready for sign-ups and verification.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -426,6 +486,8 @@ const products = [
     seoTitle: 'WeChat QR Scan Service | Surjora',
     seoDescription: 'WeChat QR scan and account linking service. Get help scanning QR codes and linking accounts.',
     h1: 'WeChat QR Scan',
+    shortDescription: 'We complete WeChat QR scans and account linking for you, with step-by-step guidance.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Certain WeChat features and devices require a QR scan with an active account. Our WeChat QR scan service helps you complete these steps when you need a compatible account to scan with.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -452,6 +514,8 @@ const products = [
     seoTitle: 'Chinese Verification Service | Surjora',
     seoDescription: 'Verification services for Chinese platforms. Get verified accounts and services checked.',
     h1: 'Chinese Verification',
+    shortDescription: 'Identity and phone verification help to unlock full features on supported Chinese platforms.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Many Chinese platforms require identity or phone verification to unlock full features. Our verification service helps you complete these requirements for supported platforms.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -478,6 +542,8 @@ const products = [
     seoTitle: 'Account Assistance Service | Surjora',
     seoDescription: 'Hands-on help with Chinese accounts — setup, recovery, security and best practices.',
     h1: 'Account Assistance',
+    shortDescription: 'Hands-on help with setup, recovery, security and best practices for your Chinese accounts.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Already have an account but need help? Our account assistance service covers setup, recovery, security and best practices for your Chinese platforms.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -504,6 +570,8 @@ const products = [
     seoTitle: 'Custom Requests | Surjora',
     seoDescription: 'Need something specific? Tell us your goal and we will help with tailored digital services.',
     h1: 'Custom Requests',
+    shortDescription: 'Tell us your goal and we build a tailored solution for anything not listed on the site.',
+    featured: true,
     description: [
       { type: 'paragraph', data: { text: 'Not sure which product or service fits? Tell us what you are trying to achieve and we will help you get there. Custom requests are our specialty.' } },
       { type: 'heading', data: { level: 2, text: 'What you get' } },
@@ -708,6 +776,28 @@ const articles = [
   },
 ];
 
+// Cross-sell relations (product slug → related product/service slugs). Grouped by
+// use-case so related rows feel curated rather than random.
+const productRelations = {
+  'wechat-accounts': ['wecom-accounts', 'chinese-phone-numbers', 'wechat-qr-scan'],
+  'qq-accounts': ['wechat-accounts', 'chinese-email-accounts'],
+  'alipay-accounts': ['taobao-accounts', 'chinese-verification', 'chinese-phone-numbers'],
+  'wecom-accounts': ['wechat-accounts', 'account-assistance'],
+  'xiaohongshu-accounts': ['douyin-accounts', 'account-assistance'],
+  'douyin-accounts': ['xiaohongshu-accounts', 'bilibili-accounts'],
+  'taobao-accounts': ['alipay-accounts', '1688-accounts', 'jd-accounts'],
+  '1688-accounts': ['taobao-accounts', 'alipay-accounts', 'account-assistance'],
+  'jd-accounts': ['taobao-accounts', 'alipay-accounts'],
+  'baidu-accounts': ['chinese-email-accounts', 'chinese-phone-numbers'],
+  'bilibili-accounts': ['douyin-accounts', 'xiaohongshu-accounts'],
+  'chinese-phone-numbers': ['chinese-verification', 'wechat-accounts', 'chinese-email-accounts'],
+  'chinese-email-accounts': ['chinese-phone-numbers', 'qq-accounts'],
+  'wechat-qr-scan': ['wechat-accounts', 'account-assistance'],
+  'chinese-verification': ['chinese-phone-numbers', 'alipay-accounts', 'account-assistance'],
+  'account-assistance': ['custom-requests', 'chinese-verification'],
+  'custom-requests': ['account-assistance', 'chinese-verification'],
+};
+
 async function main() {
   const categoryBySlug = {};
   for (const c of [...categories, ...contentCategories]) {
@@ -729,6 +819,19 @@ async function main() {
     productBySlug[row.slug] = row.id;
   }
 
+  // Wire related products/services from human-readable slugs → ids so cross-sell
+  // blocks are populated out of the box. Kept as a map (rather than a field on each
+  // product) so the catalog objects stay focused on content.
+  for (const [slug, relatedSlugs] of Object.entries(productRelations)) {
+    const relatedIds = relatedSlugs.map((s) => productBySlug[s]).filter(Boolean);
+    if (relatedIds.length > 0 && productBySlug[slug]) {
+      await prisma.product.update({
+        where: { slug },
+        data: { relatedProductIds: relatedIds },
+      });
+    }
+  }
+
   for (const a of articles) {
     const categoryId = categoryBySlug[a.categorySlug];
     if (!categoryId) {
@@ -739,7 +842,51 @@ async function main() {
     await upsertArticle({ ...rest, categoryId, relatedProductIds });
   }
 
-  console.log(`Seeded ${categories.length} categories, ${products.length} products/services and ${articles.length} articles.`);
+  // Link a few products back to relevant articles (bidirectional internal linking).
+  const articleRows = await prisma.article.findMany({ select: { id: true, slug: true } });
+  const articleBySlug = {};
+  for (const row of articleRows) articleBySlug[row.slug] = row.id;
+  const productArticleLinks = {
+    'wechat-accounts': ['wechat-registration-china-guide', 'how-to-keep-wechat-account-secure'],
+    'alipay-accounts': ['why-buy-verified-alipay-account'],
+    'chinese-phone-numbers': ['how-to-receive-sms-verification-china'],
+    'xiaohongshu-accounts': ['getting-started-xiaohongshu-content'],
+    'douyin-accounts': ['douyin-vs-tiktok-differences'],
+    '1688-accounts': ['case-study-1688-wholesale-sourcing'],
+    'bilibili-accounts': ['bilibili-vs-other-video-platforms'],
+    'wecom-accounts': ['what-is-wecom-wechat-work'],
+  };
+  for (const [slug, articleSlugs] of Object.entries(productArticleLinks)) {
+    const ids = articleSlugs.map((s) => articleBySlug[s]).filter(Boolean);
+    if (ids.length > 0 && productBySlug[slug]) {
+      await prisma.product.update({ where: { slug }, data: { relatedArticleIds: ids } });
+    }
+  }
+
+  // Demo testimonials (clearly flagged isDemo). Reset the demo set on each seed so
+  // re-seeding stays idempotent; genuine (isDemo:false) testimonials are untouched.
+  await prisma.testimonial.deleteMany({ where: { isDemo: true } });
+  for (const t of demoTestimonials) {
+    await prisma.testimonial.create({ data: t });
+  }
+
+  // Settings singleton — safe defaults; contact links still come from env at runtime.
+  await prisma.settings.upsert({
+    where: { id: 'singleton' },
+    update: {},
+    create: {
+      id: 'singleton',
+      siteName: 'Surjora',
+      paymentPlaceholder: 'Payments handled manually per order. Payment integration is a later phase.',
+      customersServed: 0,
+    },
+  });
+
+  const featuredCount = products.filter((p) => p.featured).length;
+  console.log(
+    `Seeded ${categories.length + contentCategories.length} categories, ${products.length} products/services ` +
+      `(${featuredCount} featured), ${articles.length} articles, ${demoTestimonials.length} demo testimonials and settings.`,
+  );
 }
 
 main()

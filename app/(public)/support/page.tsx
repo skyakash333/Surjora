@@ -2,6 +2,9 @@ import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/constants';
 import { JsonLd } from '@/components/seo/json-ld';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { FaqAccordion } from '@/components/content/faq-accordion';
+import { ButtonLink } from '@/components/ui/button';
 
 export const metadata = buildMetadata({
   title: 'Support',
@@ -59,59 +62,52 @@ export default function SupportPage() {
       />
       <div className="container py-12">
         <Breadcrumbs items={[{ label: 'Support' }]} />
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900">Support</h1>
-        <p className="mt-4 max-w-2xl text-lg text-ink-600">
-          Answers to common questions about our accounts and services. Can&apos;t find what you
-          need? Contact us directly.
-        </p>
+        <SectionHeading
+          as="h1"
+          eyebrow="Support"
+          title="How can we help?"
+          description="Answers to common questions about our accounts and services. Can't find what you need? Message us directly — we reply within hours."
+        />
 
-        <div className="mt-10 max-w-3xl">
-          <h2 className="text-xl font-bold text-ink-900">Frequently asked questions</h2>
-          <div className="mt-6 divide-y divide-ink-200 border-y border-ink-200">
-            {faqs.map((faq) => (
-              <details key={faq.question} className="group py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-ink-900">
-                  {faq.question}
-                  <span
-                    aria-hidden="true"
-                    className="text-brand-600 transition-transform group-open:rotate-45"
+        <div className="mt-10 grid gap-10 lg:grid-cols-5">
+          <div className="lg:col-span-3">
+            <FaqAccordion faqs={faqs} title={null} />
+          </div>
+
+          <aside className="lg:col-span-2">
+            <div className="surface p-6 lg:sticky lg:top-24">
+              <h2 className="text-lg font-semibold text-ink-900">Still need help?</h2>
+              <p className="mt-2 text-sm leading-relaxed text-ink-600">
+                Message us on Telegram or WhatsApp for the fastest response, or send a detailed
+                message through the contact form.
+              </p>
+              <div className="mt-5 flex flex-col gap-2.5">
+                {siteConfig.telegram && (
+                  <a
+                    href={siteConfig.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg bg-sky-500 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-sky-600"
                   >
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm text-ink-600">{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-12 rounded-lg border border-ink-200 bg-white p-6">
-          <h2 className="text-lg font-bold text-ink-900">Still need help?</h2>
-          <p className="mt-2 text-sm text-ink-600">
-            Message us on Telegram or WhatsApp for the fastest response.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            {siteConfig.telegram && (
-              <a
-                href={siteConfig.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-sky-600"
-              >
-                Telegram
-              </a>
-            )}
-            {siteConfig.whatsapp && (
-              <a
-                href={siteConfig.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700"
-              >
-                WhatsApp
-              </a>
-            )}
-          </div>
+                    Telegram
+                  </a>
+                )}
+                {siteConfig.whatsapp && (
+                  <a
+                    href={siteConfig.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg bg-emerald-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
+                  >
+                    WhatsApp
+                  </a>
+                )}
+                <ButtonLink href="/contact" variant="secondary" className="w-full justify-center">
+                  Contact form
+                </ButtonLink>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </>

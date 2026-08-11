@@ -31,6 +31,7 @@ export const accountTypes = [
   'Baidu Accounts',
   'Bilibili Accounts',
   'Chinese Phone Numbers',
+  'Chinese Email Accounts',
 ] as const;
 
 export const serviceTypes = [
@@ -38,4 +39,20 @@ export const serviceTypes = [
   'Chinese Verification',
   'Account Assistance',
   'Custom Requests',
+] as const;
+
+/** The three-step buyer journey shown on the homepage and support page. */
+export const howItWorks = [
+  {
+    title: 'Tell us what you need',
+    text: 'Pick an account or service and message us on Telegram, WhatsApp or the contact form.',
+  },
+  {
+    title: 'Get a quote',
+    text: 'We reply with pricing and details — usually within a few hours, not days.',
+  },
+  {
+    title: 'Receive your account',
+    text: 'Everything is delivered digitally with setup guidance and after-sale support.',
+  },
 ] as const;

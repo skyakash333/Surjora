@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { siteConfig } from '@/lib/constants';
+import { ChatIcon } from '@/components/ui/icons';
 
 export function ContactDock() {
   const hasTelegram = Boolean(siteConfig.telegram);
@@ -9,10 +10,10 @@ export function ContactDock() {
   return (
     <nav
       aria-label="Contact shortcuts"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-200 bg-white p-3 md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-200 bg-white/95 p-3 backdrop-blur md:hidden"
     >
       <div
-        className="grid gap-2"
+        className="container grid gap-2 px-0"
         style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
       >
         {hasTelegram && (
@@ -20,7 +21,7 @@ export function ContactDock() {
             href={siteConfig.telegram}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg bg-sky-500 px-3 py-2.5 text-center text-sm font-medium text-white"
+            className="flex items-center justify-center gap-1.5 rounded-xl bg-sky-500 px-3 py-2.5 text-sm font-semibold text-white"
           >
             Telegram
           </a>
@@ -30,15 +31,16 @@ export function ContactDock() {
             href={siteConfig.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg bg-emerald-600 px-3 py-2.5 text-center text-sm font-medium text-white"
+            className="flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
           >
             WhatsApp
           </a>
         )}
         <Link
           href="/contact"
-          className="rounded-lg bg-brand-600 px-3 py-2.5 text-center text-sm font-medium text-white"
+          className="flex items-center justify-center gap-1.5 rounded-xl bg-brand-600 px-3 py-2.5 text-sm font-semibold text-white"
         >
+          <ChatIcon className="h-4 w-4" />
           Contact
         </Link>
       </div>

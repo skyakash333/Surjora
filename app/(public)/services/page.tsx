@@ -3,6 +3,9 @@ import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/constants';
 import { ProductCard } from '@/components/product/product-card';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { EmptyState } from '@/components/ui/empty-state';
+import { CtaSection } from '@/components/marketing/cta-section';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
 
 export const revalidate = 3600;
@@ -22,28 +25,25 @@ export default async function ServicesPage() {
       <BreadcrumbSchema
         items={[
           { label: 'Home', href: `${siteConfig.url}/` },
-          {
-            label: 'Services',
-            href: `${siteConfig.url}/services`,
-          },
+          { label: 'Services', href: `${siteConfig.url}/services` },
         ]}
       />
       <div className="container py-12">
         <Breadcrumbs items={[{ label: 'Services' }]} />
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900">Digital Services</h1>
-        <p className="mt-4 max-w-2xl text-lg text-ink-600">
-          Everything you need beyond the accounts themselves — verification, QR scanning, setup help
-          and custom requests.
-        </p>
+        <SectionHeading
+          as="h1"
+          eyebrow="Services"
+          title="Digital Services"
+          description="Everything you need beyond the accounts themselves — verification, QR scanning, setup help and custom requests."
+        />
 
         {services.length === 0 ? (
-          <div className="mt-10 rounded-lg border border-ink-200 bg-white p-8">
-            <p className="text-ink-600">
-              No services are listed right now. Message us and we&apos;ll help you get what you need.
-            </p>
-            <a href="/contact" className="mt-4 inline-block font-medium text-brand-600 hover:text-brand-700">
-              Contact us →
-            </a>
+          <div className="mt-10">
+            <EmptyState
+              title="No services listed yet"
+              description="We're preparing the service catalog. Message us with what you need and we'll help directly."
+              action={{ label: 'Contact us', href: '/contact' }}
+            />
           </div>
         ) : (
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -52,14 +52,21 @@ export default async function ServicesPage() {
                 key={service.id}
                 slug={service.slug}
                 title={service.title}
-                seoDescription={service.seoDescription}
+                description={service.shortDescription ?? service.seoDescription}
                 priceFrom={service.priceFrom}
+                type={service.type}
+                featured={service.featured}
                 href={`/services/${service.slug}`}
               />
             ))}
           </ul>
         )}
       </div>
+
+      <CtaSection
+        title="Need something custom?"
+        description="If it involves a Chinese platform, account or verification, tell us — we'll figure out how to help."
+      />
     </>
   );
 }

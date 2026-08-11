@@ -10,9 +10,12 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: '1rem',
+      padding: {
+        DEFAULT: '1.25rem',
+        lg: '2rem',
+      },
       screens: {
-        '2xl': '1280px',
+        '2xl': '1200px',
       },
     },
     extend: {
@@ -47,6 +50,10 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         serif: ['var(--font-serif)', 'Georgia', 'serif'],
+      },
+      boxShadow: {
+        card: '0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 3px 0 rgb(15 23 42 / 0.06)',
+        'card-hover': '0 10px 30px -12px rgb(15 23 42 / 0.18), 0 4px 8px -4px rgb(15 23 42 / 0.10)',
       },
       typography: {
         DEFAULT: {

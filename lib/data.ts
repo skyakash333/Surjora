@@ -1,5 +1,11 @@
 import { prisma } from '@/lib/prisma';
-import type { ArticleWithCategory, KnowledgeCategory, ProductWithCategory } from '@/lib/types';
+import type {
+  ArticleWithCategory,
+  KnowledgeCategory,
+  ProductWithCategory,
+  SiteSettings,
+  TestimonialItem,
+} from '@/lib/types';
 
 const isDbConfigured = Boolean(process.env.DATABASE_URL);
 
@@ -10,12 +16,14 @@ const productSelect = {
   title: true,
   seoTitle: true,
   seoDescription: true,
+  shortDescription: true,
   h1: true,
   coverImageId: true,
   description: true,
   features: true,
   faqs: true,
   priceFrom: true,
+  featured: true,
   status: true,
   relatedProductIds: true,
   relatedArticleIds: true,
@@ -45,6 +53,17 @@ export async function getPublishedServices(): Promise<ProductWithCategory[]> {
     where: { status: 'PUBLISHED', type: 'SERVICE' },
     select: productSelect,
     orderBy: { createdAt: 'asc' },
+  });
+  return rows.map(normalize).filter((p): p is ProductWithCategory => p !== null);
+}
+
+export async function getFeaturedItems(limit = 6): Promise<ProductWithCategory[]> {
+  if (!isDbConfigured) return [];
+  const rows = await prisma.product.findMany({
+    where: { status: 'PUBLISHED', featured: true },
+    select: productSelect,
+    orderBy: [{ type: 'asc' }, { createdAt: 'asc' }],
+    take: limit,
   });
   return rows.map(normalize).filter((p): p is ProductWithCategory => p !== null);
 }
@@ -251,10 +270,12 @@ export async function getCatalogItemForEditing(slug: string) {
       title: true,
       seoTitle: true,
       seoDescription: true,
+      shortDescription: true,
       h1: true,
       coverImageId: true,
       categoryId: true,
       priceFrom: true,
+      featured: true,
       status: true,
       description: true,
       features: true,
@@ -280,4 +301,116 @@ export async function getOrders() {
     orderBy: { createdAt: 'desc' },
     take: 100,
   });
+}
+
+export async function getVisibleTestimonials(): Promise<TestimonialItem[]> {
+  if (!isDbConfigured) return [];
+  const rows = await prisma.testimonial.findMany({
+    where: { visible: true },
+    orderBy: { sortOrder: 'asc' },
+    select: { id: true, quote: true, author: true, role: true, rating: true, isDemo: true },
+  });
+  return rows;
+}
+
+export async function getSettings(): Promise<SiteSettings | null> {
+  if (!isDbConfigured) return null;
+  const row = await prisma.settings.findUnique({
+    where: { id: 'singleton' },
+    select: {
+      siteName: true,
+      contactEmail: true,
+      telegramUrl: true,
+      whatsappUrl: true,
+      paymentPlaceholder: true,
+      customersServed: true,
+    },
+  });
+  return row;
+}
+
+export async function getAllCategoriesForAdmin() {
+  if (!isDbConfigured) return [];
+  return prisma.category.findMany({
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      kind: true,
+      description: true,
+      _count: { select: { products: true, articles: true } },
+    },
+    orderBy: [{ kind: 'asc' }, { name: 'asc' }],
+  });
+}
+
+export async function getMediaLibrary() {
+  if (!isDbConfigured) return [];
+  return prisma.media.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: 200,
+  });
+}
+
+/**
+ * Customers are not a first-class model — they are derived from the contact
+ * details captured on orders/quote requests. This groups orders by their best
+ * available identifier (email → telegram → whatsapp) into a simple directory.
+ */
+export type DerivedCustomer = {
+  key: string;
+  email: string | null;
+  telegram: string | null;
+  whatsapp: string | null;
+  requestCount: number;
+  lastRequestAt: Date;
+  statuses: string[];
+};
+
+export async function getCustomers(): Promise<DerivedCustomer[]> {
+  if (!isDbConfigured) return [];
+  const orders = await prisma.order.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: {
+      customerEmail: true,
+      customerTelegram: true,
+      customerWhatsapp: true,
+      status: true,
+      createdAt: true,
+    },
+  });
+
+  const map = new Map<string, DerivedCustomer>();
+  for (const order of orders) {
+    const key =
+      order.customerEmail?.toLowerCase() ??
+      order.customerTelegram ??
+      order.customerWhatsapp ??
+      null;
+    if (!key) continue;
+
+    const existing = map.get(key);
+    if (existing) {
+      existing.requestCount += 1;
+      existing.email ??= order.customerEmail;
+      existing.telegram ??= order.customerTelegram;
+      existing.whatsapp ??= order.customerWhatsapp;
+      if (order.createdAt > existing.lastRequestAt) existing.lastRequestAt = order.createdAt;
+      if (!existing.statuses.includes(order.status)) existing.statuses.push(order.status);
+    } else {
+      map.set(key, {
+        key,
+        email: order.customerEmail,
+        telegram: order.customerTelegram,
+        whatsapp: order.customerWhatsapp,
+        requestCount: 1,
+        lastRequestAt: order.createdAt,
+        statuses: [order.status],
+      });
+    }
+  }
+
+  return Array.from(map.values()).sort(
+    (a, b) => b.lastRequestAt.getTime() - a.lastRequestAt.getTime(),
+  );
 }

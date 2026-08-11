@@ -4,6 +4,9 @@ import { getArticlesByCategory, getKnowledgeCategories } from '@/lib/data';
 import { buildMetadata } from '@/lib/seo';
 import { ArticleCard } from '@/components/content/article-card';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { EmptyState } from '@/components/ui/empty-state';
+import { CtaSection } from '@/components/marketing/cta-section';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
 import { siteConfig } from '@/lib/constants';
 
@@ -52,19 +55,20 @@ export default async function KnowledgeCategoryPage({ params }: PageProps) {
         <Breadcrumbs
           items={[{ label: 'Knowledge', href: '/knowledge' }, { label: category.name }]}
         />
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900">{category.name}</h1>
-        {category.description && (
-          <p className="mt-4 max-w-2xl text-lg text-ink-600">{category.description}</p>
-        )}
+        <SectionHeading
+          as="h1"
+          eyebrow="Knowledge Hub"
+          title={category.name}
+          description={category.description ?? `${category.name} articles, guides and tutorials from the Surjora Knowledge Hub.`}
+        />
 
         {articles.length === 0 ? (
-          <div className="mt-10 rounded-lg border border-ink-200 bg-white p-8">
-            <p className="text-ink-600">
-              No articles in this category yet. Check back soon or contact us with your questions.
-            </p>
-            <a href="/contact" className="mt-4 inline-block font-medium text-brand-600 hover:text-brand-700">
-              Contact us →
-            </a>
+          <div className="mt-10">
+            <EmptyState
+              title="No articles here yet"
+              description="This category is still being written. Check back soon or contact us with your questions."
+              action={{ label: 'Contact us', href: '/contact' }}
+            />
           </div>
         ) : (
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -83,6 +87,11 @@ export default async function KnowledgeCategoryPage({ params }: PageProps) {
           </ul>
         )}
       </div>
+
+      <CtaSection
+        title="Have a question we haven't covered?"
+        description="Tell us what you're trying to do with a Chinese platform and we'll point you the right way."
+      />
     </>
   );
 }

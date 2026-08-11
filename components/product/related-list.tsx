@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowRightIcon } from '@/components/ui/icons';
 
 export type RelatedItem = {
   id: string;
@@ -11,7 +12,7 @@ export function RelatedList({ items, title }: { items: RelatedItem[]; title: str
   if (items.length === 0) return null;
 
   return (
-    <section aria-labelledby="related-heading" className="mt-14">
+    <section aria-labelledby="related-heading" className="mt-16">
       <h2 id="related-heading" className="text-xl font-bold tracking-tight text-ink-900">
         {title}
       </h2>
@@ -20,14 +21,19 @@ export function RelatedList({ items, title }: { items: RelatedItem[]; title: str
           <li key={item.id}>
             <Link
               href={item.href}
-              className="flex h-full flex-col rounded-lg border border-ink-200 bg-white p-5 transition hover:border-brand-400"
+              className="group surface-interactive flex h-full flex-col p-5"
             >
-              <h3 className="font-semibold text-ink-900">{item.title}</h3>
+              <h3 className="font-semibold text-ink-900 group-hover:text-brand-700">
+                {item.title}
+              </h3>
               {item.description && (
-                <p className="mt-2 flex-1 text-sm text-ink-600">{item.description}</p>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-600">
+                  {item.description}
+                </p>
               )}
-              <span aria-hidden="true" className="mt-3 text-brand-600">
-                →
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-600">
+                Learn more
+                <ArrowRightIcon className="transition-transform group-hover:translate-x-0.5" />
               </span>
             </Link>
           </li>

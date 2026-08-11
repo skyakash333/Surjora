@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
 }
 
@@ -16,14 +16,21 @@ body {
   background-color: theme('colors.ink.50');
   color: theme('colors.ink.900');
   font-family: theme('fontFamily.sans');
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+::selection {
+  background-color: theme('colors.brand.200');
+  color: theme('colors.ink.900');
+}
+
 :focus-visible {
   outline: 2px solid theme('colors.brand.500');
   outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .skip-link {
@@ -33,9 +40,64 @@ body {
   padding: 0.5rem 1rem;
   background-color: theme('colors.ink.900');
   color: theme('colors.ink.50');
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   z-index: 100;
 }
 .skip-link:focus {
   left: 1rem;
+}
+
+@layer components {
+  /* Eyebrow — small uppercase label above a heading */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand-700;
+  }
+
+  /* Card surface — the default elevated container used across the site */
+  .surface {
+    @apply rounded-2xl border border-ink-200/80 bg-white shadow-card;
+  }
+
+  /* Interactive card that lifts on hover */
+  .surface-interactive {
+    @apply surface transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-card-hover;
+  }
+
+  /* Subtle grid/dot background used behind hero sections */
+  .bg-grid {
+    background-image: radial-gradient(theme('colors.ink.200') 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: center;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Rich-text article body rendered from content blocks */
+  .prose-content :where(p) {
+    @apply leading-relaxed text-ink-700;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-fade-up {
+    animation: none;
+  }
 }

@@ -1,9 +1,18 @@
 import Link from 'next/link';
 import { buildMetadata } from '@/lib/seo';
-import { accountTypes, serviceTypes, siteConfig } from '@/lib/constants';
+import { accountTypes, howItWorks, serviceTypes, siteConfig } from '@/lib/constants';
 import { slugify } from '@/lib/slug';
+import { getFeaturedItems, getVisibleTestimonials } from '@/lib/data';
 import { JsonLd } from '@/components/seo/json-ld';
 import { ButtonLink } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ProductCard } from '@/components/product/product-card';
+import { TrustBar } from '@/components/marketing/trust-bar';
+import { Testimonials } from '@/components/marketing/testimonials';
+import { CtaSection } from '@/components/marketing/cta-section';
+import { ArrowRightIcon, ServiceIcon } from '@/components/ui/icons';
+
+export const revalidate = 3600;
 
 export const metadata = buildMetadata({
   title: 'Buy Verified Chinese Accounts & Digital Services',
@@ -18,6 +27,7 @@ const organizationJsonLd = {
   name: siteConfig.name,
   url: siteConfig.url,
   logo: `${siteConfig.url}/logo.png`,
+  description: siteConfig.description,
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
@@ -26,141 +36,167 @@ const organizationJsonLd = {
   sameAs: [siteConfig.telegram, siteConfig.whatsapp].filter(Boolean),
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [featured, testimonials] = await Promise.all([
+    getFeaturedItems(6),
+    getVisibleTestimonials(),
+  ]);
+
   return (
     <>
       <JsonLd data={organizationJsonLd} />
 
-      <section className="border-b border-ink-200 bg-gradient-to-b from-white to-ink-50">
-        <div className="container py-20 text-center">
-          <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl">
-            Verified Chinese Accounts &amp; Digital Services
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-ink-600">
-            WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more — delivered digitally
-            with real support. Get a quote in minutes.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <ButtonLink href="/contact" size="lg">
-              Request a quote
-            </ButtonLink>
-            <ButtonLink href="/products" size="lg" variant="secondary">
-              Browse accounts
-            </ButtonLink>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-ink-200 bg-white">
+        <div className="bg-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-brand-50/60 to-transparent" aria-hidden="true" />
+        <div className="container relative py-20 sm:py-28">
+          <div className="mx-auto max-w-3xl text-center">
+            <Badge variant="brand" className="mb-5">
+              Digital-only · No shipping, no hardware
+            </Badge>
+            <h1 className="text-balance text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl lg:text-6xl">
+              Verified Chinese accounts &amp; digital services
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-600">
+              WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more — delivered digitally
+              with real support. Get a quote in minutes.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+              <ButtonLink href="/products" size="lg">
+                Browse accounts
+              </ButtonLink>
+              <ButtonLink href="/contact" size="lg" variant="secondary">
+                Request a quote
+              </ButtonLink>
+            </div>
+            <p className="mt-6 text-sm text-ink-500">
+              13 account categories · 4 digital services · replies within hours
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="container py-16">
-        <h2 className="text-2xl font-bold tracking-tight text-ink-900">
+      <TrustBar />
+
+      {/* Featured */}
+      {featured.length > 0 && (
+        <section className="border-t border-ink-200 bg-ink-50/50">
+          <div className="container py-16 sm:py-20">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <span className="eyebrow">Most requested</span>
+                <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
+                  Popular accounts &amp; services
+                </h2>
+              </div>
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700"
+              >
+                View all
+                <ArrowRightIcon />
+              </Link>
+            </div>
+            <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {featured.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  slug={item.slug}
+                  title={item.title}
+                  description={item.shortDescription ?? item.seoDescription}
+                  priceFrom={item.priceFrom}
+                  type={item.type}
+                  featured
+                  href={item.type === 'SERVICE' ? `/services/${item.slug}` : `/products/${item.slug}`}
+                />
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* Account categories */}
+      <section className="container py-16 sm:py-20">
+        <span className="eyebrow">Accounts</span>
+        <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
           Chinese accounts we provide
         </h2>
-        <p className="mt-2 text-ink-600">All delivered digitally — no shipping, no hardware.</p>
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <p className="mt-2 max-w-2xl text-ink-600">
+          Every major platform, delivered digitally — no shipping, no hardware.
+        </p>
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {accountTypes.map((item) => (
             <li key={item}>
               <Link
                 href={`/products/${slugify(item)}`}
-                className="flex h-full items-center justify-between rounded-lg border border-ink-200 bg-white px-5 py-4 text-sm font-medium text-ink-800 transition hover:border-brand-400 hover:shadow-sm"
+                className="group flex h-full items-center justify-between gap-3 rounded-xl border border-ink-200 bg-white px-5 py-4 text-sm font-medium text-ink-800 transition-all hover:border-brand-300 hover:bg-brand-50/40 hover:shadow-card"
               >
                 {item}
-                <span aria-hidden="true" className="text-brand-600">
-                  →
-                </span>
+                <ArrowRightIcon className="text-brand-600 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </li>
           ))}
         </ul>
       </section>
 
+      {/* Services */}
       <section className="border-y border-ink-200 bg-white">
-        <div className="container py-16">
-          <h2 className="text-2xl font-bold tracking-tight text-ink-900">Digital services</h2>
-          <p className="mt-2 text-ink-600">
+        <div className="container py-16 sm:py-20">
+          <span className="eyebrow">Services</span>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
+            Digital services
+          </h2>
+          <p className="mt-2 max-w-2xl text-ink-600">
             Beyond accounts — everything you need to access and run a Chinese digital presence.
           </p>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {serviceTypes.map((item) => (
-              <li key={item}>
-                <Link
-                  href={`/services/${slugify(item)}`}
-                  className="flex h-full items-center justify-between rounded-lg border border-ink-200 bg-ink-50 px-5 py-6 text-sm font-medium text-ink-800 transition hover:border-brand-400"
-                >
-                  {item}
-                  <span aria-hidden="true" className="text-brand-600">
-                    →
-                  </span>
-                </Link>
-              </li>
-            ))}
+          <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {serviceTypes.map((item) => {
+              const slug = slugify(item);
+              return (
+                <li key={item}>
+                  <Link
+                    href={`/services/${slug}`}
+                    className="group surface-interactive flex h-full flex-col gap-3 p-6"
+                  >
+                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100 transition-colors group-hover:bg-brand-100">
+                      <ServiceIcon slug={slug} />
+                    </span>
+                    <h3 className="font-semibold text-ink-900 group-hover:text-brand-700">{item}</h3>
+                    <span className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-brand-600">
+                      Learn more
+                      <ArrowRightIcon className="transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>
 
-      <section className="container py-16">
-        <h2 className="text-2xl font-bold tracking-tight text-ink-900">How it works</h2>
+      {/* How it works */}
+      <section className="container py-16 sm:py-20">
+        <span className="eyebrow">How it works</span>
+        <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
+          Three simple steps
+        </h2>
         <ol className="mt-8 grid gap-6 sm:grid-cols-3">
-          {[
-            {
-              step: '1',
-              title: 'Tell us what you need',
-              text: 'Pick an account or service and message us on Telegram, WhatsApp or the contact form.',
-            },
-            {
-              step: '2',
-              title: 'Get a quote',
-              text: 'We reply with pricing and details — usually within a few hours.',
-            },
-            {
-              step: '3',
-              title: 'Receive your account',
-              text: 'Everything is delivered digitally with setup guidance and support.',
-            },
-          ].map((item) => (
-            <li key={item.step} className="rounded-lg border border-ink-200 bg-white p-6">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-700">
-                {item.step}
+          {howItWorks.map((item, index) => (
+            <li key={item.title} className="surface relative p-6">
+              <span className="grid h-10 w-10 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
+                {index + 1}
               </span>
               <h3 className="mt-4 font-semibold text-ink-900">{item.title}</h3>
-              <p className="mt-2 text-sm text-ink-600">{item.text}</p>
+              <p className="mt-2 text-sm leading-relaxed text-ink-600">{item.text}</p>
             </li>
           ))}
         </ol>
       </section>
 
-      <section className="border-t border-ink-200 bg-gradient-to-b from-ink-50 to-white">
-        <div className="container py-16 text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-ink-900">Ready to get started?</h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink-600">
-            Message us directly for the fastest reply, or use the contact form.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <ButtonLink href="/contact" size="lg">
-              Contact us
-            </ButtonLink>
-            {siteConfig.telegram && (
-              <a
-                href={siteConfig.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-lg bg-sky-500 px-6 py-3 font-medium text-white transition hover:bg-sky-600"
-              >
-                Telegram
-              </a>
-            )}
-            {siteConfig.whatsapp && (
-              <a
-                href={siteConfig.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-6 py-3 font-medium text-white transition hover:bg-emerald-700"
-              >
-                WhatsApp
-              </a>
-            )}
-          </div>
-        </div>
-      </section>
+      <Testimonials items={testimonials} />
+
+      <CtaSection />
     </>
   );
 }

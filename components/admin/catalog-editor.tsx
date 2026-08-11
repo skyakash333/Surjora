@@ -19,10 +19,12 @@ type CatalogEditorProps = {
     title: string;
     seoTitle: string | null;
     seoDescription: string | null;
+    shortDescription: string | null;
     h1: string | null;
     coverImageId: string | null;
     categoryId: string;
     priceFrom: number | null;
+    featured: boolean;
     status: string;
     description: Array<{ type: string; data: Record<string, unknown> }>;
     features: Array<{ title: string; text: string; icon?: string | null }>;
@@ -49,10 +51,12 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
       title: item?.title ?? '',
       seoTitle: item?.seoTitle ?? '',
       seoDescription: item?.seoDescription ?? '',
+      shortDescription: item?.shortDescription ?? '',
       h1: item?.h1 ?? '',
       coverImageId: item?.coverImageId ?? '',
       categoryId: item?.categoryId ?? categories[0]?.id ?? '',
       priceFrom: item?.priceFrom ?? undefined,
+      featured: item?.featured ?? false,
       status: (item?.status as CatalogInput['status']) ?? 'DRAFT',
       description: (item?.description ?? []) as CatalogInput['description'],
       features: (item?.features ?? [{ title: '', text: '' }]) as CatalogInput['features'],
@@ -182,6 +186,39 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
           />
         </div>
       </div>
+
+      <div>
+        <label htmlFor="shortDescription" className="mb-1 block text-sm font-medium text-ink-700">
+          Short description
+        </label>
+        <textarea
+          id="shortDescription"
+          {...register('shortDescription')}
+          rows={2}
+          maxLength={300}
+          className={inputClass}
+        />
+        <p className="mt-1 text-xs text-ink-500">
+          One-line summary shown on cards, listings and as an SEO fallback (max 300 chars).
+        </p>
+        {fieldError('shortDescription') && (
+          <p className="mt-1 text-xs text-red-600">{fieldError('shortDescription')?.message}</p>
+        )}
+      </div>
+
+      <label className="flex items-start gap-3 rounded-lg border border-ink-200 bg-white p-4">
+        <input
+          type="checkbox"
+          {...register('featured')}
+          className="mt-0.5 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
+        />
+        <span>
+          <span className="block text-sm font-medium text-ink-900">Featured</span>
+          <span className="mt-0.5 block text-xs text-ink-500">
+            Surface this item in the homepage “Popular accounts &amp; services” row.
+          </span>
+        </span>
+      </label>
 
       <div>
         <label htmlFor="h1" className="mb-1 block text-sm font-medium text-ink-700">

@@ -40,12 +40,14 @@ export type ProductWithCategory = {
   title: string;
   seoTitle: string | null;
   seoDescription: string | null;
+  shortDescription: string | null;
   h1: string | null;
   coverImageId: string | null;
   description: ContentBlock[] | null;
   features: ProductFeature[] | null;
   faqs: ProductFaq[] | null;
   priceFrom: number | null;
+  featured: boolean;
   status: string;
   relatedProductIds: string[];
   relatedArticleIds: string[];
@@ -53,4 +55,22 @@ export type ProductWithCategory = {
     slug: string;
     name: string;
   } | null;
+};
+
+export type TestimonialItem = {
+  id: string;
+  quote: string;
+  author: string;
+  role: string | null;
+  rating: number;
+  isDemo: boolean;
+};
+
+export type SiteSettings = {
+  siteName: string;
+  contactEmail: string | null;
+  telegramUrl: string | null;
+  whatsappUrl: string | null;
+  paymentPlaceholder: string | null;
+  customersServed: number;
 };

@@ -33,9 +33,25 @@ export async function generateStaticParams(): Promise<{ category: string; slug: 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug);
   if (!article) return {};
+  const categorySlug = article.category?.slug ?? 'articles';
+  const title = article.seoTitle ?? `${article.title} | ${siteConfig.name}`;
+  const description = article.seoDescription ?? article.excerpt ?? undefined;
+  const url = `${siteConfig.url}/knowledge/${categorySlug}/${article.slug}`;
   return {
-    title: article.seoTitle ?? `${article.title} | ${siteConfig.name}`,
-    description: article.seoDescription ?? article.excerpt ?? undefined,
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'article',
+      url,
+      siteName: siteConfig.name,
+      title,
+      description: description ?? undefined,
+      publishedTime: article.publishedAt?.toISOString(),
+      modifiedTime: article.updatedAt?.toISOString(),
+      authors: article.author ? [article.author] : undefined,
+    },
+    twitter: { card: 'summary_large_image', title, description: description ?? undefined },
   };
 }
 
@@ -82,23 +98,34 @@ export default async function ArticlePage({ params }: PageProps) {
         />
         <article className="mx-auto max-w-3xl">
           <ViewCounter slug={article.slug} />
-          <span className="text-xs font-semibold uppercase tracking-wide text-brand-600">
+          <a
+            href={`/knowledge/${categorySlug}`}
+            className="eyebrow text-brand-600 hover:text-brand-700"
+          >
             {categoryName}
-          </span>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink-900">{article.title}</h1>
+          </a>
+          <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+            {article.title}
+          </h1>
           <p className="mt-4 text-sm text-ink-500">
             By {article.author}
             {article.publishedAt && ` · ${article.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`}
             {article.readTimeMinutes && ` · ${article.readTimeMinutes} min read`}
             {article.views > 0 && ` · ${article.views} views`}
           </p>
-          {article.excerpt && <p className="mt-6 text-lg text-ink-600">{article.excerpt}</p>}
+          {article.excerpt && (
+            <p className="mt-6 text-lg leading-relaxed text-ink-600">{article.excerpt}</p>
+          )}
           {article.coverImageId && (
             <div className="mt-8">
-              <CoverImage mediaId={article.coverImageId} alt={article.title} className="aspect-video w-full rounded-xl object-cover" />
+              <CoverImage
+                mediaId={article.coverImageId}
+                alt={article.title}
+                className="aspect-video w-full rounded-2xl border border-ink-200 object-cover"
+              />
             </div>
           )}
-          <div className="mt-8">
+          <div className="prose-content mt-8">
             <ContentBlocks blocks={blocks} />
           </div>
           {faqs.length > 0 && <FaqAccordion faqs={faqs} />}

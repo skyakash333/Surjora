@@ -3,6 +3,9 @@ import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/constants';
 import { ProductCard } from '@/components/product/product-card';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { EmptyState } from '@/components/ui/empty-state';
+import { CtaSection } from '@/components/marketing/cta-section';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
 
 export const revalidate = 3600;
@@ -22,28 +25,25 @@ export default async function ProductsPage() {
       <BreadcrumbSchema
         items={[
           { label: 'Home', href: `${siteConfig.url}/` },
-          {
-            label: 'Products',
-            href: `${siteConfig.url}/products`,
-          },
+          { label: 'Products', href: `${siteConfig.url}/products` },
         ]}
       />
       <div className="container py-12">
         <Breadcrumbs items={[{ label: 'Products' }]} />
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900">Chinese Accounts</h1>
-        <p className="mt-4 max-w-2xl text-lg text-ink-600">
-          Verified digital accounts for China&apos;s most important platforms. All delivered
-          digitally — no shipping, no hardware.
-        </p>
+        <SectionHeading
+          as="h1"
+          eyebrow="Accounts"
+          title="Chinese Accounts"
+          description="Verified digital accounts for China's most important platforms — all delivered digitally, with no shipping or hardware."
+        />
 
         {products.length === 0 ? (
-          <div className="mt-10 rounded-lg border border-ink-200 bg-white p-8">
-            <p className="text-ink-600">
-              No products are listed right now. Message us and we&apos;ll help you get what you need.
-            </p>
-            <a href="/contact" className="mt-4 inline-block font-medium text-brand-600 hover:text-brand-700">
-              Contact us →
-            </a>
+          <div className="mt-10">
+            <EmptyState
+              title="No accounts listed yet"
+              description="We're preparing the catalog. Message us and we'll help you get exactly what you need."
+              action={{ label: 'Contact us', href: '/contact' }}
+            />
           </div>
         ) : (
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -52,14 +52,22 @@ export default async function ProductsPage() {
                 key={product.id}
                 slug={product.slug}
                 title={product.title}
-                seoDescription={product.seoDescription}
+                description={product.shortDescription ?? product.seoDescription}
                 priceFrom={product.priceFrom}
+                type={product.type}
+                featured={product.featured}
+                categoryName={product.category?.name ?? null}
                 href={`/products/${product.slug}`}
               />
             ))}
           </ul>
         )}
       </div>
+
+      <CtaSection
+        title="Not sure which account you need?"
+        description="Tell us your goal and we'll recommend the right account or service — and quote it for you."
+      />
     </>
   );
 }

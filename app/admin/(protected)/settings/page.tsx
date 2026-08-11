@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { siteConfig } from '@/lib/constants';
 import { isCloudinaryConfigured } from '@/lib/media';
+import { getSettings } from '@/lib/data';
+import { SettingsForm } from '@/components/admin/settings-form';
 
 export const revalidate = 0;
 
@@ -35,6 +37,8 @@ function Row({ label, value, ok, hint }: { label: string; value: string; ok: boo
 }
 
 export default async function AdminSettingsPage() {
+  const settings = await getSettings();
+
   const integrations = [
     {
       label: 'Database (Postgres)',
@@ -97,15 +101,40 @@ export default async function AdminSettingsPage() {
     <div>
       <h1 className="text-3xl font-bold tracking-tight text-ink-900">Settings</h1>
       <p className="mt-2 text-ink-600">
-        Configuration is driven by environment variables. This page shows the current state.
+        Manage stored site details below. The environment status further down is read-only and
+        reflects your deployment configuration.
       </p>
 
-      <section className="mt-8 rounded-lg border border-ink-200 bg-white">
+      <section className="mt-8">
+        <h2 className="text-lg font-semibold text-ink-900">Site details</h2>
+        <p className="mt-1 text-sm text-ink-500">
+          Stored in the database. Where an environment variable is also set, it takes precedence for
+          live contact widgets — these values act as the managed source of truth and fallback.
+        </p>
+        <div className="mt-4">
+          <SettingsForm
+            settings={
+              settings ?? {
+                siteName: siteConfig.name,
+                contactEmail: null,
+                telegramUrl: null,
+                whatsappUrl: null,
+                paymentPlaceholder: null,
+                customersServed: 0,
+              }
+            }
+          />
+        </div>
+      </section>
+
+      <section className="mt-10 rounded-lg border border-ink-200 bg-white">
         <div className="border-b border-ink-200 px-6 py-4">
-          <h2 className="text-lg font-semibold text-ink-900">Site</h2>
+          <h2 className="text-lg font-semibold text-ink-900">Environment</h2>
+          <p className="mt-1 text-sm text-ink-500">
+            Read-only. These are configured via environment variables at deploy time.
+          </p>
         </div>
         <ul className="px-6 pb-2">
-          <Row label="Site name" value={siteConfig.name} ok />
           <Row
             label="Site URL"
             value={siteConfig.url}
@@ -118,14 +147,6 @@ export default async function AdminSettingsPage() {
             ok={Boolean(process.env.CONTACT_TO_EMAIL)}
             hint="CONTACT_TO_EMAIL receives contact and quote submissions."
           />
-        </ul>
-      </section>
-
-      <section className="mt-8 rounded-lg border border-ink-200 bg-white">
-        <div className="border-b border-ink-200 px-6 py-4">
-          <h2 className="text-lg font-semibold text-ink-900">Contact channels</h2>
-        </div>
-        <ul className="px-6 pb-2">
           <Row
             label="Telegram link"
             value={siteConfig.telegram || '—'}
