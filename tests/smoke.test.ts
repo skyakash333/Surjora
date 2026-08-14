@@ -40,6 +40,47 @@ describe('articleSchema', () => {
     expect(result.success).toBe(true);
   });
 
+  it('accepts SEO relationship fields and structured content blocks', () => {
+    const result = articleSchema.safeParse({
+      ...base,
+      featured: true,
+      relatedArticleIds: ['article_2'],
+      body: [
+        {
+          type: 'links',
+          data: {
+            title: 'Related guides',
+            items: [{ label: 'Guide', href: '/knowledge/guides/guide' }],
+          },
+        },
+        {
+          type: 'table',
+          data: {
+            headers: ['Option', 'Use'],
+            rows: [['A', 'Example']],
+          },
+        },
+      ],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects external URLs in internal-link blocks', () => {
+    const result = articleSchema.safeParse({
+      ...base,
+      body: [
+        {
+          type: 'links',
+          data: {
+            title: 'Related guides',
+            items: [{ label: 'External', href: 'https://example.com' }],
+          },
+        },
+      ],
+    });
+    expect(result.success).toBe(false);
+  });
+
   it('rejects an invalid slug', () => {
     const result = articleSchema.safeParse({ ...base, slug: 'Invalid Slug!' });
     expect(result.success).toBe(false);

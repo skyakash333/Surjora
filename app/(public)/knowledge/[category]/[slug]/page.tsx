@@ -13,10 +13,12 @@ import { RelatedList } from '@/components/product/related-list';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { ArticleSchema, BreadcrumbSchema, FaqSchema } from '@/components/seo/schemas';
 import { CoverImage } from '@/components/media/cover-image';
+import { getMediaById } from '@/lib/media';
 import { ViewCounter } from '@/components/analytics/view-counter';
 import type { ContentBlock } from '@/lib/content-blocks';
 
 export const revalidate = 3600;
+export const dynamicParams = false;
 
 type PageProps = {
   params: { category: string; slug: string };
@@ -33,6 +35,7 @@ export async function generateStaticParams(): Promise<{ category: string; slug: 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug);
   if (!article) return {};
+  const cover = await getMediaById(article.coverImageId);
   const categorySlug = article.category?.slug ?? 'articles';
   const title = article.seoTitle ?? `${article.title} | ${siteConfig.name}`;
   const description = article.seoDescription ?? article.excerpt ?? undefined;
@@ -50,8 +53,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: article.publishedAt?.toISOString(),
       modifiedTime: article.updatedAt?.toISOString(),
       authors: article.author ? [article.author] : undefined,
+      images: cover?.url ? [{ url: cover.url, alt: cover.alt }] : undefined,
     },
-    twitter: { card: 'summary_large_image', title, description: description ?? undefined },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: description ?? undefined,
+      images: cover?.url ? [cover.url] : undefined,
+    },
   };
 }
 
@@ -65,9 +74,14 @@ export default async function ArticlePage({ params }: PageProps) {
   const categoryName = article.category?.name ?? 'Articles';
   const url = `${siteConfig.url}/knowledge/${categorySlug}/${article.slug}`;
   const blocks = Array.isArray(article.body) ? (article.body as ContentBlock[]) : [];
-  const faqs = Array.isArray(article.faqs) ? (article.faqs as Array<{ question: string; answer: string }>) : [];
-  const relatedArticles = await getRelatedArticles(article.relatedArticleIds, article.slug);
-  const relatedProducts = await getRelatedProducts(article.relatedProductIds, article.slug);
+  const faqs = Array.isArray(article.faqs)
+    ? (article.faqs as Array<{ question: string; answer: string }>)
+    : [];
+  const [relatedArticles, relatedProducts, cover] = await Promise.all([
+    getRelatedArticles(article.relatedArticleIds, article.slug),
+    getRelatedProducts(article.relatedProductIds, article.slug),
+    getMediaById(article.coverImageId),
+  ]);
 
   return (
     <>
@@ -86,6 +100,7 @@ export default async function ArticlePage({ params }: PageProps) {
         author={article.author}
         datePublished={article.publishedAt?.toISOString()}
         dateModified={article.updatedAt?.toISOString()}
+        image={cover?.url}
       />
       <FaqSchema faqs={faqs} />
       <div className="container py-12">
@@ -109,7 +124,8 @@ export default async function ArticlePage({ params }: PageProps) {
           </h1>
           <p className="mt-4 text-sm text-ink-500">
             By {article.author}
-            {article.publishedAt && ` · ${article.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`}
+            {article.publishedAt &&
+              ` · ${article.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`}
             {article.readTimeMinutes && ` · ${article.readTimeMinutes} min read`}
             {article.views > 0 && ` · ${article.views} views`}
           </p>
@@ -120,7 +136,7 @@ export default async function ArticlePage({ params }: PageProps) {
             <div className="mt-8">
               <CoverImage
                 mediaId={article.coverImageId}
-                alt={article.title}
+                alt={cover?.alt ?? article.title}
                 className="aspect-video w-full rounded-2xl border border-ink-200 object-cover"
               />
             </div>

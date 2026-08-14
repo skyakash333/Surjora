@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { buildMetadata } from '@/lib/seo';
 import { accountCategories, howItWorks, serviceHighlights, siteConfig } from '@/lib/constants';
 import { slugify } from '@/lib/slug';
-import { getFeaturedItems, getPublishedArticles, getVisibleTestimonials } from '@/lib/data';
+import { getFeaturedItems, getPublishedArticles } from '@/lib/data';
 import { JsonLd } from '@/components/seo/json-ld';
 import { ButtonLink } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,7 +10,6 @@ import { ProductCard } from '@/components/product/product-card';
 import { ArticleCard } from '@/components/content/article-card';
 import { PlatformVisual } from '@/components/product/platform-visual';
 import { TrustBar } from '@/components/marketing/trust-bar';
-import { Testimonials } from '@/components/marketing/testimonials';
 import { CtaSection } from '@/components/marketing/cta-section';
 import {
   ArrowRightIcon,
@@ -50,7 +49,7 @@ const whySurjora = [
   {
     icon: GlobeIcon,
     title: 'Many platforms, one place',
-    text: "WeChat, Alipay, Douyin, Taobao, JD and more — find what you need without hunting across sellers.",
+    text: 'WeChat, Alipay, Douyin, Taobao, JD and more — find what you need without hunting across sellers.',
   },
   {
     icon: BoltIcon,
@@ -70,11 +69,7 @@ const whySurjora = [
 ];
 
 export default async function HomePage() {
-  const [featured, articles, testimonials] = await Promise.all([
-    getFeaturedItems(6),
-    getPublishedArticles(),
-    getVisibleTestimonials(),
-  ]);
+  const [featured, articles] = await Promise.all([getFeaturedItems(6), getPublishedArticles()]);
 
   const recentArticles = articles.slice(0, 3);
 
@@ -84,7 +79,10 @@ export default async function HomePage() {
 
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-ink-200 bg-white">
-        <div className="bg-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
+        <div
+          className="bg-grid pointer-events-none absolute inset-0 opacity-60"
+          aria-hidden="true"
+        />
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-brand-50/60 to-transparent"
           aria-hidden="true"
@@ -144,7 +142,7 @@ export default async function HomePage() {
             <li key={category.name}>
               <Link
                 href={`/products/category/${slugify(category.name)}`}
-                className="group surface-interactive flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+                className="surface-interactive group flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
               >
                 <PlatformVisual
                   name={category.name}
@@ -203,7 +201,9 @@ export default async function HomePage() {
                   featured
                   categoryName={item.category?.name ?? null}
                   coverImageId={item.coverImageId}
-                  href={item.type === 'SERVICE' ? `/services/${item.slug}` : `/products/${item.slug}`}
+                  href={
+                    item.type === 'SERVICE' ? `/services/${item.slug}` : `/products/${item.slug}`
+                  }
                 />
               ))}
             </ul>
@@ -228,7 +228,7 @@ export default async function HomePage() {
                 <li key={service.name}>
                   <Link
                     href={`/services/${slug}`}
-                    className="group surface-interactive flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+                    className="surface-interactive group flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
                   >
                     <PlatformVisual
                       name={service.name}
@@ -342,8 +342,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      <Testimonials items={testimonials} />
 
       <CtaSection />
     </>

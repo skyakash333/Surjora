@@ -124,7 +124,10 @@ export function ArticleSchema({
         description: description ?? undefined,
         url,
         image: image ?? undefined,
-        author: { '@type': 'Person', name: author },
+        author:
+          author === 'Surjora Team'
+            ? { '@type': 'Organization', name: author }
+            : { '@type': 'Person', name: author },
         publisher: {
           '@type': 'Organization',
           name: 'Surjora',

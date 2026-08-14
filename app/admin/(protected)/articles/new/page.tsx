@@ -1,11 +1,14 @@
-import { getKnowledgeCategories, getAllCatalogItems } from '@/lib/data';
+import { getKnowledgeCategories, getAllCatalogItems, getAllArticles } from '@/lib/data';
 import { ArticleEditor } from '@/components/admin/article-editor';
 
 export const revalidate = 0;
 
 export default async function NewArticlePage() {
-  const categories = await getKnowledgeCategories();
-  const catalog = await getAllCatalogItems();
+  const [categories, catalog, articles] = await Promise.all([
+    getKnowledgeCategories(),
+    getAllCatalogItems(),
+    getAllArticles(),
+  ]);
 
   return (
     <div>
@@ -15,6 +18,11 @@ export default async function NewArticlePage() {
         <ArticleEditor
           categories={categories.map((c) => ({ id: c.id, name: c.name, slug: c.slug }))}
           catalog={catalog.map((p) => ({ id: p.id, title: p.title, type: p.type }))}
+          articles={articles.map((a) => ({
+            id: a.id,
+            title: a.title,
+            categoryName: a.category?.name ?? null,
+          }))}
         />
       </div>
     </div>

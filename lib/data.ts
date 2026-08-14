@@ -164,6 +164,7 @@ const articleSelect = {
   author: true,
   readTimeMinutes: true,
   publishedAt: true,
+  featured: true,
   status: true,
   views: true,
   updatedAt: true,
@@ -192,7 +193,7 @@ export async function getPublishedArticles(): Promise<ArticleWithCategory[]> {
   const rows = await prisma.article.findMany({
     where: { status: 'PUBLISHED' },
     select: articleSelect,
-    orderBy: { publishedAt: 'desc' },
+    orderBy: [{ featured: 'desc' }, { publishedAt: 'desc' }],
   });
   return rows.map(normalizeArticle).filter((a): a is ArticleWithCategory => a !== null);
 }
@@ -206,9 +207,7 @@ export async function getAllArticles(): Promise<ArticleWithCategory[]> {
   return rows.map(normalizeArticle).filter((a): a is ArticleWithCategory => a !== null);
 }
 
-export async function getArticlesByCategory(
-  categorySlug: string,
-): Promise<ArticleWithCategory[]> {
+export async function getArticlesByCategory(categorySlug: string): Promise<ArticleWithCategory[]> {
   if (!isDbConfigured) return [];
   const rows = await prisma.article.findMany({
     where: { status: 'PUBLISHED', category: { slug: categorySlug } },
@@ -218,12 +217,10 @@ export async function getArticlesByCategory(
   return rows.map(normalizeArticle).filter((a): a is ArticleWithCategory => a !== null);
 }
 
-export async function getArticleBySlug(
-  slug: string,
-): Promise<ArticleWithCategory | null> {
+export async function getArticleBySlug(slug: string): Promise<ArticleWithCategory | null> {
   if (!isDbConfigured) return null;
-  const row = await prisma.article.findUnique({
-    where: { slug },
+  const row = await prisma.article.findFirst({
+    where: { slug, status: 'PUBLISHED' },
     select: articleSelect,
   });
   return normalizeArticle(row);
@@ -244,9 +241,11 @@ export async function getArticleForEditing(slug: string) {
       author: true,
       readTimeMinutes: true,
       publishedAt: true,
+      featured: true,
       tags: true,
       faqs: true,
       relatedProductIds: true,
+      relatedArticleIds: true,
       status: true,
       body: true,
     },

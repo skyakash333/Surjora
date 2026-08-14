@@ -17,6 +17,31 @@ export const contentBlockSchema = z.discriminatedUnion('type', [
     type: z.literal('callout'),
     data: z.object({ title: z.string().max(200), text: z.string().max(2000) }),
   }),
+  z.object({
+    type: z.literal('links'),
+    data: z.object({
+      title: z.string().max(200),
+      items: z
+        .array(
+          z.object({
+            label: z.string().trim().min(1).max(200),
+            href: z.string().trim().regex(/^\//, 'Internal links must start with /').max(500),
+          }),
+        )
+        .min(1)
+        .max(12),
+    }),
+  }),
+  z.object({
+    type: z.literal('table'),
+    data: z.object({
+      headers: z.array(z.string().trim().min(1).max(200)).min(2).max(6),
+      rows: z
+        .array(z.array(z.string().trim().max(1000)).min(2).max(6))
+        .min(1)
+        .max(30),
+    }),
+  }),
 ]);
 
 export const articleSchema = z.object({
@@ -37,10 +62,17 @@ export const articleSchema = z.object({
   publishedAt: z.string().datetime().optional().or(z.literal('')),
   tags: z.array(z.string().trim().min(1).max(40)).max(10).optional(),
   faqs: z
-    .array(z.object({ question: z.string().trim().min(1).max(200), answer: z.string().trim().min(1).max(2000) }))
+    .array(
+      z.object({
+        question: z.string().trim().min(1).max(200),
+        answer: z.string().trim().min(1).max(2000),
+      }),
+    )
     .max(20)
     .optional(),
   relatedProductIds: z.array(z.string()).max(10).optional(),
+  relatedArticleIds: z.array(z.string()).max(12).optional(),
+  featured: z.coerce.boolean().optional().default(false),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
   body: z.array(contentBlockSchema).min(1, 'Add at least one content block'),
 });

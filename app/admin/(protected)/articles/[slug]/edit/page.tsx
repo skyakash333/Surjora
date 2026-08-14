@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getArticleForEditing, getKnowledgeCategories, getAllCatalogItems } from '@/lib/data';
+import {
+  getArticleForEditing,
+  getKnowledgeCategories,
+  getAllCatalogItems,
+  getAllArticles,
+} from '@/lib/data';
 import { ArticleEditor } from '@/components/admin/article-editor';
 
 export const revalidate = 0;
@@ -11,10 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default async function EditArticlePage({ params }: { params: { slug: string } }) {
-  const [article, categories, catalog] = await Promise.all([
+  const [article, categories, catalog, articles] = await Promise.all([
     getArticleForEditing(params.slug),
     getKnowledgeCategories(),
     getAllCatalogItems(),
+    getAllArticles(),
   ]);
 
   if (!article) notFound();
@@ -39,6 +45,9 @@ export default async function EditArticlePage({ params }: { params: { slug: stri
         <ArticleEditor
           categories={categories.map((c) => ({ id: c.id, name: c.name, slug: c.slug }))}
           catalog={catalog.map((p) => ({ id: p.id, title: p.title, type: p.type }))}
+          articles={articles
+            .filter((a) => a.slug !== article.slug)
+            .map((a) => ({ id: a.id, title: a.title, categoryName: a.category?.name ?? null }))}
           article={{
             slug: article.slug,
             title: article.title,
@@ -53,6 +62,8 @@ export default async function EditArticlePage({ params }: { params: { slug: stri
             tags: article.tags,
             faqs: (article.faqs as Array<{ question: string; answer: string }> | null) ?? [],
             relatedProductIds: article.relatedProductIds,
+            relatedArticleIds: article.relatedArticleIds,
+            featured: article.featured,
             status: article.status,
             body,
           }}

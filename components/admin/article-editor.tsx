@@ -9,10 +9,12 @@ import { Button } from '@/components/ui/button';
 
 type CategoryOption = { id: string; name: string; slug: string };
 type CatalogOption = { id: string; title: string; type: string };
+type ArticleOption = { id: string; title: string; categoryName: string | null };
 
 type ArticleEditorProps = {
   categories: CategoryOption[];
   catalog: CatalogOption[];
+  articles: ArticleOption[];
   article?: {
     slug: string;
     title: string;
@@ -27,16 +29,18 @@ type ArticleEditorProps = {
     tags: string[];
     faqs: Array<{ question: string; answer: string }> | null;
     relatedProductIds: string[];
+    relatedArticleIds: string[];
+    featured: boolean;
     status: string;
     body: Array<{ type: string; data: Record<string, unknown> }>;
   };
 };
 
-type BlockType = 'paragraph' | 'heading' | 'list' | 'callout';
+type BlockType = 'paragraph' | 'heading' | 'list' | 'callout' | 'links' | 'table';
 
-const blockTypes: BlockType[] = ['paragraph', 'heading', 'list', 'callout'];
+const blockTypes: BlockType[] = ['paragraph', 'heading', 'list', 'callout', 'links', 'table'];
 
-export function ArticleEditor({ categories, catalog, article }: ArticleEditorProps) {
+export function ArticleEditor({ categories, catalog, articles, article }: ArticleEditorProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,6 +61,8 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
       tags: article?.tags ?? [],
       faqs: (article?.faqs ?? [{ question: '', answer: '' }]) as ArticleInput['faqs'],
       relatedProductIds: article?.relatedProductIds ?? [],
+      relatedArticleIds: article?.relatedArticleIds ?? [],
+      featured: article?.featured ?? false,
       status: (article?.status as ArticleInput['status']) ?? 'DRAFT',
       body: (article?.body ?? []) as ArticleInput['body'],
     },
@@ -189,7 +195,12 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
           <label htmlFor="publishedAt" className="mb-1 block text-sm font-medium text-ink-700">
             Published at (ISO datetime)
           </label>
-          <input id="publishedAt" type="datetime-local" {...register('publishedAt')} className={inputClass} />
+          <input
+            id="publishedAt"
+            type="datetime-local"
+            {...register('publishedAt')}
+            className={inputClass}
+          />
         </div>
 
         <div>
@@ -229,7 +240,12 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
         <label htmlFor="seoDescription" className="mb-1 block text-sm font-medium text-ink-700">
           SEO description
         </label>
-        <textarea id="seoDescription" {...register('seoDescription')} rows={2} className={inputClass} />
+        <textarea
+          id="seoDescription"
+          {...register('seoDescription')}
+          rows={2}
+          className={inputClass}
+        />
       </div>
 
       <div>
@@ -241,14 +257,23 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
 
       <div>
         <label htmlFor="coverImageId" className="mb-1 block text-sm font-medium text-ink-700">
-          Cover image URL
+          Cover media ID
         </label>
-        <input id="coverImageId" type="url" placeholder="https://..." {...register('coverImageId')} className={inputClass} />
-        <p className="mt-1 text-xs text-ink-500">External image URL used as the article cover.</p>
+        <input
+          id="coverImageId"
+          placeholder="Media ID from the Media library"
+          {...register('coverImageId')}
+          className={inputClass}
+        />
+        <p className="mt-1 text-xs text-ink-500">
+          Add or upload the image in Media, then paste its media ID here.
+        </p>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-ink-700">Related products/services</label>
+        <label className="mb-1 block text-sm font-medium text-ink-700">
+          Related products/services
+        </label>
         <div className="grid max-h-48 gap-2 overflow-y-auto rounded-lg border border-ink-200 p-4 sm:grid-cols-2">
           {catalog.map((item) => (
             <label key={item.id} className="flex items-center gap-2 text-sm text-ink-700">
@@ -272,11 +297,64 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
                 )}
               />
               {item.title}
-              <span className="text-xs uppercase text-ink-400">{item.type === 'SERVICE' ? 'Service' : 'Product'}</span>
+              <span className="text-xs uppercase text-ink-400">
+                {item.type === 'SERVICE' ? 'Service' : 'Product'}
+              </span>
             </label>
           ))}
         </div>
       </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-medium text-ink-700">Related articles</label>
+        <p className="mb-3 text-xs text-ink-500">
+          Use for the curated “Related reading” section. Contextual links can also be added as
+          content blocks.
+        </p>
+        <div className="grid max-h-56 gap-2 overflow-y-auto rounded-lg border border-ink-200 p-4 sm:grid-cols-2">
+          {articles.map((item) => (
+            <label key={item.id} className="flex items-start gap-2 text-sm text-ink-700">
+              <Controller
+                control={control}
+                name="relatedArticleIds"
+                render={({ field }) => (
+                  <input
+                    type="checkbox"
+                    className="mt-0.5 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
+                    checked={(field.value ?? []).includes(item.id)}
+                    onChange={(e) => {
+                      const current = field.value ?? [];
+                      field.onChange(
+                        e.target.checked
+                          ? [...current, item.id]
+                          : current.filter((id) => id !== item.id),
+                      );
+                    }}
+                  />
+                )}
+              />
+              <span>
+                {item.title}
+                <span className="ml-1 text-xs text-ink-400">{item.categoryName ?? 'Article'}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <label className="flex items-start gap-3 rounded-lg border border-ink-200 bg-white p-4">
+        <input
+          type="checkbox"
+          {...register('featured')}
+          className="mt-0.5 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
+        />
+        <span>
+          <span className="block text-sm font-medium text-ink-900">Featured article</span>
+          <span className="mt-0.5 block text-xs text-ink-500">
+            Prioritize this article in Knowledge Hub and homepage article listings.
+          </span>
+        </span>
+      </label>
 
       <div>
         <div className="flex items-center justify-between">
@@ -319,7 +397,13 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
                       </option>
                     ))}
                   </select>
-                  <Button type="button" variant="ghost" size="sm" className="text-red-600" onClick={() => remove(index)}>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-600"
+                    onClick={() => remove(index)}
+                  >
                     Remove
                   </Button>
                 </div>
@@ -373,7 +457,9 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
                     control={control}
                     name={`body.${index}.data.items`}
                     render={({ field: listField }) => {
-                      const items = listField.value ?? [];
+                      const items = Array.isArray(listField.value)
+                        ? listField.value.filter((item): item is string => typeof item === 'string')
+                        : [];
                       return (
                         <div className="space-y-2">
                           {items.map((item, itemIndex) => (
@@ -410,6 +496,84 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
                             + Add item
                           </Button>
                         </div>
+                      );
+                    }}
+                  />
+                )}
+                {type === 'links' && (
+                  <div className="space-y-3">
+                    <input
+                      {...register(`body.${index}.data.title`)}
+                      placeholder="Links section title"
+                      className={inputClass}
+                    />
+                    <Controller
+                      control={control}
+                      name={`body.${index}.data.items`}
+                      render={({ field }) => {
+                        const links = Array.isArray(field.value)
+                          ? field.value.filter(
+                              (item): item is { label: string; href: string } =>
+                                typeof item === 'object' &&
+                                item !== null &&
+                                'label' in item &&
+                                'href' in item,
+                            )
+                          : [];
+
+                        return (
+                          <textarea
+                            rows={5}
+                            className={inputClass}
+                            placeholder={
+                              'One internal link per line:\nWeChat registration guide | /knowledge/guides/wechat-registration-china-guide'
+                            }
+                            value={links.map((item) => `${item.label} | ${item.href}`).join('\n')}
+                            onChange={(e) =>
+                              field.onChange(
+                                e.target.value
+                                  .split('\n')
+                                  .map((line) => {
+                                    const [label, ...hrefParts] = line.split('|');
+                                    return {
+                                      label: label?.trim() ?? '',
+                                      href: hrefParts.join('|').trim(),
+                                    };
+                                  })
+                                  .filter((item) => item.label || item.href),
+                              )
+                            }
+                          />
+                        );
+                      }}
+                    />
+                  </div>
+                )}
+                {type === 'table' && (
+                  <Controller
+                    control={control}
+                    name={`body.${index}.data`}
+                    render={({ field }) => {
+                      const value = field.value as { headers?: string[]; rows?: string[][] };
+                      const lines = [value?.headers ?? [], ...(value?.rows ?? [])]
+                        .map((row) => row.join('\t'))
+                        .join('\n');
+                      return (
+                        <textarea
+                          rows={7}
+                          className={inputClass}
+                          placeholder={
+                            'Tab-separated table. First row is headers.\nOption\tBest for\tLimitation'
+                          }
+                          value={lines}
+                          onChange={(e) => {
+                            const rows = e.target.value
+                              .split('\n')
+                              .map((line) => line.split('\t').map((cell) => cell.trim()))
+                              .filter((row) => row.some(Boolean));
+                            field.onChange({ headers: rows[0] ?? ['', ''], rows: rows.slice(1) });
+                          }}
+                        />
                       );
                     }}
                   />
@@ -482,7 +646,10 @@ export function ArticleEditor({ categories, catalog, article }: ArticleEditorPro
       </div>
 
       {error && (
-        <p role="alert" className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p
+          role="alert"
+          className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+        >
           {error}
         </p>
       )}
@@ -507,6 +674,13 @@ function emptyBlock(type: BlockType): ArticleInput['body'][number] {
       return { type: 'list', data: { ordered: false, items: [''] } };
     case 'callout':
       return { type: 'callout', data: { title: '', text: '' } };
+    case 'links':
+      return {
+        type: 'links',
+        data: { title: 'Related reading', items: [{ label: '', href: '' }] },
+      };
+    case 'table':
+      return { type: 'table', data: { headers: ['', ''], rows: [['', '']] } };
     default:
       return { type: 'paragraph', data: { text: '' } };
   }

@@ -41,7 +41,10 @@ export async function POST(request: Request) {
 
   const parsed = articleSchema.safeParse(payload);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Validation failed', details: parsed.error.flatten() }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Validation failed', details: parsed.error.flatten() },
+      { status: 400 },
+    );
   }
 
   const input = parsed.data;
@@ -63,6 +66,8 @@ export async function POST(request: Request) {
     tags,
     faqs: input.faqs as Prisma.InputJsonValue,
     relatedProductIds: input.relatedProductIds ?? [],
+    relatedArticleIds: input.relatedArticleIds ?? [],
+    featured: input.featured ?? false,
     status: input.status,
     body: normalizeBody(input.body) as Prisma.InputJsonValue,
   };

@@ -24,6 +24,7 @@ export type ArticleWithCategory = {
   author: string;
   readTimeMinutes: number | null;
   publishedAt: Date | null;
+  featured: boolean;
   status: string;
   views: number;
   updatedAt: Date;

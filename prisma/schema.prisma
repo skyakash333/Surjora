@@ -121,6 +121,7 @@ model Article {
   author            String        @default("Surjora Team")
   readTimeMinutes   Int?
   publishedAt       DateTime?
+  featured          Boolean       @default(false)
   status            Status        @default(DRAFT)
   views             Int           @default(0)
   createdAt         DateTime      @default(now())
@@ -129,6 +130,7 @@ model Article {
   @@index([categoryId])
   @@index([status])
   @@index([publishedAt])
+  @@index([featured])
 }
 
 // ---------------------------------------------------------------------------
