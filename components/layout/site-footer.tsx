@@ -17,10 +17,16 @@ const companyLinks = [
   { label: 'Knowledge Hub', href: '/knowledge' },
 ];
 
+const legalLinks = [
+  { label: 'Terms', href: '/terms' },
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Refund & Delivery', href: '/refund-delivery-policy' },
+];
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-ink-200 bg-white">
-      <div className="container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-6">
         <div className="sm:col-span-2 lg:col-span-1">
           <Logo />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-600">
@@ -58,7 +64,7 @@ export function SiteFooter() {
 
         <FooterColumn title="Accounts">
           {accountTypes.slice(0, 8).map((item) => (
-            <FooterLink key={item} href={`/products/category/${slugify(item)}`}>
+            <FooterLink key={item} href={`/products/${slugify(item)}`}>
               {item}
             </FooterLink>
           ))}
@@ -88,6 +94,13 @@ export function SiteFooter() {
             </FooterLink>
           ))}
         </FooterColumn>
+        <FooterColumn title="Legal">
+          {legalLinks.map((item) => (
+            <FooterLink key={item.href} href={item.href}>
+              {item.label}
+            </FooterLink>
+          ))}
+        </FooterColumn>
       </div>
 
       <div className="border-t border-ink-200 py-6">
@@ -95,7 +108,7 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
-          <p>Accounts &amp; services for China&apos;s most-used platforms.</p>
+          <p>Independent service · not affiliated with listed platforms.</p>
         </div>
       </div>
     </footer>

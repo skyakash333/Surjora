@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getAllCatalogItems, getProductCategories } from '@/lib/data';
+import { getAllCatalogItems, getMediaLibrary, getProductCategories } from '@/lib/data';
 import { CatalogEditor } from '@/components/admin/catalog-editor';
 
 export const revalidate = 0;
@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default async function NewCatalogItemPage() {
-  const [categories, catalog] = await Promise.all([
+  const [categories, catalog, media] = await Promise.all([
     getProductCategories(),
     getAllCatalogItems(),
+    getMediaLibrary(),
   ]);
 
   return (
@@ -23,6 +24,11 @@ export default async function NewCatalogItemPage() {
         <CatalogEditor
           categories={categories.map((c) => ({ id: c.id, name: c.name, slug: c.slug }))}
           catalog={catalog.map((p) => ({ id: p.id, title: p.title, type: p.type }))}
+          media={media.map((mediaItem) => ({
+            id: mediaItem.id,
+            url: mediaItem.url,
+            alt: mediaItem.alt,
+          }))}
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 # Surjora
 
-Digital Chinese accounts & services — verified WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao, 1688, JD, Baidu, Bilibili accounts, plus Chinese phone numbers, emails, QR-scan and verification services.
+Manually reviewed Chinese platform account and assistance requests covering WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao, 1688, JD, Baidu, Bilibili, Chinese phone numbers, email, QR confirmation and verification guidance.
 
 SEO-first marketing site. Fast, mobile-first, Vercel-ready.
 
@@ -61,7 +61,7 @@ Open http://localhost:3000.
 | `pnpm format`                | Prettier (write)                  |
 | `pnpm format:check`          | Prettier (check)                  |
 | `pnpm typecheck`             | TypeScript check (`tsc --noEmit`) |
-| `pnpm test`                  | Run Vitest smoke/unit tests        |
+| `pnpm test`                  | Run Vitest smoke/unit tests       |
 | `pnpm prisma:generate`       | Generate Prisma client            |
 | `pnpm prisma:format`         | Format the Prisma schema          |
 | `pnpm prisma:migrate:dev`    | Create/apply dev migrations       |
@@ -71,6 +71,10 @@ Open http://localhost:3000.
 ## Environment variables
 
 See [.env.example](.env.example) — it documents every variable with usage notes. Never commit `.env`.
+
+For Neon on Vercel, set `DATABASE_URL` to Neon's pooled connection string. Public CMS routes read
+at request time, which keeps builds independent of database availability and publishes admin changes
+without requiring a redeploy.
 
 ## Project structure
 
@@ -87,6 +91,6 @@ types/        # Global type augmentations (next-auth session)
 
 ## Scope notes
 
-- **No payments.** Orders capture custom requests / buy-intent only; payment integration is a later phase.
+- **Manual quote workflow.** Website requests are reviewed before price, payment method and delivery timing are confirmed. There is no instant checkout.
 - **No marketplace.** 15–40 curated product/service landing pages, not a catalog.
 - **SEO-first.** Dynamic metadata, JSON-LD, sitemaps and internal linking are core architecture, not bolt-ons.

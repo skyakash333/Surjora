@@ -20,12 +20,12 @@ import {
   BoltIcon,
 } from '@/components/ui/icons';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = buildMetadata({
-  title: 'Buy Verified Chinese Accounts & Digital Services',
+  title: 'Chinese Platform Accounts & Digital Assistance',
   description:
-    'Verified Chinese accounts: WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao, JD, Baidu, Bilibili and more. Fast delivery, real support — request a quote today.',
+    'Request availability for Chinese platform accounts and assistance covering WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more.',
   path: '/',
 });
 
@@ -34,7 +34,7 @@ const organizationJsonLd = {
   '@type': 'Organization',
   name: siteConfig.name,
   url: siteConfig.url,
-  logo: `${siteConfig.url}/logo.png`,
+  logo: `${siteConfig.url}/icon.svg`,
   description: siteConfig.description,
   contactPoint: {
     '@type': 'ContactPoint',
@@ -48,23 +48,23 @@ const organizationJsonLd = {
 const whySurjora = [
   {
     icon: GlobeIcon,
-    title: 'Many platforms, one place',
-    text: 'WeChat, Alipay, Douyin, Taobao, JD and more — find what you need without hunting across sellers.',
+    title: 'Focused catalog',
+    text: 'Compare account and assistance options for major Chinese platforms in one organized catalog.',
   },
   {
     icon: BoltIcon,
-    title: 'Easy to browse',
-    text: 'Clear categories and product pages make it simple to find the right account or service.',
+    title: 'Manual review',
+    text: 'Each request is checked for current availability, requirements and platform limitations.',
   },
   {
     icon: ShieldIcon,
-    title: 'Clear product info',
-    text: 'Every listing explains what is included, so you know exactly what you are getting.',
+    title: 'Written scope',
+    text: 'The final price, deliverables, timing and customer-side steps are confirmed before payment.',
   },
   {
     icon: HeadsetIcon,
-    title: 'Support when you need it',
-    text: 'Reach us on Telegram, WhatsApp or the contact form — we usually reply within a few hours.',
+    title: 'Direct contact',
+    text: 'Continue the request through email, Telegram or WhatsApp using the channel agreed with you.',
   },
 ];
 
@@ -90,14 +90,15 @@ export default async function HomePage() {
         <div className="container relative py-20 sm:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="brand" className="mb-5">
-              Chinese accounts &amp; services
+              Manually reviewed requests
             </Badge>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl lg:text-6xl">
-              Access China&apos;s top platforms, made simple
+              Chinese platform access, reviewed before payment
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-600">
-              Verified accounts for WeChat, Alipay, Douyin, Taobao and more — plus verification and
-              account help when you need it. Browse the catalog or ask us for a quote.
+              Request reviewed access options for WeChat, Alipay, Douyin, Taobao and more — plus
+              verification and account assistance. We confirm scope, availability and final price
+              before any payment.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <ButtonLink href="/products" size="lg">
@@ -108,7 +109,7 @@ export default async function HomePage() {
               </ButtonLink>
             </div>
             <p className="mt-6 text-sm text-ink-500">
-              13 account categories · 4 services · replies within hours
+              Manual availability review · written quote · digital coordination
             </p>
           </div>
         </div>
@@ -122,11 +123,11 @@ export default async function HomePage() {
           <div>
             <span className="eyebrow">Browse by platform</span>
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
-              Chinese accounts we provide
+              Browse account options
             </h2>
             <p className="mt-2 max-w-2xl text-ink-600">
-              Pick a platform to see accounts and pricing. Every category links straight to its
-              products.
+              Choose a platform to review its current scope, requirements, limitations and request
+              process.
             </p>
           </div>
           <Link
@@ -137,30 +138,27 @@ export default async function HomePage() {
             <ArrowRightIcon />
           </Link>
         </div>
-        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {accountCategories.map((category) => (
             <li key={category.name}>
               <Link
-                href={`/products/category/${slugify(category.name)}`}
-                className="surface-interactive group flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+                href={`/products/${slugify(category.name)}`}
+                className="surface-interactive group flex h-full items-center gap-3 p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
               >
                 <PlatformVisual
                   name={category.name}
-                  icon={<GlobeIcon className="h-6 w-6" />}
-                  className="aspect-[16/9] w-full"
+                  icon={<GlobeIcon className="h-5 w-5" />}
+                  className="h-14 w-14 shrink-0 rounded-lg"
                 />
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="font-semibold text-ink-900 transition-colors group-hover:text-brand-700">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm font-semibold text-ink-900 transition-colors group-hover:text-brand-700">
                     {category.name}
                   </h3>
-                  <p className="mt-1.5 flex-1 text-sm leading-relaxed text-ink-600">
+                  <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-ink-600">
                     {category.blurb}
                   </p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-600">
-                    View category
-                    <ArrowRightIcon className="transition-transform group-hover:translate-x-0.5" />
-                  </span>
                 </div>
+                <ArrowRightIcon className="shrink-0 text-brand-600 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </li>
           ))}
@@ -173,12 +171,12 @@ export default async function HomePage() {
           <div className="container py-16 sm:py-20">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <span className="eyebrow">Most requested</span>
+                <span className="eyebrow">Featured options</span>
                 <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
-                  Popular accounts &amp; services
+                  Common accounts &amp; services
                 </h2>
                 <p className="mt-2 max-w-2xl text-ink-600">
-                  A selection of what customers ask for most often.
+                  A practical starting point for common platform access and support requests.
                 </p>
               </div>
               <Link
@@ -219,7 +217,7 @@ export default async function HomePage() {
             Services to help you along the way
           </h2>
           <p className="mt-2 max-w-2xl text-ink-600">
-            Beyond the accounts themselves — verification, QR scanning and hands-on help.
+            Request scoped help with verification, QR confirmation, setup and account issues.
           </p>
           <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {serviceHighlights.map((service) => {
@@ -260,10 +258,10 @@ export default async function HomePage() {
         <div className="container py-16 sm:py-20">
           <span className="eyebrow">Why Surjora</span>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
-            A simpler way to get set up in China
+            A clearer request process
           </h2>
           <p className="mt-2 max-w-2xl text-ink-600">
-            Everything in one place, with clear information and real people to help.
+            Review the important details first, then decide whether to accept the written quote.
           </p>
           <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {whySurjora.map((point) => (

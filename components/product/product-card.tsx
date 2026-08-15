@@ -37,7 +37,7 @@ export function ProductCard({
     <li>
       <Link
         href={href}
-        className="group surface-interactive flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+        className="surface-interactive group flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
       >
         {/* Media: real cover image when available, branded placeholder otherwise */}
         <div className="relative aspect-[16/10] w-full overflow-hidden">
@@ -59,7 +59,7 @@ export function ProductCard({
           />
           {featured && (
             <Badge variant="brand" className="absolute right-3 top-3 shadow-sm">
-              Popular
+              Featured
             </Badge>
           )}
         </div>
@@ -83,7 +83,7 @@ export function ProductCard({
           )}
 
           <div className="mt-5 flex items-center justify-between border-t border-ink-100 pt-4">
-            {priceFrom ? (
+            {priceFrom != null ? (
               <span className="text-sm text-ink-500">
                 From <span className="font-semibold text-ink-900">${priceFrom}</span>
               </span>

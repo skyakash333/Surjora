@@ -8,12 +8,12 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { CtaSection } from '@/components/marketing/cta-section';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = buildMetadata({
   title: 'Digital Services',
   description:
-    'Digital services for China: WeChat QR scan, Chinese verification, account assistance and custom requests. Fast, friendly support.',
+    'Request reviewed WeChat QR assistance, Chinese platform verification guidance, account help and custom services.',
   path: '/services',
 });
 
@@ -34,14 +34,14 @@ export default async function ServicesPage() {
           as="h1"
           eyebrow="Services"
           title="Digital Services"
-          description="Everything you need beyond the accounts themselves — verification, QR scanning, setup help and custom requests."
+          description="Reviewed assistance for verification, QR confirmation, setup, recovery and custom Chinese-platform needs."
         />
 
         {services.length === 0 ? (
           <div className="mt-10">
             <EmptyState
               title="No services listed yet"
-              description="We're preparing the service catalog. Message us with what you need and we'll help directly."
+              description="There are no published services. Send the details for a manual scope review."
               action={{ label: 'Contact us', href: '/contact' }}
             />
           </div>
@@ -66,7 +66,7 @@ export default async function ServicesPage() {
 
       <CtaSection
         title="Need something custom?"
-        description="If it involves a Chinese platform, account or verification, tell us — we'll figure out how to help."
+        description="Describe the platform, intended outcome and country involved. We'll review what can be supported and define the scope before payment."
       />
     </>
   );

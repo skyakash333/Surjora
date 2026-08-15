@@ -19,9 +19,13 @@ enum Status {
 
 enum OrderStatus {
   NEW
-  CONTACTED
-  WON
-  LOST
+  REVIEWING
+  QUOTED
+  AWAITING_PAYMENT
+  PAID
+  FULFILLING
+  COMPLETED
+  CANCELLED
   SPAM
 }
 
@@ -138,16 +142,23 @@ model Article {
 // ---------------------------------------------------------------------------
 
 model Order {
-  id               String      @id @default(cuid())
-  reference        String      @unique // e.g. SRJ-240101-AB12
-  customerEmail    String?
-  customerTelegram String?
-  customerWhatsapp String?
-  productId        String? // loose ref to Product.id
-  requestType      String // "buy" | "custom" | "quote"
-  message          String
-  status           OrderStatus @default(NEW)
-  createdAt        DateTime    @default(now())
+  id                String      @id @default(cuid())
+  reference         String      @unique // e.g. SRJ-240101-AB12
+  customerEmail     String?
+  customerTelegram  String?
+  customerWhatsapp  String?
+  productId         String? // loose ref to Product.id
+  productTitle      String?
+  quantity          Int         @default(1)
+  contactPreference String      @default("email")
+  requestType       String // "buy" | "custom" | "quote"
+  message           String
+  quotedPrice       Float?
+  currency          String      @default("USD")
+  internalNotes     String?
+  acceptedTermsAt   DateTime?
+  status            OrderStatus @default(NEW)
+  createdAt         DateTime    @default(now())
 
   @@index([status])
   @@index([createdAt])

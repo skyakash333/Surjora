@@ -16,9 +16,8 @@ type PageProps = {
   params: { category: string };
 };
 
-export async function generateStaticParams(): Promise<{ category: string }[]> {
-  const categories = await getKnowledgeCategories();
-  return categories.map((c) => ({ category: c.slug }));
+export function generateStaticParams(): [] {
+  return [];
 }
 
 async function getCategory(slug: string) {
@@ -28,7 +27,7 @@ async function getCategory(slug: string) {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const category = await getCategory(params.category);
-  if (!category) return {};
+  if (!category) notFound();
   return buildMetadata({
     title: category.name,
     description: category.description ?? `${category.name} articles on Surjora Knowledge Hub.`,
@@ -59,7 +58,10 @@ export default async function KnowledgeCategoryPage({ params }: PageProps) {
           as="h1"
           eyebrow="Knowledge Hub"
           title={category.name}
-          description={category.description ?? `${category.name} articles, guides and tutorials from the Surjora Knowledge Hub.`}
+          description={
+            category.description ??
+            `${category.name} articles, guides and tutorials from the Surjora Knowledge Hub.`
+          }
         />
 
         {articles.length === 0 ? (

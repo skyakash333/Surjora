@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import {
-  getProductBySlug,
-  getPublishedProductSlugs,
-  getRelatedArticles,
-  getRelatedProducts,
-} from '@/lib/data';
+import { cache } from 'react';
+import { getProductBySlug, getRelatedArticles, getRelatedProducts } from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
+import { getMediaById } from '@/lib/media';
 import { RelatedList } from '@/components/product/related-list';
 import { CatalogDetail } from '@/components/product/catalog-detail';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
@@ -17,22 +14,27 @@ type PageProps = {
   params: { slug: string };
 };
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const slugs = await getPublishedProductSlugs();
-  return slugs.map((slug) => ({ slug }));
+export function generateStaticParams(): [] {
+  return [];
 }
 
 async function getData(slug: string) {
   return getProductBySlug(slug);
 }
 
+const getPageData = cache(async (slug: string) => {
+  const product = await getData(slug);
+  const image = product?.coverImageId ? await getMediaById(product.coverImageId) : null;
+  return { product, image };
+});
+
 function isProduct(product: NonNullable<Awaited<ReturnType<typeof getData>>>): boolean {
   return product.type === 'PRODUCT';
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const product = await getData(params.slug);
-  if (!product || !isProduct(product)) return {};
+  const { product, image } = await getPageData(params.slug);
+  if (!product || !isProduct(product)) notFound();
   const title = product.seoTitle ?? `${product.title} | ${siteConfig.name}`;
   const description = product.seoDescription ?? product.shortDescription ?? undefined;
   const url = `${siteConfig.url}/products/${product.slug}`;
@@ -46,13 +48,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: siteConfig.name,
       title,
       description: description ?? undefined,
+      ...(image ? { images: [{ url: image.url, alt: image.alt }] } : {}),
     },
-    twitter: { card: 'summary_large_image', title, description: description ?? undefined },
+    twitter: {
+      card: image ? 'summary_large_image' : 'summary',
+      title,
+      description: description ?? undefined,
+      ...(image ? { images: [image.url] } : {}),
+    },
   };
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
-  const product = await getData(params.slug);
+  const { product, image } = await getPageData(params.slug);
   if (!product || !isProduct(product)) notFound();
 
   const url = `${siteConfig.url}/products/${product.slug}`;
@@ -70,18 +78,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
           { label: product.title, href: url },
         ]}
       />
-      <ProductSchema
-        name={product.title}
-        description={description}
-        url={url}
-        priceFrom={product.priceFrom}
-      />
+      <ProductSchema name={product.title} description={description} url={url} image={image?.url} />
       <FaqSchema faqs={faqs} />
 
       <div className="container py-12">
         <Breadcrumbs items={[{ label: 'Products', href: '/products' }, { label: product.title }]} />
 
-        <CatalogDetail item={product} quoteCta="Place your order" />
+        <CatalogDetail item={product} quoteCta="Request availability & quote" />
 
         <RelatedList
           items={related.map((p) => ({

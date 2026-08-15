@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactSchema, type ContactInput } from '@/schema/contact';
@@ -47,7 +48,7 @@ export function ContactForm() {
       <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-sm text-emerald-800">
         <p className="font-semibold">Message sent.</p>
         <p className="mt-1">
-          Thanks for reaching out. We will reply as soon as possible — typically within a few hours.
+          Thanks for reaching out. We will reply using the email address you provided.
         </p>
       </div>
     );
@@ -89,6 +90,15 @@ export function ContactForm() {
         </div>
 
         <Turnstile onChange={setTurnstileToken} />
+
+        <p className="text-xs leading-relaxed text-ink-500">
+          Do not send passwords, payment PINs, one-time codes or identity documents in this form.
+          Information is handled as described in our{' '}
+          <Link href="/privacy" className="font-medium text-brand-700 underline">
+            Privacy Policy
+          </Link>
+          .
+        </p>
 
         {status === 'error' && (
           <p className="text-sm text-red-600">

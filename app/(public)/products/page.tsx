@@ -8,12 +8,12 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { CtaSection } from '@/components/marketing/cta-section';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = buildMetadata({
   title: 'Chinese Accounts',
   description:
-    'Buy verified Chinese accounts: WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao, 1688, JD, Baidu, Bilibili and more. Digital delivery with real support.',
+    'Request availability for Chinese platform accounts covering WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao, 1688, JD, Baidu and Bilibili.',
   path: '/products',
 });
 
@@ -34,14 +34,14 @@ export default async function ProductsPage() {
           as="h1"
           eyebrow="Accounts"
           title="Chinese Accounts"
-          description="Verified accounts for China's most important platforms — ready to use, with setup guidance and responsive support."
+          description="Reviewed account requests for major Chinese platforms. Exact specification, availability, final price and delivery timing are confirmed before payment."
         />
 
         {products.length === 0 ? (
           <div className="mt-10">
             <EmptyState
               title="No accounts listed yet"
-              description="We're preparing the catalog. Message us and we'll help you get exactly what you need."
+              description="There are no published account options. Send the details for a manual review."
               action={{ label: 'Contact us', href: '/contact' }}
             />
           </div>
@@ -67,7 +67,7 @@ export default async function ProductsPage() {
 
       <CtaSection
         title="Not sure which account you need?"
-        description="Tell us your goal and we'll recommend the right account or service — and quote it for you."
+        description="Tell us the platform, country, intended use and quantity so we can review the appropriate option."
       />
     </>
   );

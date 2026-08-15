@@ -42,7 +42,7 @@ export default function ContactPage() {
           as="h1"
           eyebrow="Contact"
           title="Tell us what you need"
-          description="Share the account or service you're after and we'll reply with a quote. Prefer instant chat? Use Telegram or WhatsApp."
+          description="Share the platform, intended use, country and quantity. Use Telegram or WhatsApp if you prefer direct chat."
         />
 
         <div className="mt-10 grid gap-10 lg:grid-cols-5">

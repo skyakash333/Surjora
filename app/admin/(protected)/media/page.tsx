@@ -17,8 +17,8 @@ export default async function AdminMediaPage() {
     <div>
       <h1 className="text-3xl font-bold tracking-tight text-ink-900">Media</h1>
       <p className="mt-2 text-ink-600">
-        Images used across products, services and articles. Copy a media ID to reference it as a
-        cover image.
+        Add images once, then select them as product, service or article covers in the relevant
+        editor.
       </p>
 
       <div className="mt-8">

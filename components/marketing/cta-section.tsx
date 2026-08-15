@@ -12,13 +12,16 @@ type CtaSectionProps = {
  */
 export function CtaSection({
   title = 'Ready to get started?',
-  description = 'Message us directly for the fastest reply, or send a request through the contact form.',
+  description = 'Send the platform, intended use, country and quantity so we can review the request.',
 }: CtaSectionProps) {
   return (
     <section className="border-t border-ink-200 bg-gradient-to-b from-white to-ink-50">
       <div className="container py-16 sm:py-20">
         <div className="surface relative overflow-hidden bg-ink-900 px-6 py-12 text-center sm:px-12">
-          <div className="bg-grid pointer-events-none absolute inset-0 opacity-10" aria-hidden="true" />
+          <div
+            className="bg-grid pointer-events-none absolute inset-0 opacity-10"
+            aria-hidden="true"
+          />
           <div className="relative">
             <h2 className="text-balance text-2xl font-bold tracking-tight text-white sm:text-3xl">
               {title}

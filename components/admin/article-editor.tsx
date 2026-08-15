@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { articleSchema, type ArticleInput } from '@/schema/article';
@@ -10,11 +11,13 @@ import { Button } from '@/components/ui/button';
 type CategoryOption = { id: string; name: string; slug: string };
 type CatalogOption = { id: string; title: string; type: string };
 type ArticleOption = { id: string; title: string; categoryName: string | null };
+type MediaOption = { id: string; url: string; alt: string };
 
 type ArticleEditorProps = {
   categories: CategoryOption[];
   catalog: CatalogOption[];
   articles: ArticleOption[];
+  media: MediaOption[];
   article?: {
     slug: string;
     title: string;
@@ -40,7 +43,13 @@ type BlockType = 'paragraph' | 'heading' | 'list' | 'callout' | 'links' | 'table
 
 const blockTypes: BlockType[] = ['paragraph', 'heading', 'list', 'callout', 'links', 'table'];
 
-export function ArticleEditor({ categories, catalog, articles, article }: ArticleEditorProps) {
+export function ArticleEditor({
+  categories,
+  catalog,
+  articles,
+  media,
+  article,
+}: ArticleEditorProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,6 +96,8 @@ export function ArticleEditor({ categories, catalog, articles, article }: Articl
   });
 
   const bodyValue = watch('body');
+  const selectedMediaId = watch('coverImageId');
+  const selectedMedia = media.find((mediaItem) => mediaItem.id === selectedMediaId);
 
   async function onSubmit(values: ArticleInput) {
     setSaving(true);
@@ -257,17 +268,41 @@ export function ArticleEditor({ categories, catalog, articles, article }: Articl
 
       <div>
         <label htmlFor="coverImageId" className="mb-1 block text-sm font-medium text-ink-700">
-          Cover media ID
+          Cover image
         </label>
-        <input
-          id="coverImageId"
-          placeholder="Media ID from the Media library"
-          {...register('coverImageId')}
-          className={inputClass}
-        />
+        <select id="coverImageId" {...register('coverImageId')} className={inputClass}>
+          <option value="">No cover image</option>
+          {article?.coverImageId &&
+            !media.some((mediaItem) => mediaItem.id === article.coverImageId) && (
+              <option value={article.coverImageId}>Current media ({article.coverImageId})</option>
+            )}
+          {media.map((mediaItem) => (
+            <option key={mediaItem.id} value={mediaItem.id}>
+              {mediaItem.alt} · {mediaItem.id}
+            </option>
+          ))}
+        </select>
         <p className="mt-1 text-xs text-ink-500">
-          Add or upload the image in Media, then paste its media ID here.
+          Select an item from the{' '}
+          <Link href="/admin/media" className="font-medium text-brand-700 underline">
+            Media library
+          </Link>
+          .
         </p>
+        {selectedMedia && (
+          <div className="mt-3 flex items-center gap-3 rounded-lg border border-ink-200 bg-white p-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={selectedMedia.url}
+              alt={selectedMedia.alt}
+              className="h-16 w-24 rounded-md bg-ink-50 object-cover"
+            />
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-ink-900">{selectedMedia.alt}</p>
+              <p className="truncate text-xs text-ink-500">{selectedMedia.id}</p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div>

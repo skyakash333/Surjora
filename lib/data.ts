@@ -70,8 +70,8 @@ export async function getFeaturedItems(limit = 6): Promise<ProductWithCategory[]
 
 export async function getProductBySlug(slug: string): Promise<ProductWithCategory | null> {
   if (!isDbConfigured) return null;
-  const row = await prisma.product.findUnique({
-    where: { slug },
+  const row = await prisma.product.findFirst({
+    where: { slug, status: 'PUBLISHED' },
     select: productSelect,
   });
   return normalize(row);
@@ -333,10 +333,26 @@ export async function getProductCategories() {
 
 export async function getOrders() {
   if (!isDbConfigured) return [];
-  return prisma.order.findMany({
-    orderBy: { createdAt: 'desc' },
+  const orders = await prisma.order.findMany({
+    orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
     take: 100,
   });
+
+  const productIds = orders
+    .map((order) => order.productId)
+    .filter((id): id is string => Boolean(id));
+  const products = productIds.length
+    ? await prisma.product.findMany({
+        where: { id: { in: productIds } },
+        select: { id: true, title: true, slug: true, type: true },
+      })
+    : [];
+  const productById = new Map(products.map((product) => [product.id, product]));
+
+  return orders.map((order) => ({
+    ...order,
+    product: order.productId ? (productById.get(order.productId) ?? null) : null,
+  }));
 }
 
 export async function getVisibleTestimonials(): Promise<TestimonialItem[]> {

@@ -3,23 +3,23 @@ import { BoltIcon, ShieldIcon, HeadsetIcon, GlobeIcon } from '@/components/ui/ic
 const points = [
   {
     icon: GlobeIcon,
-    title: 'Every major platform',
-    text: "Access to China's most-used platforms — WeChat, Alipay, Douyin, Taobao and more — from one place.",
+    title: 'Focused coverage',
+    text: 'Account and assistance options for WeChat, Alipay, Douyin, Taobao and other major platforms.',
   },
   {
     icon: BoltIcon,
-    title: 'Fast turnaround',
-    text: 'Most requests are quoted within a few hours and fulfilled shortly after confirmation.',
+    title: 'Reviewed before payment',
+    text: 'We confirm the exact scope, availability, final price and delivery estimate before asking you to pay.',
   },
   {
     icon: ShieldIcon,
-    title: 'Private & careful',
-    text: 'Your details stay private. We handle every request personally and transparently.',
+    title: 'Data minimization',
+    text: 'Initial requests should not include passwords, payment PINs, one-time codes or identity documents.',
   },
   {
     icon: HeadsetIcon,
-    title: 'Real support',
-    text: 'We stay reachable after delivery on Telegram and WhatsApp to help you get set up.',
+    title: 'Direct channels',
+    text: 'Use email, Telegram or WhatsApp for quote questions and agreed delivery coordination.',
   },
 ];
 

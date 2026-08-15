@@ -8,7 +8,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { CtaSection } from '@/components/marketing/cta-section';
 import { BreadcrumbSchema } from '@/components/seo/schemas';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = buildMetadata({
   title: 'Knowledge Hub',
@@ -37,7 +37,7 @@ export default async function KnowledgePage() {
           as="h1"
           eyebrow="Knowledge Hub"
           title="Guides, tutorials and comparisons"
-          description="Everything you need to know about buying and using Chinese accounts and services — written for people outside China."
+          description="Practical information about registration, verification, security, troubleshooting and using Chinese platforms from outside China."
         />
 
         {categories.length > 0 && (
@@ -82,7 +82,7 @@ export default async function KnowledgePage() {
 
       <CtaSection
         title="Can't find what you're looking for?"
-        description="Ask us anything about Chinese platforms, accounts or verification — we reply within hours."
+        description="Send the exact platform, error or goal and we'll review whether it fits an existing service."
       />
     </>
   );

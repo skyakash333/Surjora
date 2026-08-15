@@ -1,13 +1,19 @@
-import { getKnowledgeCategories, getAllCatalogItems, getAllArticles } from '@/lib/data';
+import {
+  getKnowledgeCategories,
+  getAllCatalogItems,
+  getAllArticles,
+  getMediaLibrary,
+} from '@/lib/data';
 import { ArticleEditor } from '@/components/admin/article-editor';
 
 export const revalidate = 0;
 
 export default async function NewArticlePage() {
-  const [categories, catalog, articles] = await Promise.all([
+  const [categories, catalog, articles, media] = await Promise.all([
     getKnowledgeCategories(),
     getAllCatalogItems(),
     getAllArticles(),
+    getMediaLibrary(),
   ]);
 
   return (
@@ -22,6 +28,11 @@ export default async function NewArticlePage() {
             id: a.id,
             title: a.title,
             categoryName: a.category?.name ?? null,
+          }))}
+          media={media.map((mediaItem) => ({
+            id: mediaItem.id,
+            url: mediaItem.url,
+            alt: mediaItem.alt,
           }))}
         />
       </div>

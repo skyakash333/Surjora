@@ -202,7 +202,7 @@ const contentCategories = [
     slug: 'guides',
     name: 'Guides',
     kind: 'CONTENT',
-    description: 'Step-by-step guides for buying and using Chinese accounts and services.',
+    description: 'Detailed guides for registering, using and troubleshooting Chinese platforms.',
   },
   {
     slug: 'faq',
@@ -236,7 +236,7 @@ const contentCategories = [
   },
 ];
 
-const products = [
+const legacyProducts = [
   {
     slug: 'wechat-accounts',
     type: 'PRODUCT',
@@ -1145,6 +1145,69 @@ const products = [
     relatedArticleIds: [],
   },
 ];
+
+function professionalCatalogCopy({ title, summary, suitableFor, requirements, limitations, delivery }) {
+  return {
+    seoTitle: `${title} Availability & Assistance | Surjora`,
+    seoDescription: `${summary} Request reviewed availability, exact scope, final pricing and a delivery estimate before payment.`,
+    shortDescription: summary,
+    h1: title,
+    description: [
+      { type: 'paragraph', data: { text: `${summary} Surjora reviews each request manually because account specifications, availability, platform checks and regional requirements can vary.` } },
+      { type: 'heading', data: { level: 2, text: 'Suitable for' } },
+      { type: 'list', data: { ordered: false, items: suitableFor } },
+      { type: 'heading', data: { level: 2, text: 'What we confirm before payment' } },
+      { type: 'list', data: { ordered: false, items: ['Current availability and exact specification', 'Final price and accepted payment method', 'Estimated digital delivery timing', 'Customer-side setup or verification requirements'] } },
+      { type: 'heading', data: { level: 2, text: 'Customer requirements' } },
+      { type: 'list', data: { ordered: false, items: requirements } },
+      { type: 'callout', data: { title: 'Platform limitations', text: limitations } },
+    ],
+    features: [
+      { title: 'Manual availability review', text: 'The exact option is checked before a quote is issued.' },
+      { title: 'Written quote', text: 'Scope, final price and estimated timing are confirmed before payment.' },
+      { title: 'Digital coordination', text: delivery },
+      { title: 'Setup guidance', text: 'Relevant first-login, security and recovery guidance is included.' },
+    ],
+    faqs: [
+      { question: 'Is the displayed price final?', answer: 'No. It is an indicative starting price. The written quote confirms the final price for the available specification and quantity.' },
+      { question: 'Is submitting this form a purchase?', answer: 'No. It is an availability and quote request. No purchase is confirmed until you accept the written quote and payment is received.' },
+      { question: 'Can every platform feature be guaranteed?', answer: 'No. Features and continued access are controlled by the platform and can depend on country, identity, phone number, device, account history and current rules.' },
+      { question: 'How is delivery handled?', answer: delivery },
+    ],
+  };
+}
+
+const catalogProfessionalCopy = {
+  'wechat-accounts': professionalCatalogCopy({ title: 'WeChat Account Options', summary: 'Reviewed WeChat account options for legitimate personal or business communication needs.', suitableFor: ['People preparing for China-related communication', 'Teams that need an account specification confirmed before payment', 'Customers who also need QR or setup assistance'], requirements: ['Your country and intended use', 'A phone number you control when required', 'Willingness to follow WeChat security and platform rules'], limitations: 'Registration, assisted verification, WeChat Pay and continued access are controlled by Tencent. No account or feature can be guaranteed permanently.', delivery: 'Available account details and setup instructions are delivered through the agreed secure channel.' }),
+  'qq-accounts': professionalCatalogCopy({ title: 'QQ Account Options', summary: 'Reviewed QQ account options for messaging, QQ Mail and supported Tencent services.', suitableFor: ['QQ messaging and group use', 'QQ Mail access', 'Services that support QQ sign-in'], requirements: ['Your country and intended service', 'A controlled recovery method', 'Compliance with Tencent rules'], limitations: 'QQ registration, games, mail, payments and connected services can apply separate verification and regional controls.', delivery: 'Account specification, delivery channel and first-login steps are confirmed in the quote.' }),
+  'alipay-accounts': professionalCatalogCopy({ title: 'Alipay Account Assistance', summary: 'Alipay account and setup options reviewed for eligible payment and China-related use cases.', suitableFor: ['International users preparing supported payments', 'Customers needing setup or verification guidance', 'China commerce workflows using Alipay'], requirements: ['Accurate owner identity where requested', 'A supported phone and payment method', 'Acceptance of feature and regional limitations'], limitations: 'Wallet, transfer, merchant and Alipay+ features have separate eligibility. Personal account access does not guarantee merchant or mainland wallet functions.', delivery: 'The agreed account or assistance scope is coordinated digitally with security guidance.' }),
+  'wecom-accounts': professionalCatalogCopy({ title: 'WeCom Account Assistance', summary: 'WeCom organization and account assistance for legitimate team and customer-communication workflows.', suitableFor: ['Teams managing China-facing communication', 'Organizations requiring managed employee access', 'Businesses planning supported WeChat customer contact'], requirements: ['Legitimate organization information', 'An authorized administrator', 'Applicable business documents for requested features'], limitations: 'Organization verification, APIs and external-contact features may require eligible entities, documents and separate Tencent approval.', delivery: 'Workspace or account assistance is coordinated digitally after entity and feature requirements are confirmed.' }),
+  'xiaohongshu-accounts': professionalCatalogCopy({ title: 'Xiaohongshu Account Options', summary: 'Xiaohongshu account options for browsing, publishing and eligible creator or business activity.', suitableFor: ['Creators researching RED/Xiaohongshu', 'Brands planning a compliant presence', 'Users needing account setup assistance'], requirements: ['Accurate owner or entity information', 'Original or licensed content', 'Compliance with category and disclosure rules'], limitations: 'Creator, professional, advertising and shop features have separate identity, entity and regional requirements. Reach is never guaranteed.', delivery: 'Available account scope and setup guidance are delivered digitally after review.' }),
+  'douyin-accounts': professionalCatalogCopy({ title: 'Douyin Account Options', summary: 'Douyin account options for eligible viewing, creator and China-market workflows.', suitableFor: ['Creators preparing platform-specific content', 'Businesses assessing Douyin operations', 'Users needing setup guidance'], requirements: ['A legitimate owner and controlled phone', 'Compliant content and media rights', 'Separate onboarding for advertising or commerce'], limitations: 'Real-name, live, monetization, advertising and shop functions are separate and may require mainland eligibility or business documentation.', delivery: 'The available account specification and setup steps are confirmed before digital delivery.' }),
+  'taobao-accounts': professionalCatalogCopy({ title: 'Taobao Account Options', summary: 'Taobao account options for eligible browsing and shopping workflows.', suitableFor: ['International shoppers researching Chinese products', 'Customers using supported payment and logistics routes', 'Users needing registration or recovery assistance'], requirements: ['A supported phone and payment route', 'A valid delivery or forwarding plan', 'Understanding of customs and return limitations'], limitations: 'Payment, shipping, consolidation, product availability and returns depend on seller, destination, item and current platform rules.', delivery: 'Account and setup information is delivered digitally; purchasing and logistics remain separate customer decisions.' }),
+  '1688-accounts': professionalCatalogCopy({ title: '1688 Account Options', summary: '1688 account options for buyers preparing legitimate wholesale sourcing workflows.', suitableFor: ['Buyers researching domestic Chinese suppliers', 'Teams working with a sourcing agent or forwarder', 'Customers needing account setup support'], requirements: ['A sourcing specification and intended quantity', 'A payment and domestic logistics plan', 'Independent supplier and product due diligence'], limitations: 'An account does not verify suppliers, guarantee quality or make goods export-compliant. Samples, contracts, inspection and import checks remain essential.', delivery: 'Account scope and setup guidance are delivered digitally after availability review.' }),
+  'jd-accounts': professionalCatalogCopy({ title: 'JD.com Account Options', summary: 'JD.com account options for eligible Chinese retail and marketplace shopping.', suitableFor: ['Shoppers comparing JD-operated and marketplace listings', 'Buyers using mainland delivery or forwarding', 'Users needing account setup assistance'], requirements: ['A supported phone and payment method', 'A valid logistics plan', 'Review of seller, warranty and product details'], limitations: 'International payment, shipping, warranty and return support vary by listing, seller, destination and product category.', delivery: 'Account details and setup guidance are delivered through the agreed digital channel.' }),
+  'baidu-accounts': professionalCatalogCopy({ title: 'Baidu Account Options', summary: 'Baidu account options for supported search, cloud, community and service workflows.', suitableFor: ['Users needing a Baidu identity', 'Customers assessing Netdisk or community services', 'Teams researching supported developer or business tools'], requirements: ['The exact Baidu service required', 'A controlled phone and recovery method', 'Separate eligibility for business or developer products'], limitations: 'Individual Baidu services apply their own identity, payment, storage, API and regional requirements.', delivery: 'The account option and relevant setup guidance are delivered digitally after service requirements are confirmed.' }),
+  'bilibili-accounts': professionalCatalogCopy({ title: 'Bilibili Account Options', summary: 'Bilibili account options for eligible viewing, community and creator workflows.', suitableFor: ['Viewers joining Bilibili communities', 'Creators planning original content', 'Teams assessing a China video presence'], requirements: ['A controlled recovery method', 'Rights to uploaded media', 'Separate eligibility for live or monetization features'], limitations: 'Publishing, live streaming and monetization can require identity, age, content and regional checks. Audience growth is not guaranteed.', delivery: 'Available account scope and creator setup guidance are coordinated digitally.' }),
+  'chinese-phone-numbers': professionalCatalogCopy({ title: 'Chinese Phone Number Options', summary: 'Reviewed Chinese phone number options for supported SMS, account and communication needs.', suitableFor: ['Customers who confirmed a service requires +86', 'Longer-term account recovery planning', 'Authorized business communication workflows'], requirements: ['A lawful intended use', 'Required service and retention period', 'Compliance with subscriber and real-name rules'], limitations: 'No number is guaranteed to work with every platform. SMS routing, roaming, recycling, identity and recovery requirements vary.', delivery: 'Number scope, control period, supported functions and renewal conditions are confirmed before payment.' }),
+  'chinese-email-accounts': professionalCatalogCopy({ title: 'Chinese Email Account Options', summary: 'Chinese email account options for supported registration and communication workflows.', suitableFor: ['Users needing QQ Mail or another supported provider', 'China-facing communication', 'Platform registration where email is accepted'], requirements: ['The target provider and use case', 'A controlled recovery method', 'Responsible sending and account security'], limitations: 'A Chinese-domain address does not guarantee platform acceptance or message delivery. Provider and recipient filtering still apply.', delivery: 'The provider, account scope and recovery information are confirmed before secure digital delivery.' }),
+  'wechat-qr-scan': professionalCatalogCopy({ title: 'WeChat QR Scan Assistance', summary: 'Assisted WeChat QR confirmation when the official flow requests an eligible existing user.', suitableFor: ['New registrations showing assisted verification', 'Official QR confirmation steps', 'Customers who understand helper eligibility can vary'], requirements: ['A current QR request from the official app', 'The applicant remains on their own device', 'No sharing of passwords or SMS codes'], limitations: 'Helper eligibility is controlled by Tencent. The service cannot bypass risk controls, guarantee acceptance or replace identity verification.', delivery: 'The scan is coordinated live or within an agreed window after the current request is reviewed.' }),
+  'chinese-verification': professionalCatalogCopy({ title: 'Chinese Platform Verification Assistance', summary: 'Guidance and supported assistance for legitimate SMS, identity, phone or platform verification steps.', suitableFor: ['Users who know the exact platform and feature', 'Customers needing help interpreting official requirements', 'Business or personal verification planning'], requirements: ['Accurate information', 'Use of official platform flows', 'Secure handling of any necessary documents'], limitations: 'Surjora cannot bypass verification, fabricate identity, disable risk controls or guarantee platform approval.', delivery: 'The supported step, information requirements and timing are confirmed before payment.' }),
+  'account-assistance': professionalCatalogCopy({ title: 'Account Assistance', summary: 'Hands-on guidance for setup, security, recovery and supported Chinese platform workflows.', suitableFor: ['Registration or login troubleshooting', 'Security and recovery preparation', 'Platform-specific setup questions'], requirements: ['The exact error or goal', 'Accurate account history', 'Use of official support and recovery routes'], limitations: 'Assistance cannot override platform decisions, guarantee recovery or bypass identity and security requirements.', delivery: 'Guidance is provided digitally through the agreed support channel for the quoted scope.' }),
+  'custom-requests': professionalCatalogCopy({ title: 'Custom Platform Request', summary: 'A manually reviewed request for a China-platform need not covered by the standard catalog.', suitableFor: ['Unlisted platforms', 'Multi-step account or verification planning', 'Business workflows requiring a scoped review'], requirements: ['A clear intended outcome', 'Relevant platform and country information', 'A lawful and platform-compliant use case'], limitations: 'Surjora may decline requests that are illegal, abusive, misleading, technically unsupported or inconsistent with platform rules.', delivery: 'The proposed scope, deliverables, exclusions, price and timing are defined in a written quote.' }),
+};
+
+const products = legacyProducts.map((product) => ({
+  slug: product.slug,
+  type: product.type,
+  title: product.title,
+  featured: product.featured ?? false,
+  priceFrom: product.priceFrom,
+  status: product.status,
+  relatedProductIds: [],
+  relatedArticleIds: [],
+  ...catalogProfessionalCopy[product.slug],
+}));
 
 const articles = [
   {

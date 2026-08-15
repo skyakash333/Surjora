@@ -4,8 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Surjora — Digital Chinese Accounts & Services',
     short_name: 'Surjora',
-    description:
-      'Verified digital Chinese accounts and services. Request a quote via Telegram or WhatsApp.',
+    description: 'Manually reviewed Chinese platform account and assistance requests.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',

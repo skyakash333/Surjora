@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import {
   getAllCatalogItems,
   getCatalogItemForEditing,
+  getMediaLibrary,
   getProductCategories,
 } from '@/lib/data';
 import { CatalogEditor } from '@/components/admin/catalog-editor';
@@ -15,10 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default async function EditCatalogItemPage({ params }: { params: { slug: string } }) {
-  const [item, categories, catalog] = await Promise.all([
+  const [item, categories, catalog, media] = await Promise.all([
     getCatalogItemForEditing(params.slug),
     getProductCategories(),
     getAllCatalogItems(),
+    getMediaLibrary(),
   ]);
 
   if (!item) notFound();
@@ -43,6 +45,11 @@ export default async function EditCatalogItemPage({ params }: { params: { slug: 
         <CatalogEditor
           categories={categories.map((c) => ({ id: c.id, name: c.name, slug: c.slug }))}
           catalog={catalog.map((p) => ({ id: p.id, title: p.title, type: p.type }))}
+          media={media.map((mediaItem) => ({
+            id: mediaItem.id,
+            url: mediaItem.url,
+            alt: mediaItem.alt,
+          }))}
           item={{
             slug: item.slug,
             type: item.type,
@@ -57,7 +64,8 @@ export default async function EditCatalogItemPage({ params }: { params: { slug: 
             featured: item.featured,
             status: item.status,
             description,
-            features: (item.features as Array<{ title: string; text: string; icon?: string | null }>) ?? [],
+            features:
+              (item.features as Array<{ title: string; text: string; icon?: string | null }>) ?? [],
             faqs: (item.faqs as Array<{ question: string; answer: string }>) ?? [],
             relatedProductIds: item.relatedProductIds,
             relatedArticleIds: item.relatedArticleIds,

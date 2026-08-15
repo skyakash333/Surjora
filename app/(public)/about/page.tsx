@@ -9,26 +9,26 @@ import { TrustBar } from '@/components/marketing/trust-bar';
 export const metadata = buildMetadata({
   title: 'About Surjora',
   description:
-    'Surjora provides verified digital Chinese accounts and services with fast, responsive support. Learn how we work and why customers choose us.',
+    'Learn how Surjora manually reviews Chinese platform account and assistance requests before quote, payment and digital delivery.',
   path: '/about',
 });
 
 const values = [
   {
     title: 'What we do',
-    text: 'We provide accounts and services for the platforms people rely on in China. You receive your account and credentials electronically, with setup guidance and after-sale support.',
+    text: 'We review requests for Chinese platform account options and related assistance. Available scope, customer requirements and delivery details depend on the platform and use case.',
   },
   {
     title: 'How we work',
-    text: 'Start by telling us what you need. We confirm details, share a quote, and deliver once everything is agreed. Our team is reachable directly on Telegram and WhatsApp.',
+    text: 'Start by describing what you need. We review eligibility and availability, define the scope in writing, and proceed only after you accept the quote.',
   },
   {
     title: 'Why choose Surjora',
-    text: 'Clear communication, transparent pricing, and support that stays available after delivery. We treat every request seriously and keep your information private.',
+    text: 'The request process separates inquiry, quote, payment and fulfilment. Platform limitations and customer-side steps are stated before payment.',
   },
   {
     title: 'Staying in touch',
-    text: 'Reach us anytime via Telegram, WhatsApp, or the contact form. We typically respond within a few hours, wherever you are in the world.',
+    text: 'Use email, Telegram, WhatsApp or the contact form. The reply channel and any time-sensitive coordination are confirmed for each request.',
   },
 ];
 
@@ -49,7 +49,7 @@ export default function AboutPage() {
           as="h1"
           eyebrow="About"
           title="Digital Chinese accounts, handled personally"
-          description="Surjora helps individuals and businesses around the world get verified accounts and services for WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more."
+          description="Surjora helps individuals and businesses review account and assistance options for WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more."
         />
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
@@ -66,7 +66,7 @@ export default function AboutPage() {
             as="h2"
             eyebrow="Process"
             title="How it works"
-            description="Three simple steps from question to delivery — no accounts, no checkout friction."
+            description="Three clear steps from initial request to agreed digital delivery."
           />
           <ol className="mt-8 grid gap-5 sm:grid-cols-3">
             {howItWorks.map((step, index) => (
@@ -86,7 +86,7 @@ export default function AboutPage() {
 
       <CtaSection
         title="Ready to get started?"
-        description="Tell us what you need and we'll reply with a quote — usually within a few hours."
+        description="Tell us the platform, intended use, country and quantity so we can review the request."
       />
     </>
   );

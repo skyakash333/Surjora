@@ -3,9 +3,10 @@ import { ContentBlocks } from '@/components/content/content-blocks';
 import { FaqAccordion } from '@/components/content/faq-accordion';
 import { QuoteForm } from '@/components/forms/quote-form';
 import { CoverImage } from '@/components/media/cover-image';
+import { PlatformVisual } from '@/components/product/platform-visual';
 import { Badge } from '@/components/ui/badge';
 import { buttonClasses } from '@/components/ui/button';
-import { ArrowRightIcon, CheckIcon } from '@/components/ui/icons';
+import { ArrowRightIcon, CheckIcon, GlobeIcon, ServiceIcon } from '@/components/ui/icons';
 import { cn } from '@/lib/cn';
 import { siteConfig } from '@/lib/constants';
 
@@ -21,6 +22,17 @@ type CatalogDetailProps = {
 export function CatalogDetail({ item, quoteCta }: CatalogDetailProps) {
   const faqs = item.faqs ?? [];
   const isService = item.type === 'SERVICE';
+  const deliveryNotes = isService
+    ? [
+        'Scope and eligibility reviewed before confirmation',
+        'Digital coordination through your preferred contact channel',
+        'Timing confirmed in writing before payment',
+      ]
+    : [
+        'Availability and account specification confirmed before payment',
+        'Digital delivery through an agreed secure channel',
+        'Setup and first-login guidance included',
+      ];
 
   return (
     <div className="mt-2 grid gap-10 lg:grid-cols-5">
@@ -38,50 +50,116 @@ export function CatalogDetail({ item, quoteCta }: CatalogDetailProps) {
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <a
             href="#order"
-            className={cn(buttonClasses.base, buttonClasses.variants.primary, buttonClasses.sizes.lg)}
+            className={cn(
+              buttonClasses.base,
+              buttonClasses.variants.primary,
+              buttonClasses.sizes.lg,
+            )}
           >
-            {isService ? 'Request this service' : 'Order now'}
+            {isService ? 'Check service availability' : 'Check availability'}
             <ArrowRightIcon className="rotate-90" />
           </a>
-          {item.priceFrom && (
+          {item.priceFrom != null && (
             <span className="text-sm text-ink-500">
-              From <span className="font-semibold text-ink-900">${item.priceFrom}</span> · no upfront payment
+              Indicative price from{' '}
+              <span className="font-semibold text-ink-900">${item.priceFrom}</span>
             </span>
           )}
         </div>
-        {item.coverImageId && (
-          <div className="mt-8">
-            <CoverImage
-              mediaId={item.coverImageId}
-              alt={item.title}
-              className="aspect-video w-full rounded-2xl border border-ink-200 object-cover"
-            />
-          </div>
-        )}
+        <div className="relative mt-8 aspect-video overflow-hidden rounded-2xl border border-ink-200 bg-ink-100">
+          <PlatformVisual
+            name={item.category?.name ?? item.title}
+            icon={
+              isService ? (
+                <ServiceIcon slug={item.slug} className="h-8 w-8" />
+              ) : (
+                <GlobeIcon className="h-8 w-8" />
+              )
+            }
+            className="h-full w-full"
+          />
+          <CoverImage
+            mediaId={item.coverImageId}
+            alt={item.title}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
         {item.description && (
           <div className="mt-8">
             <ContentBlocks blocks={item.description} />
           </div>
         )}
+        <section className="mt-10 grid gap-5 sm:grid-cols-2">
+          <div className="surface p-6">
+            <h2 className="text-lg font-semibold text-ink-900">Before you request</h2>
+            <ul className="mt-4 space-y-3">
+              <li className="flex gap-2.5 text-sm leading-relaxed text-ink-600">
+                <CheckIcon className="mt-0.5 shrink-0 text-brand-600" />
+                Tell us your country, intended use and required quantity.
+              </li>
+              <li className="flex gap-2.5 text-sm leading-relaxed text-ink-600">
+                <CheckIcon className="mt-0.5 shrink-0 text-brand-600" />
+                Do not send passwords, payment PINs or identity documents in the first request.
+              </li>
+              <li className="flex gap-2.5 text-sm leading-relaxed text-ink-600">
+                <CheckIcon className="mt-0.5 shrink-0 text-brand-600" />
+                Wait for written confirmation of exact scope, availability and final price.
+              </li>
+            </ul>
+          </div>
+          <div className="surface p-6">
+            <h2 className="text-lg font-semibold text-ink-900">Delivery and support</h2>
+            <ul className="mt-4 space-y-3">
+              {deliveryNotes.map((note) => (
+                <li key={note} className="flex gap-2.5 text-sm leading-relaxed text-ink-600">
+                  <CheckIcon className="mt-0.5 shrink-0 text-brand-600" />
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="surface p-6 sm:col-span-2">
+            <h2 className="text-lg font-semibold text-ink-900">Important limitations</h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-600">
+              Platform access, verification, payments and business features are controlled by the
+              platform and may depend on country, identity, device, phone number and current rules.
+              Surjora does not guarantee permanent access, unrestricted features or approval by a
+              third-party platform. Review the final written quote and policy terms before payment.
+            </p>
+          </div>
+        </section>
         {faqs.length > 0 && <FaqAccordion faqs={faqs} />}
       </article>
 
       <aside className="lg:col-span-2">
         <div className="space-y-4 lg:sticky lg:top-24">
           <div id="order" className="surface scroll-mt-24 p-6">
-            {item.priceFrom ? (
+            {item.priceFrom != null ? (
               <p className="text-sm text-ink-500">
-                Starting at{' '}
+                Indicative price from{' '}
                 <span className="text-3xl font-bold text-ink-900">${item.priceFrom}</span>
               </p>
             ) : (
               <p className="text-lg font-semibold text-ink-900">Custom quote</p>
             )}
             <p className="mt-2 text-sm text-ink-600">
-              {isService ? 'Services' : 'Orders'} handled personally. No payment required upfront.
+              Availability, exact scope and final price are confirmed manually before payment.
             </p>
+            <ol className="mt-4 space-y-2 text-xs text-ink-600">
+              <li>
+                <span className="font-semibold text-ink-800">1.</span> Submit your requirements.
+              </li>
+              <li>
+                <span className="font-semibold text-ink-800">2.</span> Receive availability, final
+                price and delivery estimate.
+              </li>
+              <li>
+                <span className="font-semibold text-ink-800">3.</span> Pay only after accepting the
+                quote.
+              </li>
+            </ol>
             <div className="mt-5">
-              <QuoteForm productId={item.id} requestType="buy" cta={quoteCta} />
+              <QuoteForm productId={item.id} requestType="quote" cta={quoteCta} />
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {siteConfig.telegram && (

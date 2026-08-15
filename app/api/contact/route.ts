@@ -67,8 +67,13 @@ export async function POST(request: Request) {
       console.error('Resend error:', error);
       return NextResponse.json({ error: 'Failed to send' }, { status: 500 });
     }
-  } else {
+  } else if (process.env.NODE_ENV !== 'production') {
     console.log('Contact submission (no RESEND_API_KEY):', { name, email, message });
+  } else {
+    return NextResponse.json(
+      { error: 'Email delivery is not configured. Please use a direct contact channel.' },
+      { status: 503 },
+    );
   }
 
   return NextResponse.json({ ok: true });

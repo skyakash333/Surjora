@@ -1,11 +1,7 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-import {
-  getProductCategoryBySlug,
-  getProductsByCategorySlug,
-  getProductCategorySlugs,
-} from '@/lib/data';
+import { getProductCategoryBySlug, getProductsByCategorySlug } from '@/lib/data';
 import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/constants';
 import { ProductCard } from '@/components/product/product-card';
@@ -22,19 +18,18 @@ type PageProps = {
   params: { slug: string };
 };
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const slugs = await getProductCategorySlugs();
-  return slugs.map((slug) => ({ slug }));
+export function generateStaticParams(): [] {
+  return [];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const category = await getProductCategoryBySlug(params.slug);
-  if (!category) return {};
+  if (!category) notFound();
   return buildMetadata({
     title: category.name,
     description:
       category.description ??
-      `Browse ${category.name} available at ${siteConfig.name}, with clear product details and responsive support.`,
+      `Review ${category.name} scope, requirements, limitations and the Surjora quote process.`,
     path: `/products/category/${category.slug}`,
   });
 }
@@ -44,6 +39,9 @@ export default async function ProductCategoryPage({ params }: PageProps) {
   if (!category) notFound();
 
   const products = await getProductsByCategorySlug(category.slug);
+  if (products.length === 1 && products[0]) {
+    redirect(`/products/${products[0].slug}`);
+  }
 
   return (
     <>
@@ -55,19 +53,14 @@ export default async function ProductCategoryPage({ params }: PageProps) {
         ]}
       />
       <div className="container py-12">
-        <Breadcrumbs
-          items={[
-            { label: 'Products', href: '/products' },
-            { label: category.name },
-          ]}
-        />
+        <Breadcrumbs items={[{ label: 'Products', href: '/products' }, { label: category.name }]} />
         <SectionHeading
           as="h1"
           eyebrow="Category"
           title={category.name}
           description={
             category.description ??
-            `Accounts in the ${category.name} category, with clear details and responsive support.`
+            `Review the available ${category.name} options, requirements and request process.`
           }
         />
 
@@ -75,7 +68,7 @@ export default async function ProductCategoryPage({ params }: PageProps) {
           <div className="mt-10">
             <EmptyState
               title="Nothing listed here yet"
-              description="We're preparing this category. Message us and we'll help you get exactly what you need."
+              description="There are no published options in this category. Send the details for a manual review."
               action={{ label: 'Contact us', href: '/contact' }}
             />
           </div>
@@ -112,7 +105,7 @@ export default async function ProductCategoryPage({ params }: PageProps) {
 
       <CtaSection
         title={`Questions about ${category.name}?`}
-        description="Tell us your goal and we'll recommend the right option — and quote it for you."
+        description="Tell us your country, intended use and quantity so we can review the available options."
       />
     </>
   );

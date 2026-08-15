@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import {
-  getProductBySlug,
-  getPublishedServiceSlugs,
-  getRelatedArticles,
-  getRelatedProducts,
-} from '@/lib/data';
+import { cache } from 'react';
+import { getProductBySlug, getRelatedArticles, getRelatedProducts } from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
+import { getMediaById } from '@/lib/media';
 import { RelatedList } from '@/components/product/related-list';
 import { CatalogDetail } from '@/components/product/catalog-detail';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
@@ -18,22 +15,27 @@ type PageProps = {
   params: { slug: string };
 };
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const slugs = await getPublishedServiceSlugs();
-  return slugs.map((slug) => ({ slug }));
+export function generateStaticParams(): [] {
+  return [];
 }
 
 async function getData(slug: string) {
   return getProductBySlug(slug);
 }
 
+const getPageData = cache(async (slug: string) => {
+  const service = await getData(slug);
+  const image = service?.coverImageId ? await getMediaById(service.coverImageId) : null;
+  return { service, image };
+});
+
 function isService(service: NonNullable<Awaited<ReturnType<typeof getData>>>): boolean {
   return service.type === 'SERVICE';
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const service = await getData(params.slug);
-  if (!service || !isService(service)) return {};
+  const { service, image } = await getPageData(params.slug);
+  if (!service || !isService(service)) notFound();
   const title = service.seoTitle ?? `${service.title} | ${siteConfig.name}`;
   const description = service.seoDescription ?? service.shortDescription ?? undefined;
   const url = `${siteConfig.url}/services/${service.slug}`;
@@ -47,13 +49,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: siteConfig.name,
       title,
       description: description ?? undefined,
+      ...(image ? { images: [{ url: image.url, alt: image.alt }] } : {}),
     },
-    twitter: { card: 'summary_large_image', title, description: description ?? undefined },
+    twitter: {
+      card: image ? 'summary_large_image' : 'summary',
+      title,
+      description: description ?? undefined,
+      ...(image ? { images: [image.url] } : {}),
+    },
   };
 }
 
 export default async function ServiceDetailPage({ params }: PageProps) {
-  const service = await getData(params.slug);
+  const { service, image } = await getPageData(params.slug);
   if (!service || !isService(service)) notFound();
 
   const url = `${siteConfig.url}/services/${service.slug}`;
@@ -71,13 +79,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           { label: service.title, href: url },
         ]}
       />
-      <ServiceSchema name={service.title} description={description} url={url} />
+      <ServiceSchema name={service.title} description={description} url={url} image={image?.url} />
       <FaqSchema faqs={faqs} />
 
       <div className="container py-12">
         <Breadcrumbs items={[{ label: 'Services', href: '/services' }, { label: service.title }]} />
 
-        <CatalogDetail item={service} quoteCta="Request this service" />
+        <CatalogDetail item={service} quoteCta="Request service availability" />
 
         <RelatedList
           items={related.map((p) => ({

@@ -18,14 +18,14 @@ export const metadata: Metadata = {
     template: '%s | Surjora',
   },
   description:
-    'Surjora provides verified digital Chinese accounts and services: WeChat, Alipay, QQ, Xiaohongshu, Douyin, Taobao, Baidu and more. Request a quote via Telegram or WhatsApp.',
+    'Manually reviewed Chinese platform account and assistance requests for WeChat, Alipay, QQ, Xiaohongshu, Douyin, Taobao, Baidu and more.',
   applicationName: 'Surjora',
   authors: [{ name: 'Surjora' }],
   creator: 'Surjora',
   publisher: 'Surjora',
   keywords: [
     'Chinese WeChat account',
-    'buy Alipay account',
+    'Alipay account assistance',
     'QQ account',
     'WeCom account',
     'Xiaohongshu account',
@@ -43,8 +43,7 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'Surjora',
     title: 'Surjora — Digital Chinese Accounts & Services',
-    description:
-      'Verified digital Chinese accounts and services. Request a quote via Telegram or WhatsApp.',
+    description: 'Request reviewed account options and assistance for major Chinese platforms.',
     images: [
       {
         url: '/og.svg',
@@ -57,8 +56,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Surjora — Digital Chinese Accounts & Services',
-    description:
-      'Verified digital Chinese accounts and services. Request a quote via Telegram or WhatsApp.',
+    description: 'Request reviewed account options and assistance for major Chinese platforms.',
     images: ['/og.svg'],
   },
   robots: {
@@ -72,7 +70,7 @@ export const metadata: Metadata = {
       'max-video-preview': -1,
     },
   },
-  category: 'shopping',
+  category: 'business',
 };
 
 export const viewport: Viewport = {

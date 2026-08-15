@@ -17,7 +17,7 @@ const faqs = [
   {
     question: 'How do I receive the account after ordering?',
     answer:
-      'Everything is delivered digitally. Once your request is confirmed, we send the account details and credentials through a secure channel, along with setup guidance.',
+      'First submit an availability request. We confirm the exact scope, final price, delivery estimate and payment method in writing. After you accept the quote and payment is confirmed, delivery is completed digitally through the agreed channel.',
   },
   {
     question: 'What payment methods do you accept?',
@@ -27,7 +27,7 @@ const faqs = [
   {
     question: 'Is it safe to buy a Chinese account?',
     answer:
-      'We focus on accounts and services obtained and delivered in a way that protects your personal information. Your details are never shared, and we advise you on how to keep your account secure.',
+      'Digital accounts can carry platform, ownership, verification and recovery risks. Review the written specification and policies, use accurate information, keep recovery methods under your control and follow the relevant platform rules.',
   },
   {
     question: 'What do I need to get started?',
@@ -37,7 +37,7 @@ const faqs = [
   {
     question: 'How fast is delivery?',
     answer:
-      'Most requests are fulfilled within a short time after confirmation. Timeframes depend on the specific account or service and availability.',
+      'Timing is confirmed in the written quote after availability and requirements are reviewed. Platform checks and customer-side steps can affect delivery.',
   },
   {
     question: 'Can you handle custom requests?',
@@ -66,7 +66,7 @@ export default function SupportPage() {
           as="h1"
           eyebrow="Support"
           title="How can we help?"
-          description="Answers to common questions about our accounts and services. Can't find what you need? Message us directly — we reply within hours."
+          description="Answers to common questions about requests, quotes, delivery, platform limitations and support."
         />
 
         <div className="mt-10 grid gap-10 lg:grid-cols-5">
@@ -78,8 +78,8 @@ export default function SupportPage() {
             <div className="surface p-6 lg:sticky lg:top-24">
               <h2 className="text-lg font-semibold text-ink-900">Still need help?</h2>
               <p className="mt-2 text-sm leading-relaxed text-ink-600">
-                Message us on Telegram or WhatsApp for the fastest response, or send a detailed
-                message through the contact form.
+                Message us on Telegram or WhatsApp, or send a detailed message through the contact
+                form. Include your request reference when you have one.
               </p>
               <div className="mt-5 flex flex-col gap-2.5">
                 {siteConfig.telegram && (

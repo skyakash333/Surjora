@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { slugify } from '@/lib/slug';
 import { articleSchema } from '@/schema/article';
 import { catalogSchema } from '@/schema/catalog';
+import { orderSchema } from '@/schema/order';
 
 describe('slugify', () => {
   it('lowercases and hyphenates', () => {
@@ -125,5 +126,54 @@ describe('catalogSchema', () => {
   it('rejects an invalid type', () => {
     const result = catalogSchema.safeParse({ ...base, type: 'GADGET' });
     expect(result.success).toBe(false);
+  });
+});
+
+describe('orderSchema', () => {
+  const base = {
+    customerEmail: 'customer@example.com',
+    customerTelegram: '',
+    customerWhatsapp: '',
+    productId: 'product_1',
+    quantity: 1,
+    contactPreference: 'email',
+    requestType: 'quote',
+    message: 'Please confirm availability for my country.',
+    acceptedTerms: true,
+  };
+
+  it('accepts a valid availability request', () => {
+    expect(orderSchema.safeParse(base).success).toBe(true);
+  });
+
+  it('requires policy acceptance', () => {
+    const result = orderSchema.safeParse({ ...base, acceptedTerms: false });
+    expect(result.success).toBe(false);
+  });
+
+  it('requires Telegram details when Telegram is preferred', () => {
+    const result = orderSchema.safeParse({ ...base, contactPreference: 'telegram' });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues[0]?.path).toEqual(['customerTelegram']);
+    }
+  });
+
+  it('requires WhatsApp details when WhatsApp is preferred', () => {
+    const result = orderSchema.safeParse({ ...base, contactPreference: 'whatsapp' });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues[0]?.path).toEqual(['customerWhatsapp']);
+    }
+  });
+
+  it('accepts the selected direct contact channel when details are present', () => {
+    expect(
+      orderSchema.safeParse({
+        ...base,
+        contactPreference: 'telegram',
+        customerTelegram: '@customer',
+      }).success,
+    ).toBe(true);
   });
 });

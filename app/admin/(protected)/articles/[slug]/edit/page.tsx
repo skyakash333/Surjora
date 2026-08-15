@@ -5,6 +5,7 @@ import {
   getKnowledgeCategories,
   getAllCatalogItems,
   getAllArticles,
+  getMediaLibrary,
 } from '@/lib/data';
 import { ArticleEditor } from '@/components/admin/article-editor';
 
@@ -16,11 +17,12 @@ export const metadata: Metadata = {
 };
 
 export default async function EditArticlePage({ params }: { params: { slug: string } }) {
-  const [article, categories, catalog, articles] = await Promise.all([
+  const [article, categories, catalog, articles, media] = await Promise.all([
     getArticleForEditing(params.slug),
     getKnowledgeCategories(),
     getAllCatalogItems(),
     getAllArticles(),
+    getMediaLibrary(),
   ]);
 
   if (!article) notFound();
@@ -48,6 +50,11 @@ export default async function EditArticlePage({ params }: { params: { slug: stri
           articles={articles
             .filter((a) => a.slug !== article.slug)
             .map((a) => ({ id: a.id, title: a.title, categoryName: a.category?.name ?? null }))}
+          media={media.map((mediaItem) => ({
+            id: mediaItem.id,
+            url: mediaItem.url,
+            alt: mediaItem.alt,
+          }))}
           article={{
             slug: article.slug,
             title: article.title,

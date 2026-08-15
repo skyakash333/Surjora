@@ -47,11 +47,10 @@ type ProductSchemaProps = {
   name: string;
   description: string;
   url: string;
-  priceFrom?: number | null;
   image?: string;
 };
 
-export function ProductSchema({ name, description, url, priceFrom, image }: ProductSchemaProps) {
+export function ProductSchema({ name, description, url, image }: ProductSchemaProps) {
   return (
     <JsonLd
       data={{
@@ -61,15 +60,7 @@ export function ProductSchema({ name, description, url, priceFrom, image }: Prod
         description,
         url,
         image: image ?? undefined,
-        offers: priceFrom
-          ? {
-              '@type': 'Offer',
-              price: priceFrom,
-              priceCurrency: 'USD',
-              availability: 'https://schema.org/InStock',
-              url,
-            }
-          : undefined,
+        offers: undefined,
       }}
     />
   );
@@ -79,9 +70,10 @@ type ServiceSchemaProps = {
   name: string;
   description: string;
   url: string;
+  image?: string;
 };
 
-export function ServiceSchema({ name, description, url }: ServiceSchemaProps) {
+export function ServiceSchema({ name, description, url, image }: ServiceSchemaProps) {
   return (
     <JsonLd
       data={{
@@ -90,6 +82,7 @@ export function ServiceSchema({ name, description, url }: ServiceSchemaProps) {
         name,
         description,
         url,
+        image: image ?? undefined,
         serviceType: 'Digital Services',
       }}
     />

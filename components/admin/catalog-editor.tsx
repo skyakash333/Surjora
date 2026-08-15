@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { catalogSchema, type CatalogInput } from '@/schema/catalog';
@@ -9,10 +10,12 @@ import { Button } from '@/components/ui/button';
 
 type CategoryOption = { id: string; name: string; slug: string };
 type CatalogOption = { id: string; title: string; type: string };
+type MediaOption = { id: string; url: string; alt: string };
 
 type CatalogEditorProps = {
   categories: CategoryOption[];
   catalog: CatalogOption[];
+  media: MediaOption[];
   item?: {
     slug: string;
     type: string;
@@ -38,7 +41,7 @@ type BlockType = 'paragraph' | 'heading' | 'list' | 'callout';
 
 const blockTypes: BlockType[] = ['paragraph', 'heading', 'list', 'callout'];
 
-export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps) {
+export function CatalogEditor({ categories, catalog, media, item }: CatalogEditorProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -79,6 +82,8 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
   const faqFields = useFieldArray({ control, name: 'faqs' });
 
   const descriptionValue = watch('description');
+  const selectedMediaId = watch('coverImageId');
+  const selectedMedia = media.find((mediaItem) => mediaItem.id === selectedMediaId);
 
   async function onSubmit(values: CatalogInput) {
     setSaving(true);
@@ -215,7 +220,7 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
         <span>
           <span className="block text-sm font-medium text-ink-900">Featured</span>
           <span className="mt-0.5 block text-xs text-ink-500">
-            Surface this item in the homepage “Popular accounts &amp; services” row.
+            Surface this item in the homepage “Common accounts &amp; services” row.
           </span>
         </span>
       </label>
@@ -229,10 +234,40 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
 
       <div>
         <label htmlFor="coverImageId" className="mb-1 block text-sm font-medium text-ink-700">
-          Cover image URL
+          Cover image
         </label>
-        <input id="coverImageId" type="url" placeholder="https://..." {...register('coverImageId')} className={inputClass} />
-        <p className="mt-1 text-xs text-ink-500">External image URL used as the product/service cover.</p>
+        <select id="coverImageId" {...register('coverImageId')} className={inputClass}>
+          <option value="">Use branded fallback</option>
+          {item?.coverImageId && !media.some((mediaItem) => mediaItem.id === item.coverImageId) && (
+            <option value={item.coverImageId}>Current media ({item.coverImageId})</option>
+          )}
+          {media.map((mediaItem) => (
+            <option key={mediaItem.id} value={mediaItem.id}>
+              {mediaItem.alt} · {mediaItem.id}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-ink-500">
+          Select an item from the{' '}
+          <Link href="/admin/media" className="font-medium text-brand-700 underline">
+            Media library
+          </Link>
+          .
+        </p>
+        {selectedMedia && (
+          <div className="mt-3 flex items-center gap-3 rounded-lg border border-ink-200 bg-white p-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={selectedMedia.url}
+              alt={selectedMedia.alt}
+              className="h-16 w-24 rounded-md bg-ink-50 object-cover"
+            />
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-ink-900">{selectedMedia.alt}</p>
+              <p className="truncate text-xs text-ink-500">{selectedMedia.id}</p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div>
@@ -246,7 +281,12 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
         <label htmlFor="seoDescription" className="mb-1 block text-sm font-medium text-ink-700">
           SEO description
         </label>
-        <textarea id="seoDescription" {...register('seoDescription')} rows={2} className={inputClass} />
+        <textarea
+          id="seoDescription"
+          {...register('seoDescription')}
+          rows={2}
+          className={inputClass}
+        />
       </div>
 
       <div>
@@ -420,7 +460,11 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
           {featureFields.fields.map((field, index) => (
             <div key={field.id} className="rounded-lg border border-ink-200 bg-white p-4">
               <div className="grid gap-3 sm:grid-cols-3">
-                <input {...register(`features.${index}.title`)} placeholder="Feature title" className={inputClass} />
+                <input
+                  {...register(`features.${index}.title`)}
+                  placeholder="Feature title"
+                  className={inputClass}
+                />
                 <textarea
                   {...register(`features.${index}.text`)}
                   placeholder="Feature text"
@@ -457,7 +501,11 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
         <div className="mt-4 space-y-4">
           {faqFields.fields.map((field, index) => (
             <div key={field.id} className="rounded-lg border border-ink-200 bg-white p-4">
-              <input {...register(`faqs.${index}.question`)} placeholder="Question" className={inputClass} />
+              <input
+                {...register(`faqs.${index}.question`)}
+                placeholder="Question"
+                className={inputClass}
+              />
               <textarea
                 {...register(`faqs.${index}.answer`)}
                 placeholder="Answer"
@@ -479,7 +527,9 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-ink-700">Related products/services</label>
+        <label className="mb-1 block text-sm font-medium text-ink-700">
+          Related products/services
+        </label>
         <div className="grid max-h-48 gap-2 overflow-y-auto rounded-lg border border-ink-200 p-4 sm:grid-cols-2">
           {catalog.map((c) => (
             <label key={c.id} className="flex items-center gap-2 text-sm text-ink-700">
@@ -494,9 +544,7 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
                     onChange={(e) => {
                       const current = field.value ?? [];
                       field.onChange(
-                        e.target.checked
-                          ? [...current, c.id]
-                          : current.filter((id) => id !== c.id),
+                        e.target.checked ? [...current, c.id] : current.filter((id) => id !== c.id),
                       );
                     }}
                   />
@@ -512,7 +560,10 @@ export function CatalogEditor({ categories, catalog, item }: CatalogEditorProps)
       </div>
 
       {error && (
-        <p role="alert" className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p
+          role="alert"
+          className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+        >
           {error}
         </p>
       )}

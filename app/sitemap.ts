@@ -8,6 +8,8 @@ import {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com';
 
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [productSlugs, serviceSlugs, articles, categories] = await Promise.all([
     getPublishedProductSlugs(),
@@ -24,6 +26,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/about`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/support`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/contact`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${SITE_URL}/terms`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE_URL}/privacy`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE_URL}/refund-delivery-policy`, changeFrequency: 'yearly', priority: 0.3 },
   ];
 
   const productRoutes: MetadataRoute.Sitemap = productSlugs.map((slug) => ({
@@ -50,11 +55,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [
-    ...staticRoutes,
-    ...productRoutes,
-    ...serviceRoutes,
-    ...categoryRoutes,
-    ...articleRoutes,
-  ];
+  return [...staticRoutes, ...productRoutes, ...serviceRoutes, ...categoryRoutes, ...articleRoutes];
 }

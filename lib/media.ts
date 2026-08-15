@@ -4,15 +4,17 @@ import { prisma } from '@/lib/prisma';
 export function isCloudinaryConfigured(): boolean {
   return Boolean(
     process.env.CLOUDINARY_CLOUD_NAME &&
-      process.env.CLOUDINARY_API_KEY &&
-      process.env.CLOUDINARY_API_SECRET,
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET,
   );
 }
 
 // Server-side signed upload to Cloudinary (no SDK dependency).
-export async function uploadToCloudinary(
-  file: { buffer: Buffer; name: string; mimeType: string },
-): Promise<{ url: string }> {
+export async function uploadToCloudinary(file: {
+  buffer: Buffer;
+  name: string;
+  mimeType: string;
+}): Promise<{ url: string }> {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const apiKey = process.env.CLOUDINARY_API_KEY;
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
@@ -29,24 +31,17 @@ export async function uploadToCloudinary(
   const signature = createHash('sha1').update(toSign).digest('hex');
 
   const form = new FormData();
-  form.append(
-    'file',
-    new Blob([new Uint8Array(file.buffer)], { type: file.mimeType }),
-    file.name,
-  );
+  form.append('file', new Blob([new Uint8Array(file.buffer)], { type: file.mimeType }), file.name);
   form.append('folder', folder);
   form.append('public_id', publicId);
   form.append('timestamp', timestamp);
   form.append('api_key', apiKey);
   form.append('signature', signature);
 
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    {
-      method: 'POST',
-      body: form,
-    },
-  );
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    method: 'POST',
+    body: form,
+  });
 
   if (!response.ok) {
     const text = await response.text();
@@ -73,7 +68,7 @@ export async function createMedia(input: { url: string; alt: string; provider?: 
 export async function getMediaById(id: string | null | undefined) {
   if (!id) return null;
   try {
-    return prisma.media.findUnique({ where: { id } });
+    return await prisma.media.findUnique({ where: { id } });
   } catch {
     return null;
   }
