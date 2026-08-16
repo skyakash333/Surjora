@@ -277,7 +277,7 @@ function article({
     excerpt: description,
     categorySlug: category,
     coverImageId: null,
-    author: 'Surjora Team',
+    author: 'Wechatscan Team',
     readTimeMinutes: Math.max(
       5,
       Math.ceil(JSON.stringify(completedBody).split(/\s+/).length / 220),

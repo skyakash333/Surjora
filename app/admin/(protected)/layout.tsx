@@ -19,7 +19,7 @@ export default async function AdminLayout({
         <div className="container flex h-16 items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <Link href="/admin" className="text-lg font-bold tracking-tight text-ink-900">
-              Surjora Admin
+              Wechatscan Admin
             </Link>
             <AdminNav />
           </div>

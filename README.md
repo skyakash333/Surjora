@@ -1,4 +1,4 @@
-# Surjora
+# Wechatscan
 
 Manually reviewed Chinese platform account and assistance requests covering WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao, 1688, JD, Baidu, Bilibili, Chinese phone numbers, email, QR confirmation and verification guidance.
 

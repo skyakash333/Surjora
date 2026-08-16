@@ -45,7 +45,7 @@ const organizationJsonLd = {
 };
 
 /** Honest value points — describes how the service works, no invented statistics. */
-const whySurjora = [
+const whyWechatscan = [
   {
     icon: GlobeIcon,
     title: 'Focused catalog',
@@ -253,10 +253,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Why Surjora */}
+      {/* Why Wechatscan */}
       <section className="border-b border-ink-200 bg-ink-50/50">
         <div className="container py-16 sm:py-20">
-          <span className="eyebrow">Why Surjora</span>
+          <span className="eyebrow">Why Wechatscan</span>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
             A clearer request process
           </h2>
@@ -264,7 +264,7 @@ export default async function HomePage() {
             Review the important details first, then decide whether to accept the written quote.
           </p>
           <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {whySurjora.map((point) => (
+            {whyWechatscan.map((point) => (
               <li key={point.title} className="surface flex flex-col gap-3 p-6">
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100">
                   <point.icon />

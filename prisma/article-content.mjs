@@ -30,7 +30,7 @@ function article({
     excerpt: description,
     categorySlug: category,
     coverImageId: null,
-    author: 'Surjora Team',
+    author: 'Wechatscan Team',
     readTimeMinutes: Math.max(3, Math.ceil(JSON.stringify(body).split(/\s+/).length / 220)),
     tags,
     faqs,
@@ -47,9 +47,9 @@ export const articles = [
   article({
     slug: 'case-study-1688-wholesale-sourcing',
     title: 'Case Study: Sourcing Wholesale Goods on 1688',
-    seoTitle: 'Archived 1688 Sourcing Case Study | Surjora',
+    seoTitle: 'Archived 1688 Sourcing Case Study | Wechatscan',
     description:
-      'This record is archived because Surjora does not have sufficient attributable evidence to publish it as a real case study.',
+      'This record is archived because Wechatscan does not have sufficient attributable evidence to publish it as a real case study.',
     category: 'case-studies',
     tags: ['1688', 'case study'],
     status: 'ARCHIVED',
@@ -57,14 +57,14 @@ export const articles = [
     body: [
       callout(
         'Archived for accuracy',
-        'Surjora only publishes case studies supported by real, attributable evidence. This earlier draft did not meet that standard and is not publicly available.',
+        'Wechatscan only publishes case studies supported by real, attributable evidence. This earlier draft did not meet that standard and is not publicly available.',
       ),
     ],
   }),
   article({
     slug: 'china-platform-news-2026-midyear',
     title: 'Chinese Platform News: Mid-Year 2026 Roundup',
-    seoTitle: 'Archived Chinese Platform News Roundup | Surjora',
+    seoTitle: 'Archived Chinese Platform News Roundup | Wechatscan',
     description:
       'This record is archived because its time-sensitive claims were not supported by sufficient primary sources.',
     category: 'news',
@@ -127,7 +127,7 @@ export const articles = [
       ),
       h('Why WeChat may ask another user to verify you'),
       p(
-        'Assisted verification is an anti-abuse measure, not a guaranteed step for every registration. The helper must satisfy the conditions shown in WeChat; account age, recent verification activity, region, and account standing may matter. Surjora cannot override WeChat eligibility rules or guarantee that a particular helper will be accepted.',
+        'Assisted verification is an anti-abuse measure, not a guaranteed step for every registration. The helper must satisfy the conditions shown in WeChat; account age, recent verification activity, region, and account standing may matter. Wechatscan cannot override WeChat eligibility rules or guarantee that a particular helper will be accepted.',
       ),
       h('Common mistakes to avoid'),
       list([
@@ -310,7 +310,7 @@ export const articles = [
         'Stop if the request changes from scanning or confirming to taking over your device',
       ]),
       callout(
-        'What Surjora can and cannot do',
+        'What Wechatscan can and cannot do',
         'A QR scan service can help when an eligible helper is genuinely available. It cannot bypass Tencent controls, guarantee eligibility, or replace identity checks required by WeChat.',
       ),
       links('Troubleshoot the next step', [
@@ -656,7 +656,7 @@ export const articles = [
     ],
     faqs: [
       {
-        question: 'Can Surjora recover any WeChat account?',
+        question: 'Can Wechatscan recover any WeChat account?',
         answer:
           'No. Assistance can help you understand and follow official recovery steps, but Tencent decides the outcome.',
       },
@@ -1478,7 +1478,7 @@ export const articles = [
       ]),
       callout(
         'No fictional outcomes',
-        'Surjora does not publish sourcing “case studies” without real, attributable evidence. Results vary by product, supplier, contract, quality control, logistics, and market.',
+        'Wechatscan does not publish sourcing “case studies” without real, attributable evidence. Results vary by product, supplier, contract, quality control, logistics, and market.',
       ),
       links('Related commerce guides', [
         { label: 'Taobao account guide', href: path('guides', 'taobao-account-guide') },
@@ -2070,7 +2070,7 @@ export const articles = [
       ]),
       h('Platform-by-platform starting points'),
       table(
-        ['Goal', 'Start here', 'Related Surjora guide'],
+        ['Goal', 'Start here', 'Related Wechatscan guide'],
         [
           [
             'Register WeChat',

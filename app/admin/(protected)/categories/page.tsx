@@ -5,7 +5,7 @@ import { CategoryManager } from '@/components/admin/category-manager';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Categories | Surjora Admin',
+  title: 'Categories | Wechatscan Admin',
   robots: { index: false, follow: false },
 };
 

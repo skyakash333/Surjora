@@ -241,7 +241,7 @@ const legacyProducts = [
     slug: 'wechat-accounts',
     type: 'PRODUCT',
     title: 'WeChat Accounts',
-    seoTitle: 'Buy Verified WeChat Accounts | Surjora',
+    seoTitle: 'Buy Verified WeChat Accounts | Wechatscan',
     seoDescription:
       'Verified WeChat accounts for personal and business use. Fast delivery, real support. Request a quote today.',
     h1: 'WeChat Accounts',
@@ -310,7 +310,7 @@ const legacyProducts = [
     slug: 'qq-accounts',
     type: 'PRODUCT',
     title: 'QQ Accounts',
-    seoTitle: 'Buy QQ Accounts | Surjora',
+    seoTitle: 'Buy QQ Accounts | Wechatscan',
     seoDescription:
       'Verified QQ accounts for messaging, groups and access to Chinese services. Digital delivery with support.',
     h1: 'QQ Accounts',
@@ -367,7 +367,7 @@ const legacyProducts = [
     slug: 'alipay-accounts',
     type: 'PRODUCT',
     title: 'Alipay Accounts',
-    seoTitle: 'Buy Alipay Accounts | Surjora',
+    seoTitle: 'Buy Alipay Accounts | Wechatscan',
     seoDescription:
       'Alipay accounts for payments, transfers and access to the Chinese financial ecosystem. Digital delivery.',
     h1: 'Alipay Accounts',
@@ -426,7 +426,7 @@ const legacyProducts = [
     slug: 'wecom-accounts',
     type: 'PRODUCT',
     title: 'WeCom Accounts',
-    seoTitle: 'Buy WeCom Accounts | Surjora',
+    seoTitle: 'Buy WeCom Accounts | Wechatscan',
     seoDescription:
       'WeCom (WeChat Work) accounts for teams, businesses and customer communication in China.',
     h1: 'WeCom Accounts',
@@ -476,7 +476,7 @@ const legacyProducts = [
     slug: 'xiaohongshu-accounts',
     type: 'PRODUCT',
     title: 'Xiaohongshu Accounts',
-    seoTitle: 'Buy Xiaohongshu (RED) Accounts | Surjora',
+    seoTitle: 'Buy Xiaohongshu (RED) Accounts | Wechatscan',
     seoDescription:
       'Xiaohongshu accounts for content creators and brands reaching Chinese consumers.',
     h1: 'Xiaohongshu Accounts',
@@ -534,7 +534,7 @@ const legacyProducts = [
     slug: 'douyin-accounts',
     type: 'PRODUCT',
     title: 'Douyin Accounts',
-    seoTitle: 'Buy Douyin Accounts | Surjora',
+    seoTitle: 'Buy Douyin Accounts | Wechatscan',
     seoDescription: 'Douyin (TikTok China) accounts for short video, livestreaming and e-commerce.',
     h1: 'Douyin Accounts',
     shortDescription:
@@ -588,7 +588,7 @@ const legacyProducts = [
     slug: 'taobao-accounts',
     type: 'PRODUCT',
     title: 'Taobao Accounts',
-    seoTitle: 'Buy Taobao Accounts | Surjora',
+    seoTitle: 'Buy Taobao Accounts | Wechatscan',
     seoDescription:
       'Taobao accounts for shopping and browsing China\u2019s largest consumer marketplace.',
     h1: 'Taobao Accounts',
@@ -645,7 +645,7 @@ const legacyProducts = [
     slug: '1688-accounts',
     type: 'PRODUCT',
     title: '1688 Accounts',
-    seoTitle: 'Buy 1688 Accounts | Surjora',
+    seoTitle: 'Buy 1688 Accounts | Wechatscan',
     seoDescription:
       '1688 accounts for wholesale sourcing directly from Chinese manufacturers and suppliers.',
     h1: '1688 Accounts',
@@ -702,7 +702,7 @@ const legacyProducts = [
     slug: 'jd-accounts',
     type: 'PRODUCT',
     title: 'JD Accounts',
-    seoTitle: 'Buy JD.com Accounts | Surjora',
+    seoTitle: 'Buy JD.com Accounts | Wechatscan',
     seoDescription:
       'JD.com accounts for shopping from one of China\u2019s largest online retailers.',
     h1: 'JD Accounts',
@@ -755,7 +755,7 @@ const legacyProducts = [
     slug: 'baidu-accounts',
     type: 'PRODUCT',
     title: 'Baidu Accounts',
-    seoTitle: 'Buy Baidu Accounts | Surjora',
+    seoTitle: 'Buy Baidu Accounts | Wechatscan',
     seoDescription: 'Baidu accounts for search, cloud storage and the Chinese internet ecosystem.',
     h1: 'Baidu Accounts',
     shortDescription:
@@ -803,7 +803,7 @@ const legacyProducts = [
     slug: 'bilibili-accounts',
     type: 'PRODUCT',
     title: 'Bilibili Accounts',
-    seoTitle: 'Buy Bilibili Accounts | Surjora',
+    seoTitle: 'Buy Bilibili Accounts | Wechatscan',
     seoDescription:
       'Bilibili accounts for video, streaming and the young Chinese internet culture.',
     h1: 'Bilibili Accounts',
@@ -852,7 +852,7 @@ const legacyProducts = [
     slug: 'chinese-phone-numbers',
     type: 'PRODUCT',
     title: 'Chinese Phone Numbers',
-    seoTitle: 'Chinese Phone Numbers for Verification | Surjora',
+    seoTitle: 'Chinese Phone Numbers for Verification | Wechatscan',
     seoDescription:
       'Chinese phone numbers for account verification and receiving SMS from Chinese platforms.',
     h1: 'Chinese Phone Numbers',
@@ -903,7 +903,7 @@ const legacyProducts = [
     slug: 'chinese-email-accounts',
     type: 'PRODUCT',
     title: 'Chinese Email Accounts',
-    seoTitle: 'Chinese Email Accounts | Surjora',
+    seoTitle: 'Chinese Email Accounts | Wechatscan',
     seoDescription: 'Chinese email accounts for sign-ups and verification on Chinese platforms.',
     h1: 'Chinese Email Accounts',
     shortDescription:
@@ -948,7 +948,7 @@ const legacyProducts = [
     slug: 'wechat-qr-scan',
     type: 'SERVICE',
     title: 'WeChat QR Scan',
-    seoTitle: 'WeChat QR Scan Service | Surjora',
+    seoTitle: 'WeChat QR Scan Service | Wechatscan',
     seoDescription:
       'WeChat QR scan and account linking service. Get help scanning QR codes and linking accounts.',
     h1: 'WeChat QR Scan',
@@ -999,7 +999,7 @@ const legacyProducts = [
     slug: 'chinese-verification',
     type: 'SERVICE',
     title: 'Chinese Verification',
-    seoTitle: 'Chinese Verification Service | Surjora',
+    seoTitle: 'Chinese Verification Service | Wechatscan',
     seoDescription:
       'Verification services for Chinese platforms. Get verified accounts and services checked.',
     h1: 'Chinese Verification',
@@ -1050,7 +1050,7 @@ const legacyProducts = [
     slug: 'account-assistance',
     type: 'SERVICE',
     title: 'Account Assistance',
-    seoTitle: 'Account Assistance Service | Surjora',
+    seoTitle: 'Account Assistance Service | Wechatscan',
     seoDescription:
       'Hands-on help with Chinese accounts — setup, recovery, security and best practices.',
     h1: 'Account Assistance',
@@ -1101,7 +1101,7 @@ const legacyProducts = [
     slug: 'custom-requests',
     type: 'SERVICE',
     title: 'Custom Requests',
-    seoTitle: 'Custom Requests | Surjora',
+    seoTitle: 'Custom Requests | Wechatscan',
     seoDescription:
       'Need something specific? Tell us your goal and we will help with tailored digital services.',
     h1: 'Custom Requests',
@@ -1148,12 +1148,12 @@ const legacyProducts = [
 
 function professionalCatalogCopy({ title, summary, suitableFor, requirements, limitations, delivery }) {
   return {
-    seoTitle: `${title} Availability & Assistance | Surjora`,
+    seoTitle: `${title} Availability & Assistance | Wechatscan`,
     seoDescription: `${summary} Request reviewed availability, exact scope, final pricing and a delivery estimate before payment.`,
     shortDescription: summary,
     h1: title,
     description: [
-      { type: 'paragraph', data: { text: `${summary} Surjora reviews each request manually because account specifications, availability, platform checks and regional requirements can vary.` } },
+      { type: 'paragraph', data: { text: `${summary} Wechatscan reviews each request manually because account specifications, availability, platform checks and regional requirements can vary.` } },
       { type: 'heading', data: { level: 2, text: 'Suitable for' } },
       { type: 'list', data: { ordered: false, items: suitableFor } },
       { type: 'heading', data: { level: 2, text: 'What we confirm before payment' } },
@@ -1192,9 +1192,9 @@ const catalogProfessionalCopy = {
   'chinese-phone-numbers': professionalCatalogCopy({ title: 'Chinese Phone Number Options', summary: 'Reviewed Chinese phone number options for supported SMS, account and communication needs.', suitableFor: ['Customers who confirmed a service requires +86', 'Longer-term account recovery planning', 'Authorized business communication workflows'], requirements: ['A lawful intended use', 'Required service and retention period', 'Compliance with subscriber and real-name rules'], limitations: 'No number is guaranteed to work with every platform. SMS routing, roaming, recycling, identity and recovery requirements vary.', delivery: 'Number scope, control period, supported functions and renewal conditions are confirmed before payment.' }),
   'chinese-email-accounts': professionalCatalogCopy({ title: 'Chinese Email Account Options', summary: 'Chinese email account options for supported registration and communication workflows.', suitableFor: ['Users needing QQ Mail or another supported provider', 'China-facing communication', 'Platform registration where email is accepted'], requirements: ['The target provider and use case', 'A controlled recovery method', 'Responsible sending and account security'], limitations: 'A Chinese-domain address does not guarantee platform acceptance or message delivery. Provider and recipient filtering still apply.', delivery: 'The provider, account scope and recovery information are confirmed before secure digital delivery.' }),
   'wechat-qr-scan': professionalCatalogCopy({ title: 'WeChat QR Scan Assistance', summary: 'Assisted WeChat QR confirmation when the official flow requests an eligible existing user.', suitableFor: ['New registrations showing assisted verification', 'Official QR confirmation steps', 'Customers who understand helper eligibility can vary'], requirements: ['A current QR request from the official app', 'The applicant remains on their own device', 'No sharing of passwords or SMS codes'], limitations: 'Helper eligibility is controlled by Tencent. The service cannot bypass risk controls, guarantee acceptance or replace identity verification.', delivery: 'The scan is coordinated live or within an agreed window after the current request is reviewed.' }),
-  'chinese-verification': professionalCatalogCopy({ title: 'Chinese Platform Verification Assistance', summary: 'Guidance and supported assistance for legitimate SMS, identity, phone or platform verification steps.', suitableFor: ['Users who know the exact platform and feature', 'Customers needing help interpreting official requirements', 'Business or personal verification planning'], requirements: ['Accurate information', 'Use of official platform flows', 'Secure handling of any necessary documents'], limitations: 'Surjora cannot bypass verification, fabricate identity, disable risk controls or guarantee platform approval.', delivery: 'The supported step, information requirements and timing are confirmed before payment.' }),
+  'chinese-verification': professionalCatalogCopy({ title: 'Chinese Platform Verification Assistance', summary: 'Guidance and supported assistance for legitimate SMS, identity, phone or platform verification steps.', suitableFor: ['Users who know the exact platform and feature', 'Customers needing help interpreting official requirements', 'Business or personal verification planning'], requirements: ['Accurate information', 'Use of official platform flows', 'Secure handling of any necessary documents'], limitations: 'Wechatscan cannot bypass verification, fabricate identity, disable risk controls or guarantee platform approval.', delivery: 'The supported step, information requirements and timing are confirmed before payment.' }),
   'account-assistance': professionalCatalogCopy({ title: 'Account Assistance', summary: 'Hands-on guidance for setup, security, recovery and supported Chinese platform workflows.', suitableFor: ['Registration or login troubleshooting', 'Security and recovery preparation', 'Platform-specific setup questions'], requirements: ['The exact error or goal', 'Accurate account history', 'Use of official support and recovery routes'], limitations: 'Assistance cannot override platform decisions, guarantee recovery or bypass identity and security requirements.', delivery: 'Guidance is provided digitally through the agreed support channel for the quoted scope.' }),
-  'custom-requests': professionalCatalogCopy({ title: 'Custom Platform Request', summary: 'A manually reviewed request for a China-platform need not covered by the standard catalog.', suitableFor: ['Unlisted platforms', 'Multi-step account or verification planning', 'Business workflows requiring a scoped review'], requirements: ['A clear intended outcome', 'Relevant platform and country information', 'A lawful and platform-compliant use case'], limitations: 'Surjora may decline requests that are illegal, abusive, misleading, technically unsupported or inconsistent with platform rules.', delivery: 'The proposed scope, deliverables, exclusions, price and timing are defined in a written quote.' }),
+  'custom-requests': professionalCatalogCopy({ title: 'Custom Platform Request', summary: 'A manually reviewed request for a China-platform need not covered by the standard catalog.', suitableFor: ['Unlisted platforms', 'Multi-step account or verification planning', 'Business workflows requiring a scoped review'], requirements: ['A clear intended outcome', 'Relevant platform and country information', 'A lawful and platform-compliant use case'], limitations: 'Wechatscan may decline requests that are illegal, abusive, misleading, technically unsupported or inconsistent with platform rules.', delivery: 'The proposed scope, deliverables, exclusions, price and timing are defined in a written quote.' }),
 };
 
 const products = legacyProducts.map((product) => ({
@@ -1704,7 +1704,7 @@ async function main() {
     update: {},
     create: {
       id: 'singleton',
-      siteName: 'Surjora',
+      siteName: 'Wechatscan',
       paymentPlaceholder:
         'Payments handled manually per order. Payment integration is a later phase.',
       customersServed: 0,

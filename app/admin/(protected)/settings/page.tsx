@@ -7,7 +7,7 @@ import { SettingsForm } from '@/components/admin/settings-form';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Settings | Surjora Admin',
+  title: 'Settings | Wechatscan Admin',
   robots: { index: false, follow: false },
 };
 

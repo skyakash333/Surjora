@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 
 export const metadata = buildMetadata({
   title: 'Refund and Delivery Policy',
-  description: 'Surjora digital delivery, cancellation, refund and issue-reporting policy.',
+  description: 'Wechatscan digital delivery, cancellation, refund and issue-reporting policy.',
   path: '/refund-delivery-policy',
 });
 
@@ -12,7 +12,7 @@ export default function RefundDeliveryPage() {
   const sections = [
     [
       'Before payment',
-      'Submitting a request does not require payment. You may withdraw before accepting and paying an issued quote. Availability and delivery timing are not reserved until Surjora confirms otherwise in writing.',
+      'Submitting a request does not require payment. You may withdraw before accepting and paying an issued quote. Availability and delivery timing are not reserved until Wechatscan confirms otherwise in writing.',
     ],
     [
       'Digital delivery',
@@ -24,7 +24,7 @@ export default function RefundDeliveryPage() {
     ],
     [
       'Refund eligibility',
-      'A refund may be available when Surjora cannot deliver the specifically agreed scope, when the delivered item materially differs from the written quote and cannot be corrected, or when Surjora cancels before delivery. The written quote may define product-specific replacement or review conditions.',
+      'A refund may be available when Wechatscan cannot deliver the specifically agreed scope, when the delivered item materially differs from the written quote and cannot be corrected, or when Wechatscan cancels before delivery. The written quote may define product-specific replacement or review conditions.',
     ],
     [
       'Non-refundable situations',
@@ -32,7 +32,7 @@ export default function RefundDeliveryPage() {
     ],
     [
       'Replacement and correction',
-      'When appropriate, Surjora may first investigate, correct instructions, repeat an agreed service step or provide a replacement consistent with the accepted quote. This does not guarantee reversal of third-party platform decisions.',
+      'When appropriate, Wechatscan may first investigate, correct instructions, repeat an agreed service step or provide a replacement consistent with the accepted quote. This does not guarantee reversal of third-party platform decisions.',
     ],
     [
       'Timing',
@@ -40,7 +40,7 @@ export default function RefundDeliveryPage() {
     ],
     [
       'Disputes',
-      'Contact Surjora first with the request reference and evidence. Fraudulent chargebacks, threats or concealment of material facts may result in refusal of future service. Nothing in this policy removes non-waivable consumer rights under applicable law.',
+      'Contact Wechatscan first with the request reference and evidence. Fraudulent chargebacks, threats or concealment of material facts may result in refusal of future service. Nothing in this policy removes non-waivable consumer rights under applicable law.',
     ],
   ];
   return (

@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!category) notFound();
   return buildMetadata({
     title: category.name,
-    description: category.description ?? `${category.name} articles on Surjora Knowledge Hub.`,
+    description: category.description ?? `${category.name} articles on Wechatscan Knowledge Hub.`,
     path: `/knowledge/${category.slug}`,
   });
 }
@@ -60,7 +60,7 @@ export default async function KnowledgeCategoryPage({ params }: PageProps) {
           title={category.name}
           description={
             category.description ??
-            `${category.name} articles, guides and tutorials from the Surjora Knowledge Hub.`
+            `${category.name} articles, guides and tutorials from the Wechatscan Knowledge Hub.`
           }
         />
 

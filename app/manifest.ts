@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Surjora — Digital Chinese Accounts & Services',
-    short_name: 'Surjora',
+    name: 'Wechatscan — Digital Chinese Accounts & Services',
+    short_name: 'Wechatscan',
     description: 'Manually reviewed Chinese platform account and assistance requests.',
     start_url: '/',
     display: 'standalone',

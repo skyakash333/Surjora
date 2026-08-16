@@ -8,7 +8,7 @@
   <rect width="1200" height="630" fill="url(#bg)"/>
   <circle cx="980" cy="120" r="220" fill="#ea580c" opacity="0.35"/>
   <circle cx="160" cy="520" r="260" fill="#fb923c" opacity="0.25"/>
-  <text x="90" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="84" font-weight="800" fill="#ffffff">Surjora</text>
-  <text x="90" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="34" fill="#fed7aa">Verified digital Chinese accounts &amp; services</text>
+  <text x="90" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="84" font-weight="800" fill="#ffffff">Wechatscan</text>
+  <text x="90" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="34" fill="#fed7aa">Reviewed Chinese platform requests &amp; assistance</text>
   <text x="90" y="430" font-family="system-ui, -apple-system, sans-serif" font-size="26" fill="#fdba74">WeChat · QQ · Alipay · WeCom · Xiaohongshu · Douyin · Taobao</text>
 </svg>

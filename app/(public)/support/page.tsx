@@ -9,7 +9,7 @@ import { ButtonLink } from '@/components/ui/button';
 export const metadata = buildMetadata({
   title: 'Support',
   description:
-    'Frequently asked questions and support for Surjora accounts and services — delivery, usage, privacy, and how to get in touch.',
+    'Frequently asked questions and support for Wechatscan accounts and services — delivery, usage, privacy, and how to get in touch.',
   path: '/support',
 });
 

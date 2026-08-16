@@ -118,12 +118,12 @@ export function ArticleSchema({
         url,
         image: image ?? undefined,
         author:
-          author === 'Surjora Team'
+          author === 'Wechatscan Team'
             ? { '@type': 'Organization', name: author }
             : { '@type': 'Person', name: author },
         publisher: {
           '@type': 'Organization',
-          name: 'Surjora',
+          name: 'Wechatscan',
         },
         mainEntityOfPage: url,
         ...(datePublished ? { datePublished } : {}),

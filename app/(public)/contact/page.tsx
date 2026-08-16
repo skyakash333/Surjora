@@ -9,7 +9,7 @@ import { CheckIcon } from '@/components/ui/icons';
 export const metadata = buildMetadata({
   title: 'Contact Us',
   description:
-    'Contact Surjora for Chinese accounts and services: WeChat, QQ, Alipay, Xiaohongshu, Douyin, Taobao and more. Reach us via Telegram, WhatsApp or the contact form.',
+    'Contact Wechatscan for Chinese accounts and services: WeChat, QQ, Alipay, Xiaohongshu, Douyin, Taobao and more. Reach us via Telegram, WhatsApp or the contact form.',
   path: '/contact',
 });
 
@@ -27,7 +27,7 @@ export default function ContactPage() {
         data={{
           '@context': 'https://schema.org',
           '@type': 'ContactPage',
-          name: 'Contact Surjora',
+          name: 'Contact Wechatscan',
           url: `${siteConfig.url}/contact`,
           mainEntity: {
             '@type': 'Organization',

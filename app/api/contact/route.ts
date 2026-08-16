@@ -57,10 +57,10 @@ export async function POST(request: Request) {
   if (apiKey) {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
-      from: process.env.CONTACT_FROM_EMAIL ?? 'Surjora <contact@surjora.com>',
-      to: [process.env.CONTACT_TO_EMAIL ?? 'contact@surjora.com'],
+      from: process.env.CONTACT_FROM_EMAIL ?? 'Wechatscan <contact@wechatscan.online>',
+      to: [process.env.CONTACT_TO_EMAIL ?? 'contact@wechatscan.online'],
       reply_to: email,
-      subject: `Surjora contact form — ${name}`,
+      subject: `Wechatscan contact form — ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
     });
     if (error) {

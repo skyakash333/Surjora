@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: category.name,
     description:
       category.description ??
-      `Review ${category.name} scope, requirements, limitations and the Surjora quote process.`,
+      `Review ${category.name} scope, requirements, limitations and the Wechatscan quote process.`,
     path: `/products/category/${category.slug}`,
   });
 }

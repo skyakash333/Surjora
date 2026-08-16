@@ -6,7 +6,7 @@ import {
   getPublishedServiceSlugs,
 } from '@/lib/data';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wechatscan.online';
 
 export const dynamic = 'force-dynamic';
 

@@ -12,7 +12,7 @@ import { ArticleEditor } from '@/components/admin/article-editor';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Edit article | Surjora Admin',
+  title: 'Edit article | Wechatscan Admin',
   robots: { index: false, follow: false },
 };
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-const SITE_NAME = 'Surjora';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com';
+const SITE_NAME = 'Wechatscan';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wechatscan.online';
 
 type BuildMetadataArgs = {
   title: string;

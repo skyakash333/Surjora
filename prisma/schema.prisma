@@ -122,7 +122,7 @@ model Article {
   faqs              Json? // optional FAQ for FAQPage schema
   relatedArticleIds String[]
   relatedProductIds String[]
-  author            String        @default("Surjora Team")
+  author            String        @default("Wechatscan Team")
   readTimeMinutes   Int?
   publishedAt       DateTime?
   featured          Boolean       @default(false)
@@ -204,7 +204,7 @@ model Testimonial {
 
 model Settings {
   id                 String   @id @default("singleton")
-  siteName           String   @default("Surjora")
+  siteName           String   @default("Wechatscan")
   contactEmail       String?
   telegramUrl        String?
   whatsappUrl        String?

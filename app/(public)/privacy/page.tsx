@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 
 export const metadata = buildMetadata({
   title: 'Privacy Policy',
-  description: 'How Surjora collects, uses and protects customer, request and website information.',
+  description: 'How Wechatscan collects, uses and protects customer, request and website information.',
   path: '/privacy',
 });
 
@@ -12,7 +12,7 @@ export default function PrivacyPage() {
   const sections = [
     [
       'Information collected',
-      'Surjora collects information you submit, such as email, Telegram or WhatsApp contact, request details, quantity and product interest. Security systems may process IP address, bot-verification information and basic technical logs.',
+      'Wechatscan collects information you submit, such as email, Telegram or WhatsApp contact, request details, quantity and product interest. Security systems may process IP address, bot-verification information and basic technical logs.',
     ],
     [
       'How information is used',
@@ -20,11 +20,11 @@ export default function PrivacyPage() {
     ],
     [
       'Sensitive information',
-      'Do not send passwords, one-time codes, payment PINs or identity documents in an initial request. If a service genuinely requires sensitive information, Surjora will explain the purpose and appropriate submission method first.',
+      'Do not send passwords, one-time codes, payment PINs or identity documents in an initial request. If a service genuinely requires sensitive information, Wechatscan will explain the purpose and appropriate submission method first.',
     ],
     [
       'Service providers',
-      'Information may be processed by infrastructure, database, email, bot-protection and communications providers used to operate Surjora. Each provider receives only information needed for its function.',
+      'Information may be processed by infrastructure, database, email, bot-protection and communications providers used to operate Wechatscan. Each provider receives only information needed for its function.',
     ],
     [
       'Retention',
@@ -32,15 +32,15 @@ export default function PrivacyPage() {
     ],
     [
       'Security',
-      'Surjora uses access controls and reasonable technical measures, but no internet system is risk-free. Customers should also protect their communication accounts and devices.',
+      'Wechatscan uses access controls and reasonable technical measures, but no internet system is risk-free. Customers should also protect their communication accounts and devices.',
     ],
     [
       'Your choices',
-      'You may ask to review, correct or delete eligible personal information by contacting Surjora. Some records may need to be retained for legal, security or transaction purposes.',
+      'You may ask to review, correct or delete eligible personal information by contacting Wechatscan. Some records may need to be retained for legal, security or transaction purposes.',
     ],
     [
       'International processing',
-      'Surjora and its service providers may process data in countries different from yours. By submitting a request, you acknowledge this operational necessity subject to applicable law.',
+      'Wechatscan and its service providers may process data in countries different from yours. By submitting a request, you acknowledge this operational necessity subject to applicable law.',
     ],
     [
       'Contact',

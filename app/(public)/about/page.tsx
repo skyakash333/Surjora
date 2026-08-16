@@ -7,9 +7,9 @@ import { CtaSection } from '@/components/marketing/cta-section';
 import { TrustBar } from '@/components/marketing/trust-bar';
 
 export const metadata = buildMetadata({
-  title: 'About Surjora',
+  title: 'About Wechatscan',
   description:
-    'Learn how Surjora manually reviews Chinese platform account and assistance requests before quote, payment and digital delivery.',
+    'Learn how Wechatscan manually reviews Chinese platform account and assistance requests before quote, payment and digital delivery.',
   path: '/about',
 });
 
@@ -23,7 +23,7 @@ const values = [
     text: 'Start by describing what you need. We review eligibility and availability, define the scope in writing, and proceed only after you accept the quote.',
   },
   {
-    title: 'Why choose Surjora',
+    title: 'Why choose Wechatscan',
     text: 'The request process separates inquiry, quote, payment and fulfilment. Platform limitations and customer-side steps are stated before payment.',
   },
   {
@@ -39,7 +39,7 @@ export default function AboutPage() {
         data={{
           '@context': 'https://schema.org',
           '@type': 'AboutPage',
-          name: 'About Surjora',
+          name: 'About Wechatscan',
           url: `${siteConfig.url}/about`,
         }}
       />
@@ -49,7 +49,7 @@ export default function AboutPage() {
           as="h1"
           eyebrow="About"
           title="Digital Chinese accounts, handled personally"
-          description="Surjora helps individuals and businesses review account and assistance options for WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more."
+          description="Wechatscan helps individuals and businesses review account and assistance options for WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more."
         />
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2">

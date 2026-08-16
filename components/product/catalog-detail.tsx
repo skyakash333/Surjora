@@ -123,7 +123,7 @@ export function CatalogDetail({ item, quoteCta }: CatalogDetailProps) {
             <p className="mt-3 text-sm leading-relaxed text-ink-600">
               Platform access, verification, payments and business features are controlled by the
               platform and may depend on country, identity, device, phone number and current rules.
-              Surjora does not guarantee permanent access, unrestricted features or approval by a
+              Wechatscan does not guarantee permanent access, unrestricted features or approval by a
               third-party platform. Review the final written quote and policy terms before payment.
             </p>
           </div>

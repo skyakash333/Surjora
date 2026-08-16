@@ -1,7 +1,7 @@
 export const siteConfig = {
-  name: 'Surjora',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com',
-  email: process.env.CONTACT_TO_EMAIL ?? 'contact@surjora.com',
+  name: 'Wechatscan',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wechatscan.online',
+  email: process.env.CONTACT_TO_EMAIL ?? 'contact@wechatscan.online',
   telegram: process.env.NEXT_PUBLIC_TELEGRAM_URL ?? '',
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_URL ?? '',
   description:

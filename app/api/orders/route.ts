@@ -106,10 +106,10 @@ export async function POST(request: Request) {
   if (resend) {
     try {
       const result = await resend.emails.send({
-        from: process.env.CONTACT_FROM_EMAIL ?? 'Surjora <contact@surjora.com>',
-        to: [process.env.CONTACT_TO_EMAIL ?? 'contact@surjora.com'],
+        from: process.env.CONTACT_FROM_EMAIL ?? 'Wechatscan <contact@wechatscan.online>',
+        to: [process.env.CONTACT_TO_EMAIL ?? 'contact@wechatscan.online'],
         reply_to: input.customerEmail,
-        subject: `Surjora availability request ${reference}: ${product?.title ?? 'Custom request'}`,
+        subject: `Wechatscan availability request ${reference}: ${product?.title ?? 'Custom request'}`,
         text: details,
       });
       if (result.error) {
@@ -122,17 +122,17 @@ export async function POST(request: Request) {
     }
   }
 
-  const telegramSent = await sendTelegramMessage(`New Surjora request ${reference}\n\n${details}`);
-  const whatsappSent = await sendWhatsappMessage(`New Surjora request ${reference}\n\n${details}`);
+  const telegramSent = await sendTelegramMessage(`New Wechatscan request ${reference}\n\n${details}`);
+  const whatsappSent = await sendWhatsappMessage(`New Wechatscan request ${reference}\n\n${details}`);
 
   if (resend) {
     try {
       const result = await resend.emails.send({
-        from: process.env.CONTACT_FROM_EMAIL ?? 'Surjora <contact@surjora.com>',
+        from: process.env.CONTACT_FROM_EMAIL ?? 'Wechatscan <contact@wechatscan.online>',
         to: [input.customerEmail],
-        subject: `We received your Surjora request ${reference}`,
+        subject: `We received your Wechatscan request ${reference}`,
         text: [
-          'Thanks for contacting Surjora.',
+          'Thanks for contacting Wechatscan.',
           '',
           `Reference: ${reference}`,
           `Product/service: ${product?.title ?? 'Custom request'}`,

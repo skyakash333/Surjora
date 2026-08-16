@@ -5,7 +5,7 @@ import { OrderStatusBadge } from '@/components/admin/order-status-badge';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Customers | Surjora Admin',
+  title: 'Customers | Wechatscan Admin',
   robots: { index: false, follow: false },
 };
 

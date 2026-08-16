@@ -11,7 +11,7 @@ import { CatalogEditor } from '@/components/admin/catalog-editor';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Edit item | Surjora Admin',
+  title: 'Edit item | Wechatscan Admin',
   robots: { index: false, follow: false },
 };
 

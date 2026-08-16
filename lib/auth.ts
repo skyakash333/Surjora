@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
           return {
             id: 'admin',
-            name: 'Surjora Admin',
+            name: 'Wechatscan Admin',
             email,
           };
         }

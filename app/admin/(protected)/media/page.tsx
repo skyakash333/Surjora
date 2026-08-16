@@ -6,7 +6,7 @@ import { MediaLibrary } from '@/components/admin/media-library';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Media | Surjora Admin',
+  title: 'Media | Wechatscan Admin',
   robots: { index: false, follow: false },
 };
 

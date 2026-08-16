@@ -2,7 +2,7 @@
   "name": "surjora",
   "version": "0.0.1",
   "private": true,
-  "description": "Surjora — digital Chinese accounts & services. SEO-first marketing site.",
+  "description": "Wechatscan — digital Chinese accounts & services. SEO-first marketing site.",
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"

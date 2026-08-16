@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import { PlausibleScript } from '@/components/analytics/plausible';
 import './globals.css';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://surjora.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wechatscan.online';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -14,15 +14,15 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Surjora — Digital Chinese Accounts & Services',
-    template: '%s | Surjora',
+    default: 'Wechatscan — Digital Chinese Accounts & Services',
+    template: '%s | Wechatscan',
   },
   description:
     'Manually reviewed Chinese platform account and assistance requests for WeChat, Alipay, QQ, Xiaohongshu, Douyin, Taobao, Baidu and more.',
-  applicationName: 'Surjora',
-  authors: [{ name: 'Surjora' }],
-  creator: 'Surjora',
-  publisher: 'Surjora',
+  applicationName: 'Wechatscan',
+  authors: [{ name: 'Wechatscan' }],
+  creator: 'Wechatscan',
+  publisher: 'Wechatscan',
   keywords: [
     'Chinese WeChat account',
     'Alipay account assistance',
@@ -41,21 +41,21 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: '/',
-    siteName: 'Surjora',
-    title: 'Surjora — Digital Chinese Accounts & Services',
+    siteName: 'Wechatscan',
+    title: 'Wechatscan — Digital Chinese Accounts & Services',
     description: 'Request reviewed account options and assistance for major Chinese platforms.',
     images: [
       {
         url: '/og.svg',
         width: 1200,
         height: 630,
-        alt: 'Surjora — Digital Chinese Accounts & Services',
+        alt: 'Wechatscan — Digital Chinese Accounts & Services',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Surjora — Digital Chinese Accounts & Services',
+    title: 'Wechatscan — Digital Chinese Accounts & Services',
     description: 'Request reviewed account options and assistance for major Chinese platforms.',
     images: ['/og.svg'],
   },

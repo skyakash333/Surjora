@@ -60,7 +60,7 @@ export async function POST(request: Request) {
     excerpt: input.excerpt || null,
     coverImageId: input.coverImageId || null,
     categoryId: input.categoryId,
-    author: input.author || 'Surjora Team',
+    author: input.author || 'Wechatscan Team',
     readTimeMinutes: input.readTimeMinutes ?? null,
     publishedAt,
     tags,
