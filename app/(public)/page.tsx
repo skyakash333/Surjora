@@ -93,7 +93,7 @@ export default async function HomePage() {
               WeChat & QQ Account Services
             </Badge>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl lg:text-6xl">
-              Chinese platform access, reviewed before payment
+              Chinese Accounts and Verification Assistance
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-600">
               Find Chinese accounts and verification support for WeChat, QQ, Alipay, Douyin, Taobao
@@ -108,7 +108,7 @@ export default async function HomePage() {
               </ButtonLink>
             </div>
             <p className="mt-6 text-sm text-ink-500">
-              Manual availability review · written quote · digital coordination
+              Clear options · Personal support · Simple process
             </p>
           </div>
         </div>
