@@ -23,9 +23,9 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata = buildMetadata({
-  title: 'Chinese Platform Accounts & Digital Assistance',
+  title: 'WeChat, QQ & Chinese Account Services',
   description:
-    'Request availability for Chinese platform accounts and assistance covering WeChat, QQ, Alipay, WeCom, Xiaohongshu, Douyin, Taobao and more.',
+    'Find account options and verification support for WeChat, QQ, Alipay, Douyin, Taobao and other major Chinese platforms.',
   path: '/',
 });
 
