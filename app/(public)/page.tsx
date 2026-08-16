@@ -90,15 +90,14 @@ export default async function HomePage() {
         <div className="container relative py-20 sm:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="brand" className="mb-5">
-              Manually reviewed requests
+              WeChat & QQ Account Services
             </Badge>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl lg:text-6xl">
               Chinese platform access, reviewed before payment
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-600">
-              Request reviewed access options for WeChat, Alipay, Douyin, Taobao and more — plus
-              verification and account assistance. We confirm scope, availability and final price
-              before any payment.
+              Find Chinese accounts and verification support for WeChat, QQ, Alipay, Douyin, Taobao
+              and more. We help with account access, verification and platform-related requests.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <ButtonLink href="/products" size="lg">
