@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { getProductBySlug, getRelatedArticles, getRelatedProducts } from '@/lib/data';
+import { getProductBySlug, getPublishedProductSlugs, getRelatedArticles, getRelatedProducts } from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
 import { getMediaById } from '@/lib/media';
 import { RelatedList } from '@/components/product/related-list';
@@ -14,8 +14,8 @@ type PageProps = {
   params: { slug: string };
 };
 
-export function generateStaticParams(): [] {
-  return [];
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+  return (await getPublishedProductSlugs()).map((slug) => ({ slug }));
 }
 
 async function getData(slug: string) {
@@ -78,7 +78,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           { label: product.title, href: url },
         ]}
       />
-      <ProductSchema name={product.title} description={description} url={url} image={image?.url} />
+      <ProductSchema name={product.title} description={description} url={url} image={image?.url} priceFrom={product.priceFrom} />
       <FaqSchema faqs={faqs} />
 
       <div className="container py-12">

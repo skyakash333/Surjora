@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next';
 import {
-  getKnowledgeCategories,
   getPublishedArticles,
   getPublishedProductSlugs,
   getPublishedServiceSlugs,
@@ -11,12 +10,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wechatscan.online'
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [productSlugs, serviceSlugs, articles, categories] = await Promise.all([
+  const [productSlugs, serviceSlugs, articles] = await Promise.all([
     getPublishedProductSlugs(),
     getPublishedServiceSlugs(),
     getPublishedArticles(),
-    getKnowledgeCategories(),
   ]);
+  const categorySlugs = [...new Set(articles.map((article) => article.category?.slug).filter((slug): slug is string => Boolean(slug)))];
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: 'weekly', priority: 1 },
@@ -43,14 +42,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const categoryRoutes: MetadataRoute.Sitemap = categories.map((c) => ({
-    url: `${SITE_URL}/knowledge/${c.slug}`,
+  const categoryRoutes: MetadataRoute.Sitemap = categorySlugs.map((slug) => ({
+    url: `${SITE_URL}/knowledge/${slug}`,
     changeFrequency: 'weekly',
     priority: 0.6,
   }));
 
   const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => ({
-    url: `${SITE_URL}/knowledge/${article.category?.slug ?? 'articles'}/${article.slug}`,
+    url: `${SITE_URL}/knowledge/${article.category!.slug}/${article.slug}`,
     changeFrequency: 'monthly',
     priority: 0.6,
   }));

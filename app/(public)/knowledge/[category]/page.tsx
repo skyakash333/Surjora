@@ -16,8 +16,8 @@ type PageProps = {
   params: { category: string };
 };
 
-export function generateStaticParams(): [] {
-  return [];
+export async function generateStaticParams(): Promise<Array<{ category: string }>> {
+  return (await getKnowledgeCategories()).map(({ slug }) => ({ category: slug }));
 }
 
 async function getCategory(slug: string) {

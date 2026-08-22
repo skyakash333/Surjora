@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-import { getProductCategoryBySlug, getProductsByCategorySlug } from '@/lib/data';
+import { getProductCategoryBySlug, getProductCategorySlugs, getProductsByCategorySlug } from '@/lib/data';
 import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/constants';
 import { ProductCard } from '@/components/product/product-card';
@@ -18,8 +18,8 @@ type PageProps = {
   params: { slug: string };
 };
 
-export function generateStaticParams(): [] {
-  return [];
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+  return (await getProductCategorySlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

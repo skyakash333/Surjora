@@ -48,9 +48,12 @@ type ProductSchemaProps = {
   description: string;
   url: string;
   image?: string;
+  priceFrom?: number | null;
+  currency?: string;
 };
 
-export function ProductSchema({ name, description, url, image }: ProductSchemaProps) {
+export function ProductSchema({ name, description, url, image, priceFrom, currency = "USD" }: ProductSchemaProps) {
+  const hasPrice = typeof priceFrom === "number" && Number.isFinite(priceFrom) && priceFrom >= 0;
   return (
     <JsonLd
       data={{
@@ -60,7 +63,7 @@ export function ProductSchema({ name, description, url, image }: ProductSchemaPr
         description,
         url,
         image: image ?? undefined,
-        offers: undefined,
+        ...(hasPrice ? { offers: { "@type": "Offer", url, price: priceFrom, priceCurrency: currency, availability: "https://schema.org/InStock" } } : {}),
       }}
     />
   );

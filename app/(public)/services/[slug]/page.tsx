@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { getProductBySlug, getRelatedArticles, getRelatedProducts } from '@/lib/data';
+import { getProductBySlug, getPublishedServiceSlugs, getRelatedArticles, getRelatedProducts } from '@/lib/data';
 import { siteConfig } from '@/lib/constants';
 import { getMediaById } from '@/lib/media';
 import { RelatedList } from '@/components/product/related-list';
@@ -15,8 +15,8 @@ type PageProps = {
   params: { slug: string };
 };
 
-export function generateStaticParams(): [] {
-  return [];
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+  return (await getPublishedServiceSlugs()).map((slug) => ({ slug }));
 }
 
 async function getData(slug: string) {
